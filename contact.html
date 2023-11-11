@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@200;300;400&family=Spline+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="public/styles.css" rel="stylesheet">
+    <title>Contact Isaac</title>
+  </head>
+  <body class="contact-body">
+    <div class="main">
+        <div class="top-bar">
+            <p class="logo">
+                <a href="index.html"><span>acsono</span></a>
+            </p>
+            <div class="location">
+                <p>Gauteng, S. Africa</p>
+            </div>
+            <button onclick="toggleMenu()" class="menu">
+                <li>menu</li>
+            </button>
+        </div>
+
+        <div class="content">   
+            <div class="mobile-info">
+                <button>
+                    <li>info</li>
+                </button>
+                <p>
+                    A skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems. With my experience, I have honed both my soft and the technical skills necessary to succeed in Software Development.
+                </p>
+                <!-- TODO: Wrap in anchor <a href="contact.html">  -->
+                <p class="explore">
+                    contact <span class="material-icons md-16">arrow_forward</span>
+                </p>
+                
+
+            </div>
+
+            <div>
+                <h1 class="header">Get in touch</h1>
+                <!-- TODO: Wrap in anchor <a href="contact.html">  -->
+                <form action="mailto:kaymogano@gmail.com" method="post" enctype="text/plain">
+                    <button type="submit">
+                        <p class="explore">
+                            Say, hi <span class="material-icons md-16">arrow_forward</span>
+                        </p>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="menu-content">
+            <div class="pages">
+                <a href="index.html">
+                    <button class="menu-item"><span></span><h2>Home</h2></button>
+                </a> 
+                <a href="public/CV of Isaac Mogano '23.pdf">
+                    <button class="menu-item"><span></span><h2>Resume</h2>
+                    </button>
+                </a>
+                <a href="contact.html">
+                    <button class="menu-item"><span></span><h2>Contact</h2>
+                    </button>
+                </a>
+            </div>
+            <div class="action-links">
+
+                <a href="https://github.com/fruittymango">
+                    <button class="link"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+                <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">                <button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+            
+                <p class="email-address">email<span>kaymogano@gmail.com</span></p>
+              </div>
+            <div class="place-holder">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var myList = document.body.classList;
+            if (myList.length < 2) {
+                document.body.classList.add('menu-body');
+            } else {
+                document.body.classList.remove('menu-body');
+            }
+        }
+    </script>
+
+  </body>
+</html>
