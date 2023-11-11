@@ -12,12 +12,12 @@
     <title>Isaac Mogano</title>
   </head>
   <body>
-
     <div class="main">
         <div class="top-bar">
-            <p class="logo"><span>acsono</span></p>
+            <p class="logo">
+                <a href="index.html"><span>acsono</span></a>
+            </p>
             <div class="location">
-                <p>currently in</p>
                 <p>Gauteng, S. Africa</p>
             </div>
             <button onclick="toggleMenu()" class="menu">
@@ -34,10 +34,11 @@
                 <p>
                     A skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems. With my experience, I have honed both my soft and the technical skills necessary to succeed in Software Development.
                 </p>
+                <!-- TODO: Wrap in anchor <a href="contact.html">  -->
                 <p class="explore">
                     contact <span class="material-icons md-16">arrow_forward</span>
                 </p>
-
+                
             </div>
             <div class="footer">
                 <div class="info">
@@ -54,8 +55,8 @@
                 </div>
                 <div class="links">
                     <nav>
-                        <a>gith</a>
-                        <a>lin</a>
+                        <a href="https://github.com/fruittymango">gith</a>
+                        <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">lin</a>
                     </nav>
                 </div>
             </div>
@@ -63,13 +64,26 @@
 
         <div class="menu-content">
             <div class="pages">
-                <button class="menu-item"><h2><span></span>Home</h2></button>
-                <button class="menu-item"><h2><span></span>Resume</h2></button>
-                <button class="menu-item"><h2><span></span>Contact</h2></button>
+                <a href="index.html">
+                    <button class="menu-item"><span></span><h2>Home</h2></button>
+                </a> 
+                <a href="public/CV of Isaac Mogano '23.pdf">
+                    <button class="menu-item"><span></span><h2>Resume</h2>
+                    </button>
+                </a>
+                <a href="contact.html">
+                    <button class="menu-item"><span></span><h2>Contact</h2>
+                    </button>
+                </a>
             </div>
             <div class="action-links">
-                <button class="link"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
-                <button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
+
+                <a href="https://github.com/fruittymango">
+                    <button class="link"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+                <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">                <button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+            
                 <p class="email-address">email<span>kaymogano@gmail.com</span></p>
               </div>
             <div class="place-holder">
