@@ -362,7 +362,7 @@ input, label{
     }
 
     .menu-body .main{
-        grid-template-rows: 20vh 70vh;
+        grid-template-rows: 10vh 80vh;
     }
 
     .menu-body .menu-content{
@@ -389,7 +389,7 @@ input, label{
     }
 
     .menu-body  .menu-content .email-address span {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .description{
