@@ -62,8 +62,8 @@
                 </div>
                 <div class="links">
                     <nav>
-                        <a href="https://github.com/fruittymango">gith</a>
-                        <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">lin</a>
+                        <a class="external-link" target="_blank" href="https://github.com/fruittymango">gith</a>
+                        <a class="external-link" target="_blank" href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">lin</a>
                     </nav>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <a href="index.html">
                     <button class="menu-item"><span></span><h2>Home</h2></button>
                 </a> 
-                <a href="public/CV of Isaac Mogano '23.pdf">
+                <a class="external-link" href="public/CV of Isaac Mogano '23.pdf">
                     <button class="menu-item"><span></span><h2>Resume</h2>
                     </button>
                 </a>
@@ -86,11 +86,11 @@
             <div class="action-links">
 
                 <a href="https://github.com/fruittymango">
-                    <button class="link"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
+                    <button class="link" target="_blank"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
                 </a>
-                <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/"><button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
+                <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/" target="_blank"><button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
                 </a>
-                <a href="https://www.pocketpicks.co.za"><button class="link"><p>Pocket Picks</p><span class="material-icons">arrow_outward</span></button>
+                <a href="https://www.pocketpicks.co.za" target="_blank"><button class="link"><p>Pocket Picks</p><span class="material-icons">arrow_outward</span></button>
                 </a>
             
                 <p class="email-address">email<span>kaymogano@gmail.com</span></p>
@@ -123,7 +123,7 @@
         // Navigation using links
         document.addEventListener('click', function (event) {
             const target = event.target;
-            if (target.tagName === 'A') {
+            if (target.tagName === 'A' && target.classList[0]!=='external-link') {
             event.preventDefault();
             const href = target.getAttribute('href');
             loadPage(href);
