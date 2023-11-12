@@ -127,7 +127,7 @@ h1{
     padding-right:1rem;
 }
 
-.logo, .menu li, .links a, .info button li, .explore, .location{
+.logo, .menu li, .links a, .info button li, .explore, .location, .description{
     font-size: 1.5rem;
 }
 
@@ -352,4 +352,8 @@ a{
 
 input, label{
     display: block;
+}
+
+.description{
+    margin-bottom: 2rem;
 }
