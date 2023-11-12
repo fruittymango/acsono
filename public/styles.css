@@ -8,11 +8,6 @@ body{
     background-size: 100%;
 }
 
-
-/* font-family: 'Bebas Neue', sans-serif;
-font-family: 'Inter', sans-serif;
-font-family: 'Spline Sans', sans-serif; */
-
 .main{
     display: grid;
     grid-template-rows: 10vh 80vh;
@@ -331,7 +326,6 @@ input, label{
         flex-direction: column;
         align-items: flex-start;
         gap: 2rem;
-        /* backdrop-filter: blur(12px); */
     }
 }
 
