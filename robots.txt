@@ -10,4 +10,4 @@ Disallow: /*.pdf$
 Disallow: /*.png$
 
 
-Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://www.acsono.co.za/sitemap.xml
