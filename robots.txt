@@ -1,8 +1,4 @@
 User-agent: *
 Allow: /
 
-Allow: /public/
-Disallow: /*.png$
-
-
 Sitemap: https://www.acsono.co.za/sitemap.xml
