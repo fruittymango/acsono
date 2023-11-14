@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@200;300;400&family=Spline+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png">
+    <link href="public/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+    <link rel="manifest" href="public/site.webmanifest">
+    <title>404 - Page not found</title>
+    <meta name="google-site-verification" content="-wtuYTxEY62EO6-sX5V-RuZbsPp0xoqA1AQLi0M1lpw" />
+    <meta name="description" content="Personal webiste for Isaac K. Mogano.">
+    <meta name="keywords" content="portfolio, acsono, projects, skills, website, resume, cv, isaac, kagiso, mogano, isaac mogano, kagiso mogano, isaac k mogano, isaac cv, kagiso website, isaac website, isaac wtc website, isaac south africa, isaac pretoria, isaac acsono, isaac dev, isaac software developer, isaac personal website, isaac web, isaac jgt, isaac allcash">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.acsono.co.za">
+
+    <!-- Add Open Graph Tags for better social media sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Isaac K. Mogano - Personal website.">
+    <meta property="og:description" content="Personal website for Isaac K. Mogano.">
+    <meta property="og:image" content="public/favicon-32x32.png">
+
+    <!-- Add Twitter Card Tags for Twitter sharing -->
+    <meta name="twitter:card" content="public/favicon-16x16.png">
+    <meta name="twitter:title" content="Isaac K. Mogano - Personal website.">
+    <meta name="twitter:description" content="Personal website for Isaac K. Mogano.">
+    <meta name="twitter:image" content="public/favicon-32x32.png">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5V5WLCM4');</script>
+    <!-- End Google Tag Manager -->
+
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5V5WLCM4"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="main">
+        <div class="top-bar">
+            <p class="logo">
+                <a href="index.html"><span>acsono</span></a>
+            </p>
+            <div class="location">
+                <p>Gauteng, S. Africa</p>
+            </div>
+            <button onclick="toggleMenu()" class="menu">
+                <li>menu</li>
+            </button>
+        </div>
+
+        <div class="content">   
+            <h1 class="header">404 - Page not Found</h1>
+        </div>
+
+        <div class="menu-content">
+            <div class="pages">
+                <a href="index.html">
+                    <button class="menu-item"><span></span><h2>Home</h2></button>
+                </a> 
+                <a class="external-link" href="public/CV of Isaac K Mogano '23.pdf">
+                    <button class="menu-item"><span></span><h2>Resume</h2>
+                    </button>
+                </a>
+                <a href="contact.html">
+                    <button class="menu-item"><span></span><h2>Contact</h2>
+                    </button>
+                </a>
+            </div>
+            <div class="action-links">
+
+                <a href="https://github.com/fruittymango">
+                    <button class="link" target="_blank"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+                <a href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/" target="_blank"><button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+                <a href="https://www.pocketpicks.co.za" target="_blank"><button class="link"><p>Pocket Picks</p><span class="material-icons">arrow_outward</span></button>
+                </a>
+            
+                <p class="email-address">email<span>kaymogano@gmail.com</span></p>
+              </div>
+            <div class="place-holder">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var myList = document.body.classList;
+            if (myList.length < 1) {
+                document.body.classList.add('menu-body');
+            } else {
+                document.body.classList.remove('menu-body');
+            }
+        }
+
+        function loadPage(url) {
+            fetch(url)
+            .then(response => response.text())
+            .then(content => {
+                document.body.innerHTML = content;
+            })
+            .catch(error => console.error('Error loading page:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        // Navigation using links
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+            if (target.tagName === 'A' && target.classList[0]!=='external-link') {
+            event.preventDefault();
+            const href = target.getAttribute('href');
+            loadPage(href);
+            // Update the URL without triggering a page reload
+            history.pushState({}, '', href);
+            }
+        });
+    
+        // Initial load
+        loadPage(window.location.pathname);
+    
+        // Function to load content
+        });
+    </script>
+
+  </body>
+</html>
