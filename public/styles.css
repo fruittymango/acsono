@@ -406,7 +406,13 @@ input, label{
     }
 
     .description{
-        margin-top: 2rem;
+        margin-top:2rem;
+    }
+
+    .about {
+        margin-top:1rem;
+        margin-bottom:1rem;
+
     }
 
     .info{
@@ -437,7 +443,7 @@ input, label{
     .main{
         display: grid;
         grid-template-rows: 10vh 80vh;
-        min-height: 70vh;
+        min-height: 90vh;
         margin: 4vh 0.625rem 0vh;
         padding: 0.625rem 1.25rem;
     }
