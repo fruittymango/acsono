@@ -10,9 +10,9 @@ body{
 
 .main{
     display: grid;
-    grid-template-rows: 10vh 80vh;
-    min-height: 100vh;
-    margin: 4vh 0.625rem 0vh;
+    grid-template-rows: 10dvh 80dvh;
+    min-height: 90dvh;
+    margin: 4dvh 0.625rem 0vh;
     padding: 0.625rem 1.25rem;
     box-shadow: 4px 4px 0.5rem 0.5rem rgba(0, 0, 0, 0.45);
 }
@@ -147,7 +147,7 @@ h1{
 }
 
 .menu-body .main{
-    grid-template-rows: 20vh 70vh;
+    grid-template-rows: 20dvh 70dvh;
 }
 
 .menu-body .content{
@@ -257,7 +257,7 @@ input, label{
     }
 
     .menu-body .main{
-        grid-template-rows: 10vh 80vh;
+        grid-template-rows: 10dvh 80dvh;
     }
 
     .menu-body .menu{
@@ -338,7 +338,7 @@ input, label{
     }
     
     .about{
-        margin-top: 0vh;
+        margin-top: 0dvh;
         font-size: 0.8rem;
     }
 }
@@ -375,7 +375,7 @@ input, label{
     }
 
     .menu-body .main{
-        grid-template-rows: 10vh 80vh;
+        grid-template-rows: 10dvh 80dvh;
     }
 
     .menu-body .menu-content{
@@ -424,7 +424,6 @@ input, label{
     }
 
     .links{
-        display: none;
         justify-content: center;
     }
 
@@ -442,9 +441,9 @@ input, label{
 
     .main{
         display: grid;
-        grid-template-rows: 10vh 80vh;
-        min-height: 90vh;
-        margin: 4vh 0.625rem 0vh;
-        padding: 0.625rem 1.25rem;
+        grid-template-rows: 10dvh 80dvh;
+        min-height: 90dvh;
+        margin: 4dvh 0.625rem 0dvh;
+        padding: 0.625rem 1.25rem ;
     }
 }
