@@ -378,6 +378,7 @@ label {
 @media (max-width: 900px) {
   .header {
     /* margin-bottom: 1vh; */
+    font-size: large;
   }
 
   .about {
@@ -507,7 +508,7 @@ label {
     grid-template-rows: 10dvh 80dvh;
     position: relative;
     top: 20px;
-    margin: 0 1rem 0vh;
+    margin: 0 0.8rem 0vh;
     box-shadow: 4px 4px 0.5rem 0.5rem rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(10px);
   }
@@ -518,7 +519,7 @@ label {
   .separator {
     display: block;
     background-color: #ffffff;
-    height: 0.2rem;
+    height: 0.15rem;
     align-self: center;
   }
 }
