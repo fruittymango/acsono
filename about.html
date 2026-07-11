@@ -56,7 +56,7 @@
       property="og:image"
       content="https://www.acsono.co.za/public/favicon-32x32.png"
     />
-    <meta property="og:url" content="https://www.acsono.co.za/about" />
+    <meta property="og:url" content="https://www.acsono.co.za#" />
     <meta property="og:locale" content="en_ZA" />
 
     <!-- Add Twitter Card Tags for Twitter sharing -->
@@ -361,6 +361,7 @@
     /* font-family:'JetBrains Mono',monospace; */
     font-size:12px;
     padding:5px 11px;border-radius:var(--radius);
+    border-radius: 8px;
   }
 
   /* about */
@@ -419,31 +420,31 @@
 
           <div class="menu-content">
             <div class="pages">
-              <a href="index.html">
+              <a href="/" onclick="toggleMenu()">
                 <button class="menu-item">
                   <span></span>
                   <h2>Home</h2>
                 </button>
               </a>
-              <a href="/aboutabout">
+              <a href="/about" onclick="toggleMenu()">
                 <button class="menu-item">
                   <span></span>
                   <h2>Overview</h2>
                 </button>
               </a>
-               <a href="/aboutwork">
+               <a href="#work" onclick="toggleMenu()">
                 <button class="menu-item">
                   <span></span>
                   <h2>Work</h2>
                 </button>
               </a>
-               <a href="/aboutskills">
+               <a href="#skills" onclick="toggleMenu()">
                 <button class="menu-item">
                   <span></span>
                   <h2>Skills</h2>
                 </button>
               </a>
-              <a href="/aboutcontact">
+              <a href="#contact" onclick="toggleMenu()">
                 <button class="menu-item">
                   <span></span>
                   <h2>Connect</h2>
@@ -479,10 +480,10 @@
         class="content container md:max-w-5xl mx-auto overflow-scroll overflow-x-hidden scrollbar-none"
         style="scrollbar-width: none"
       >   
-               <section id="work" class="pb-10 sm:pb-16">
+               <section class="pb-10 sm:pb-16">
           <div class="space-y-12 lg:space-y-16">
               <p class="about-text text-[12px] text-white/70 font-[200] md:text-[15px] md:max-w-[640px] mb-[16px]">Isaac is a Software Developer who has experience building secure, event-driven microservices that handle financial transactions and real-time IoT data streams. When developers move away from generic CRUD environments, we get to focus exclusively on high-stakes platforms that sit at the intersection of complex business logic, financial pipelines, and hardware-to-software integrations - the ideal work environment.<br/><br/>Trained through WeThinkCode_'s two-year software engineering program, where every project was graded by automated test suites requiring 100% code coverage — that's where the TDD and mocking discipline comes from. Went on to mentor 100+ students there and received the Alchemist award for contribution to student development, before moving into production fintech and IoT systems: payments automation, bank reconciliation, and real-time device data at Hopned. Currently completing a BSc in Computer Science & Applied Mathematics at UNISA.</p>
-             <div class="timeline">
+             <div id="work" class="timeline">
       <div class="tl-row">
         <div class="tl-date">2024 — present</div>
         <div><div class="tl-role">Full-Stack Typescript Developer</div><div class="tl-org">Hopned (Pty) Ltd</div></div>
