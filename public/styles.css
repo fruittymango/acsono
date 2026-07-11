@@ -376,6 +376,9 @@ label {
 }
 
 @media (max-width: 900px) {
+  .menu-body .menu-content h2 {
+    font-size: small;
+  }
   .header {
     /* margin-bottom: 1vh; */
     font-size: large;
@@ -445,7 +448,7 @@ label {
   }
 
   .menu-body .menu-content h2 {
-    font-size: medium;
+    font-size: small;
     font-weight: 500;
     margin-bottom: 1rem;
   }
