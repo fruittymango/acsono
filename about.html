@@ -3,136 +3,1024 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@200;300;400&family=Spline+Sans:wght@300;400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
-    <link rel="manifest" href="public/site.webmanifest">
-    <link href="public/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@200;300;400&family=Spline+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="public/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="public/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="public/favicon-16x16.png"
+    />
+    <link rel="manifest" href="public/site.webmanifest" />
+    <link href="public/styles.css" rel="stylesheet" />
     <title>About | acsono</title>
-    <meta name="author" content="Isaac K. Mogano">
-    <meta name="creator" content="Isaac K. Mogano">
-    <meta name="description" content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems.">
-    <meta name="keywords" content="portfolio, acsono, projects, skills, website, resume, cv, about isaac, about kagiso, mogano, about isaac mogano, kagiso mogano, about isaac k mogano, isaac cv, kagiso website, isaac website, isaac wtc website, isaac south africa, isaac pretoria, isaac acsono, isaac dev, about isaac software developer, isaac personal website, isaac web, isaac jgt, isaac allcash, who is isaac mogano, who is isaac k mogano, what does isaac do, what is acsono">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.acsono.co.za">
+    <meta name="author" content="Isaac K. Mogano" />
+    <meta name="creator" content="Isaac K. Mogano" />
+    <meta
+      name="description"
+      content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems."
+    />
+    <meta
+      name="keywords"
+      content="portfolio, acsono, projects, skills, website, resume, cv, about isaac, about kagiso, mogano, about isaac mogano, kagiso mogano, about isaac k mogano, isaac cv, kagiso website, isaac website, isaac wtc website, isaac south africa, isaac pretoria, isaac acsono, isaac dev, about isaac software developer, isaac personal website, isaac web, isaac jgt, isaac allcash, who is isaac mogano, who is isaac k mogano, what does isaac do, what is acsono"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.acsono.co.za" />
 
     <!-- Add Open Graph Tags for better social media sharing -->
-    <meta property="og:title" content="About Isaac K. Mogano.">
-    <meta property="og:description" content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems.">
-    <meta property="og:image" content="https://www.acsono.co.za/public/favicon-32x32.png">
-    <meta property=og:url content="https://www.acsono.co.za/about"/>
-    <meta property=og:locale content=en_ZA/>
+    <meta property="og:title" content="About Isaac K. Mogano." />
+    <meta
+      property="og:description"
+      content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems."
+    />
+    <meta
+      property="og:image"
+      content="https://www.acsono.co.za/public/favicon-32x32.png"
+    />
+    <meta property="og:url" content="https://www.acsono.co.za/about" />
+    <meta property="og:locale" content="en_ZA" />
 
     <!-- Add Twitter Card Tags for Twitter sharing -->
-    <meta name="twitter:site" content="@Kah85_">
-    <meta name="twitter:card" content="About_acsono">
-    <meta name="twitter:title" content="About Isaac K. Mogano.">
-    <meta name="twitter:description" content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems.">
-    <meta name="twitter:image" content="https://www.acsono.co.za/public/favicon-32x32.png">
+    <meta name="twitter:site" content="@Kah85_" />
+    <meta name="twitter:card" content="About_acsono" />
+    <meta name="twitter:title" content="About Isaac K. Mogano." />
+    <meta
+      name="twitter:description"
+      content="About Isaac K Mogano, a skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.acsono.co.za/public/favicon-32x32.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0f0f0f;
+        --surface: #161616;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.15);
+        --text-primary: #f0f0f0;
+        --text-secondary: #888;
+        --text-tertiary: #555;
+        --accent: #f0f0f0;
+        --font:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text-primary);
+        font-family: var(--font);
+        font-weight: 400;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+
+      /* .container {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      } */
+
+      /* ── Header ── */
+      header {
+        padding: 2rem 0 0;
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .logo {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+
+      .location {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        letter-spacing: 0.03em;
+      }
+
+      /* ── Page title ── */
+      .page-intro {
+        padding: 3rem 0 2.5rem;
+      }
+
+      .page-intro h1 {
+        font-size: 28px;
+        font-weight: 500;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .page-intro p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        max-width: 480px;
+      }
+
+      /* ── Projects list ── */
+      .projects {
+        border-top: 1px solid var(--border);
+      }
+
+      .project {
+        padding: 2.25rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .project-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-num {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        font-weight: 400;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.05em;
+        min-width: 18px;
+      }
+
+      .project-name {
+        font-size: 17px;
+        font-weight: 500;
+        color: var(--text-primary);
+        line-height: 1.3;
+      }
+
+      .project-sub {
+        margin-left: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .project-link {
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        transition: color 0.15s;
+      }
+
+      .project-link:hover {
+        color: var(--text-primary);
+      }
+
+      .project-link .material-icons {
+        font-size: 13px;
+        vertical-align: -1px;
+      }
+
+      .tag {
+        font-size: 10px;
+        color: var(--text-tertiary);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 2px 9px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .project-body {
+        margin-left: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .field-label {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+        margin-bottom: 0.3rem;
+      }
+
+      .field-value {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      /* ── Footer nav ── */
+      footer {
+        padding: 2rem 0 3.5rem;
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--text-primary);
+      }
+
+      .ext-links {
+        display: flex;
+        gap: 1.25rem;
+      }
+
+      .ext-links a {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        transition: color 0.15s;
+      }
+
+      .ext-links a:hover {
+        color: var(--text-secondary);
+      }
+
+      .ext-links .material-icons {
+        font-size: 13px;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 480px) {
+        .page-intro h1 {
+          font-size: 22px;
+        }
+        .project-name {
+          font-size: 15px;
+        }
+        .project-body,
+        .project-sub {
+          margin-left: 0;
+        }
+        .project-header {
+          gap: 0.6rem;
+        }
+        .project-num {
+          display: none;
+        }
+      }
+
+       /* project modules */
+  .modules{display:grid;grid-template-columns:1fr;gap:16px;}
+  .module{
+    background:var(--card);border:0.5px solid var(--border);border-radius:12px;
+    padding:22px;
+  }
+  .module-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .module-name{font-size:17px;font-weight:600;}
+  .module-version{
+    /* font-family:'JetBrains Mono',monospace; */
+    font-size:12px;color:var(--text-muted);}
+  .module-desc{color:var(--text-secondary);font-size:14px;margin-bottom:14px;}
+  .module-detail{font-size:14px;color:var(--text-secondary);margin-bottom:14px;}
+  .module-detail li{margin-bottom:6px;margin-left:18px;}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .chip{
+    /* font-family:'JetBrains Mono',monospace; */
+    font-size:11px;
+    padding:3px 9px;border-radius:var(--radius);
+  }
+  .chip.teal{background:var(--teal-bg);color:var(--teal);}
+  .chip.coral{background:var(--coral-bg);color:var(--coral);}
+
+  /* skills */
+  .skill-group{margin-bottom:18px;}
+  .skill-group-label{font-size:13px;color:var(--text-muted);margin-bottom:8px;}
+  .skill-chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .skill-chip{
+    background:var(--card);border:0.5px solid var(--border);
+    /* font-family:'JetBrains Mono',monospace; */
+    font-size:12px;
+    padding:5px 11px;border-radius:var(--radius);
+  }
+
+  /* about */
+  /* .about-text{color:var(--text-secondary);font-size:15px;max-width:640px;margin-bottom:16px;} */
+  .timeline{margin-top:20px;}
+  .tl-row{display:flex;gap:16px;padding:12px 0;border-top:0.5px solid var(--border);}
+  .tl-row:first-child{border-top:none;}
+  .tl-date{
+    /* font-family:'JetBrains Mono',monospace; */
+  font-size:12px;color:var(--text-muted);min-width:110px;flex-shrink:0;}
+  .tl-role{font-size:14px;font-weight:500;}
+  .tl-org{font-size:13px;color:var(--text-secondary);}
+    </style>
+
 
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-5V5WLCM4');</script>
-        <!-- End Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-5V5WLCM4");
+    </script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="contact-body">
-
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5V5WLCM4"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
-    <div class="main">
-        <div class="top-bar">
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5V5WLCM4"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="main overflow-hidden scrollbar-none" >
+     
+
+      <div class="top-bar">
             <p class="logo">
-                <a href="../"><span class="material-icons">arrow_back</span></a>
+              <a href="index.html"><span>acsono</span></a>
             </p>
-            <div class="location">
-                <p>Gauteng, S. Africa</p>
-            </div>
-            <button onclick="toggleMenu()" class="menu">
-                <li>menu</li>
+            <!-- <div class="location">
+              <p>Gauteng, S. Africa</p>
+            </div> -->
+            <button onclick="toggleMenu()" class="menu" >
+              <li>menu</li>
             </button>
-        </div>
+          </div>
 
-        <div class="content">   
-            <div style="display: flex;flex-direction: column;gap: 0;">
-                <h1 class="header">More about me</h1>
-                <p class="description about">
-                    A skilled software developer adept in bringing forth knowledge in designing, testing, and maintaining software systems. With my experience, I have honed both the soft and technical skills necessary to succeed in my role(s).</br></br>
-                    My exceptional performance at WeThinkCode earned me The Alchemists award, a recognition for top-performing developers who demonstrate critical thinking and mastery of development.</br></br>
-                    Primarily a Backend Developer, but I can do Full Stack development and am willing to contribute to mobile app projects in React/React Native and NodeJS (or Java). I am passionate about the product development lifecycle and am able to manage independent projects effectively and collaborate well with productive teams.</br></br>
-                </p>
-            </div>
-        </div>
-
-        <div class="menu-content">
+          <div class="menu-content">
             <div class="pages">
-                <a href="index.html">
-                    <button class="menu-item"><span></span><h2>Home</h2></button>
-                </a>
-                <a href="contact.html">
-                    <button class="menu-item"><span></span><h2>Contact</h2>
-                    </button>
-                </a>
+              <a href="index.html">
+                <button class="menu-item">
+                  <span></span>
+                  <h2>Home</h2>
+                </button>
+              </a>
+              <a href="/about#about">
+                <button class="menu-item">
+                  <span></span>
+                  <h2>Overview</h2>
+                </button>
+              </a>
+               <a href="/about#work">
+                <button class="menu-item">
+                  <span></span>
+                  <h2>Work</h2>
+                </button>
+              </a>
+               <a href="/about#skills">
+                <button class="menu-item">
+                  <span></span>
+                  <h2>Skills</h2>
+                </button>
+              </a>
+              <a href="/about#contact">
+                <button class="menu-item">
+                  <span></span>
+                  <h2>Connect</h2>
+                </button>
+              </a>
             </div>
             <div class="action-links">
+              <a href="https://github.com/fruittymango">
+                <button class="link" target="_blank">
+                  <p>GitHub</p>
+                  <span class="material-icons">arrow_outward</span>
+                </button>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/"
+                target="_blank"
+                ><button class="link">
+                  <p>LinkedIn</p>
+                  <span class="material-icons">arrow_outward</span>
+                </button>
+              </a>
 
-                <a target="_blank" href="https://github.com/fruittymango">
-                    <button class="link"><p>GitHub</p><span class="material-icons">arrow_outward</span></button>
-                </a>
-                <a target="_blank" href="https://www.linkedin.com/in/isaac-kagiso-mogano-183999149/">                <button class="link"><p>LinkedIn</p><span class="material-icons">arrow_outward</span></button>
-                </a>
-                <a target="_blank" href="https://www.pocketpicks.co.za"><button class="link"><p>Pocket Picks</p><span class="material-icons">arrow_outward</span></button>
-                </a>
-                <p class="email-address">email<span>kaymogano@gmail.com</span></p>
-              </div>
-            <div class="place-holder">
+              <p class="email-address">email<span>kaymogano@gmail.com</span></p>
             </div>
-        </div>
+            <div class="place-holder"></div>
+          </div>
+
+
+
+
+
+      <div
+        class="content container md:max-w-5xl mx-auto overflow-scroll overflow-x-hidden scrollbar-none"
+        style="scrollbar-width: none"
+      >   
+               <section id="work" class="pb-10 sm:pb-16">
+          <div class="space-y-12 lg:space-y-16">
+              <p class="about-text text-[12px] text-white/70 font-[200] md:text-[15px] md:max-w-[640px] mb-[16px]">Isaac is a Software Developer who has experience building secure, event-driven microservices that handle financial transactions and real-time IoT data streams. When developers move away from generic CRUD environments, we get to focus exclusively on high-stakes platforms that sit at the intersection of complex business logic, financial pipelines, and hardware-to-software integrations - the ideal work environment.<br/><br/>Trained through WeThinkCode_'s two-year software engineering program, where every project was graded by automated test suites requiring 100% code coverage — that's where the TDD and mocking discipline comes from. Went on to mentor 100+ students there and received the Alchemist award for contribution to student development, before moving into production fintech and IoT systems: payments automation, bank reconciliation, and real-time device data at Hopned. Currently completing a BSc in Computer Science & Applied Mathematics at UNISA.</p>
+             <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-date">2024 — present</div>
+        <div><div class="tl-role">Full-Stack Typescript Developer</div><div class="tl-org">Hopned (Pty) Ltd</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2022 — 2023</div>
+        <div><div class="tl-role">Mobile App Developer</div><div class="tl-org">AllCash Technologies / JustGood Technologies</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2021 — 2022</div>
+        <div><div class="tl-role">Full-Stack Java Developer & Mentor</div><div class="tl-org">WeThinkCode_</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2021</div>
+        <div><div class="tl-role">Software Developer Intern</div><div class="tl-org">AllCash Technologies</div></div>
+      </div>
+    </div>
+              <h2 class="text-xl md:text-4xl font-light">Work</h2>
+
+            <div class="modules">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-12">
+
+                    <article class="project module">
+        
+                        <div class="project-header">
+                            <span class="project-num">01</span>
+                            
+        
+                            <div
+                            class="flex flex-1 flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+                            >
+                                <span class="project-name">FellowPeeps Utilities</span>
+                            <!-- <div class="text-sm text-white/70 font-mono">2019 — 2026</div> -->
+                            <div class="text-sm text-white/70 font-mono">multi-tenant SaaS</div>
+        
+                            </div>
+                            </div>
+                        <div class="project-sub">
+                            <a
+                                class="project-link"
+                                href="https://utilities.fellowpeeps.com"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                utilities.fellowpeeps.com
+                                <span class="material-icons">arrow_outward</span>
+                            </a>
+                            <span class="tag">WEB</span>
+                            </div>
+                        <div class="field">
+                <div class="field-label">Description</div>
+                <div class="field-value">
+                  A smart water metering and tenant billing web platform for multi-tenant properties such as shopping centres and residential estates in South Africa. The site serves as the main product and marketing presence for FellowPeeps' utility management solution, built with a focus on property managers and landlords.
+                </div>
+              </div>
+          
+                        <label class="block mb-4 cursor-pointer group">
+                            <input type="checkbox" class="peer hidden text-blue-500" />
+                            
+                            <div class="flex items-center justify-between text-sm font-semibold text-violet-600 transition-colors group-hover:text-violet-700">
+                                <div class="mt-2 text-sm font-semibold text-violet-600 hover:text-violet-700 inline-flex items-center gap-1">
+                            <span class="peer-checked:hidden text-blue-500 font-[400] text-xs">More</span>
+                            <span class="peer-checked:inline hidden">Less</span>
+                            <svg xmlns="http://w3.org" class="h-4 w-4 transform transition-transform duration-300 peer-checked:rotate-180 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            </div>
+                            </div>
+
+                            <div class="grid grid-rows-[0fr] opacity-0 invisible transition-all duration-300 ease-in-out peer-checked:grid-rows-[1fr] peer-checked:opacity-100 peer-checked:visible peer-checked:mt-4">
+                                <div class="project-body overflow-hidden">
+                                    
+                                    <div class="field">
+                                        <div class="field-label">Problem</div>
+                                        <div class="field-value">
+                                        Multi-tenant property owners lacked an automated way to track individual water consumption, verify municipal bills, detect leaks early, and generate accurate tenant invoices — leading to revenue losses and billing disputes.
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Impact</div>
+                                        <div class="field-value">
+                                        The platform centralises utility management by enabling remote meter reading, automated billing, leak detection alerts, and municipal bill verification — reducing manual overhead and improving cost recovery for property owners.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <div class="chips">
+                        <span class="chip teal">React</span>
+                        <span class="chip teal">Node.js</span>
+                        <span class="chip teal">Webhooks</span>
+                        <span class="chip teal">Docker</span>
+                        <span class="chip teal">C#</span>
+                        <span class="chip teal">Sigfox Decryption</span>
+                        </div>
+                    </article>
+
+                    <article class="project module">
+        
+                        <div class="project-header">
+                            <span class="project-num">02</span>
+                            
+        
+                            <div
+                            class="flex flex-1 flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+                            >
+                                <span class="project-name">Classic Vend Reports</span>
+                            <!-- <div class="text-sm text-white/70 font-mono">2019 — 2026</div> -->
+                            <div class="text-sm text-white/70 font-mono">150+ properties</div>
+        
+                            </div>
+                            </div>
+                        <div class="project-sub">
+                            <a
+                                class="project-link"
+                                href="https://classicvend.fellowpeeps.com"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                classicvend.fellowpeeps.com
+                                <span class="material-icons">arrow_outward</span>
+                            </a>
+                            <a
+                                class="project-link"
+                                href="https://play.google.com/store/apps/details?id=com.isaachopned.classicvendreports"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Google Play
+                                <span class="material-icons">arrow_outward</span>
+                            </a>
+                            <span class="tag">WEB+Android</span>
+                            </div>
+                        <div class="field">
+                <div class="field-label">Description</div>
+                <div class="field-value">
+                  A web platform and companion Android app for prepaid
+                  electricity and water vending, built for South African
+                  property owners. Landlords and property managers can track
+                  every tenant meter transaction in near real-time — cash
+                  amounts, units issued, fees, and consumption — across multiple
+                  properties from a single dashboard.
+                </div>
+              </div>
+          
+                        <label class="block mb-4 cursor-pointer group">
+                            <input type="checkbox" class="peer hidden text-blue-500" />
+                            
+                            <div class="flex items-center justify-between text-sm font-semibold text-violet-600 transition-colors group-hover:text-violet-700">
+                                <div class="mt-2 text-sm font-semibold text-violet-600 hover:text-violet-700 inline-flex items-center gap-1">
+                            <span class="peer-checked:hidden text-blue-500 font-[400] text-xs">More</span>
+                            <span class="peer-checked:inline hidden">Less</span>
+                            <svg xmlns="http://w3.org" class="h-4 w-4 transform transition-transform duration-300 peer-checked:rotate-180 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            </div>
+                            </div>
+
+                            <div class="grid grid-rows-[0fr] opacity-0 invisible transition-all duration-300 ease-in-out peer-checked:grid-rows-[1fr] peer-checked:opacity-100 peer-checked:visible peer-checked:mt-4">
+                                <div class="project-body overflow-hidden">
+                                    
+                                    <div class="field">
+                                        <div class="field-label">Problem</div>
+                                        <div class="field-value">
+                                        Property owners managing multiple prepaid meters had no
+                                        centralised way to monitor tenant vending activity, verify
+                                        transaction accuracy, or share reports with managers and
+                                        accountants — leaving revenue tracking manual, error-prone,
+                                        and opaque.
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Impact</div>
+                                        <div class="field-value">
+                                        With over 500 registered meters and R1.2M+ in transactions
+                                        processed, the platform has meaningfully reduced manual
+                                        oversight while enabling 100% cashless, 24/7 token vending for
+                                        tenants — with full audit trails and controlled viewer access.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <div class="chips">
+                            <span class="chip teal">Node.js</span>
+                            <span class="chip teal">Next.js</span>
+                            <span class="chip teal">React Native</span>
+                            <span class="chip teal">REST APIs</span>
+                        <span class="chip teal">Docker</span>
+                        <span class="chip teal">Azure</span>
+                        </div>
+                    </article>
+
+                    <article class="project module">
+        
+                        <div class="project-header">
+                            <span class="project-num">03</span>
+                            
+        
+                            <div
+                            class="flex flex-1 flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+                            >
+                                <span class="project-name">Kenny's Engineering</span>
+                            <!-- <div class="text-sm text-white/70 font-mono">2019 — 2026</div> -->
+                            <div class="text-sm text-white/70 font-mono">freelance</div>
+        
+                            </div>
+                            </div>
+                        <div class="project-sub">
+                            <a
+                                class="project-link"
+                                href="https://kennysengineering.co.za"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                kennysengineering.co.za
+                                <span class="material-icons">arrow_outward</span>
+                            </a>
+                            <span class="tag">WEB</span>
+                            </div>
+                        <div class="field">
+                <div class="field-label">Description</div>
+                <div class="field-value">
+                  A professional website for Kenny's Engineering, a South African machining company that provides precision engineering and machining services to agricultural workshops across the country. The site communicates their services, community focus, and skills development programmes.
+                </div>
+              </div>
+          
+                        <label class="block mb-4 cursor-pointer group">
+                            <input type="checkbox" class="peer hidden text-blue-500" />
+                            
+                            <div class="flex items-center justify-between text-sm font-semibold text-violet-600 transition-colors group-hover:text-violet-700">
+                                <div class="mt-2 text-sm font-semibold text-violet-600 hover:text-violet-700 inline-flex items-center gap-1">
+                            <span class="peer-checked:hidden text-blue-500 font-[400] text-xs">More</span>
+                            <span class="peer-checked:inline hidden">Less</span>
+                            <svg xmlns="http://w3.org" class="h-4 w-4 transform transition-transform duration-300 peer-checked:rotate-180 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            </div>
+                            </div>
+
+                            <div class="grid grid-rows-[0fr] opacity-0 invisible transition-all duration-300 ease-in-out peer-checked:grid-rows-[1fr] peer-checked:opacity-100 peer-checked:visible peer-checked:mt-4">
+                                <div class="project-body overflow-hidden">
+                                    
+                                    <div class="field">
+                                        <div class="field-label">Problem</div>
+                                        <div class="field-value">
+                                       Kenny's Engineering had no dedicated online presence to reach agricultural workshops and farming clients across South Africa — making it difficult to establish credibility and highlight their community empowerment work to a wider audience.
+
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Impact</div>
+                                        <div class="field-value">
+                                        The website gives Kenny's Engineering a professional, searchable digital footprint connecting them with agricultural clients across Gauteng and Mpumalanga — positioning the business as both a technical service provider and a community-focused organisation.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <div class="chips">
+                        <span class="chip teal">Next.js</span><span class="chip teal">React Native</span>
+                        <span class="chip teal">Node.js</span><span class="chip teal">MySQL</span>
+                        <span class="chip teal">Azure</span>
+                        </div>
+                    </article>
+
+                    <article class="project module">
+        
+                        <div class="project-header">
+                            <span class="project-num">04</span>
+                            
+        
+                            <div
+                            class="flex flex-1 flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+                            >
+                                <span class="project-name">Tracking & Logistics</span>
+                            <div class="text-sm text-white/70 font-mono">1000+ daily transactions</div>
+        
+                            </div>
+                            </div>
+                        <div class="project-sub">
+                            <a
+                                class="project-link"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                N/A
+                            </a>
+                            <span class="tag">Android</span>
+                            </div>
+                        <div class="field">
+                <div class="field-label">Description</div>
+                <div class="field-value">
+Built a secure mobile app for tracking cash-in-transit deliveries, featuring authenticated handovers with full audit trails to prevent unauthorized access. Integrated route tracking, barcode scanning, and incident reporting with a Node.js backend, replacing manual, paper-based handover logs with a fully digital audit trail.                </div>
+              </div>
+          
+                        <label class="block mb-4 cursor-pointer group">
+                            <input type="checkbox" class="peer hidden text-blue-500" />
+                            
+                            <div class="flex items-center justify-between text-sm font-semibold text-violet-600 transition-colors group-hover:text-violet-700">
+                                <div class="mt-2 text-sm font-semibold text-violet-600 hover:text-violet-700 inline-flex items-center gap-1">
+                            <span class="peer-checked:hidden text-blue-500 font-[400] text-xs">More</span>
+                            <span class="peer-checked:inline hidden">Less</span>
+                            <svg xmlns="http://w3.org" class="h-4 w-4 transform transition-transform duration-300 peer-checked:rotate-180 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            </div>
+                            </div>
+
+                            <div class="grid grid-rows-[0fr] opacity-0 invisible transition-all duration-300 ease-in-out peer-checked:grid-rows-[1fr] peer-checked:opacity-100 peer-checked:visible peer-checked:mt-4">
+                                <div class="project-body overflow-hidden">
+                                    
+                                    <div class="field">
+                                        <div class="field-label">Problem</div>
+                                        <div class="field-value">
+                                        Cash-in-transit handovers were tracked manually on paper, making it difficult to verify who handled a delivery, when, and whether it was authorized — leaving audit logs incomplete and disputes over missing or mishandled cash hard to resolve.
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Impact</div>
+                                        <div class="field-value">
+                                        Working directly with stakeholders to refine requirements against real field operations, improved audit log accuracy and delivery monitoring by 15% — cutting down disputes over unauthorized or unaccounted-for handovers.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <div class="chips">
+                        <span class="chip teal">Next.js</span><span class="chip teal">React Native</span>
+                        <span class="chip teal">Node.js</span><span class="chip teal">MySQL</span>
+                        <span class="chip teal">Azure</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+           </div>
+        </section>
+
+
+
+        <section id="skills" class="py-10 sm:py-16">
+          <div class="space-y-12 lg:space-y-16">
+            <h2 class="text-xl md:text-4xl font-light">Skills</h2>
+            <div class="skill-group">
+      <div class="skill-group-label">Languages & frameworks</div>
+      <div class="skill-chips">
+        <span class="skill-chip">TypeScript</span><span class="skill-chip">JavaScript</span>
+        <span class="skill-chip">Node.js</span><span class="skill-chip">React</span>
+        <span class="skill-chip">Next.js</span><span class="skill-chip">React Native</span>
+        <span class="skill-chip">Java</span><span class="skill-chip">Spring Boot</span>
+        <span class="skill-chip">Embedded C</span>
+      </div>
     </div>
 
+    <div class="skill-group">
+      <div class="skill-group-label">Backend & data</div>
+      <div class="skill-chips">
+        <span class="skill-chip">REST API design</span><span class="skill-chip">MySQL</span>
+        <span class="skill-chip">Event-driven architecture</span><span class="skill-chip">Webhooks</span>
+        <span class="skill-chip">JWT auth</span><span class="skill-chip">Encryption pipelines</span>
+        <span class="skill-chip">Schedulers / cron</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Cloud & DevOps</div>
+      <div class="skill-chips">
+        <span class="skill-chip">Docker</span><span class="skill-chip">Azure Container Apps</span>
+        <span class="skill-chip">GitHub Actions / CI-CD</span><span class="skill-chip">Git</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Testing & quality</div>
+      <div class="skill-chips">
+        <span class="skill-chip">TDD</span><span class="skill-chip">Unit & integration testing</span>
+        <span class="skill-chip">Mocking (I/O, APIs)</span><span class="skill-chip">100% coverage standard</span>
+      </div>
+    </div>
+           </div>
+        </section>
+
+<section id="contact"  class="py-10 sm:py-16">
+          <div class="grid lg:grid-cols-2 gap-12 sm:gap-16">
+            <div class="space-y-6 sm:space-y-8">
+              <h2 class="text-xl md:text-4xl font-light">Let's Connect</h2>
+
+              <div class="space-y-6">
+                <p class="about-text text-[12px] text-white/70 font-[200] md:text-[15px] md:max-w-[640px] mb-[16px]">
+                  Always interested in new opportunities, collaborations, and conversations about technology and design.  I would love the opportunity to discuss how my domain expertise can add immediate value to your current development sprint.
+                </p>
+
+                <div class="space-y-4">
+                  <Link
+                    href="mailto:test@example.com"
+                    class="group flex items-center gap-3 text-foreground hover:text-white/70 transition-colors duration-300"
+                  >
+                    <span class="sm:text-lg">kaymogano@gmail.com</span>
+                    <svg
+                      class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-6 sm:space-y-8">
+              <div class="text-sm text-white/70 font-mono">ELSEWHERE</div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <a
+                    class="group p-4 border border-white/20 rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm"
+                    >
+                    <div class="space-y-2">
+                      <div class="text-foreground group-hover:text-white/70 transition-colors duration-300">
+                        GitHub
+                      </div>
+                      <div class="text-sm text-white/70">@fruittymango</div>
+                    </div>
+                </a>
+                 <!-- <a
+                    class="group p-4 border border-white/50 rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm"
+                    >
+                    <div class="space-y-2">
+                      <div class="text-foreground group-hover:text-white/70 transition-colors duration-300">
+                        v0.dev
+                      </div>
+                      <div class="text-sm text-white/70">@felixmacaspac</div>
+                    </div>
+                </a> -->
+                 <!-- <a
+                    class="group p-4 border border-white/50 rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm"
+                    >
+                    <div class="space-y-2">
+                      <div class="text-foreground group-hover:text-white/70 transition-colors duration-300">
+                        HubSpot Community
+                      </div>
+                      <div class="text-sm text-white/70">@felixmacaspac</div>
+                    </div>
+                </a> -->
+                 <a
+                 href="https://www.linkedin.com/in/isaac-mogano/"
+                    class="group p-4 border border-white/20 rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm"
+                    >
+                    <div class="space-y-2">
+                      <div class="text-foreground group-hover:text-white/70 transition-colors duration-300">
+                        LinkedIn
+                      </div>
+                      <div class="text-sm text-white/70">@isaacmogano</div>
+                    </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>        
+        
+      </div>
+
+      
+    </div>
+
+    <!-- <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Identify all elements slated for scroll animation
+      const targetElements = document.querySelectorAll(".js-observe");
+
+      // 2. Define the configuration options
+      const observerOptions = { threshold: 0.3, rootMargin: "0px 0px -20% 0px" };
+
+      // 3. Callback executes whenever target bounds cross visibility metrics
+      const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Reveal element by applying finalized utility states
+            entry.target.classList.add("animate-fade-in-up", "bg-white/50");
+            
+            // Clean up unneeded initial hidden tracking states
+            // entry.target.classList.remove("animate-fade-in-up");
+
+            // Stop tracking this element if you only want the effect to trigger once
+            observer.unobserve(entry.target);
+          }
+        });
+      };
+
+      // 4. Instantiate and run the observer instance
+      const observer = new IntersectionObserver(observerCallback, observerOptions);
+      targetElements.forEach(el => observer.observe(el));
+    });
+  </script> -->
+
     <script>
-        function toggleMenu() {
-            var myList = document.body.classList;
-            if (myList.length < 2) {
-                document.body.classList.add('menu-body');
-            } else {
-                document.body.classList.remove('menu-body');
-            }
+      function toggleMenu() {
+        var myList = document.body.classList;
+        if (myList.length < 2) {
+          document.body.classList.add("menu-body");
+        } else {
+          document.body.classList.remove("menu-body");
         }
+      }
 
-        function loadPage(url) {
-            fetch(url)
-            .then(response => response.text())
-            .then(content => {
-                document.body.innerHTML = content;
-            })
-            .catch(error => console.error('Error loading pag\
-            e:', error));
-        }
+      function loadPage(url) {
+        fetch(url)
+          .then((response) => response.text())
+          .then((content) => {
+            document.body.innerHTML = content;
+          })
+          .catch((error) =>
+            console.error(
+              "Error loading pag\
+            e:",
+              error,
+            ),
+          );
+      }
 
-        document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('click', function (event) {
-            const target = event.target;
-            if (target.tagName === 'A' && target.classList[0]!=='external-link') {
+      document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("click", function (event) {
+          const target = event.target;
+          if (
+            target.tagName === "A" &&
+            target.classList[0] !== "external-link"
+          ) {
             event.preventDefault();
-            const href = target.getAttribute('href');
+            const href = target.getAttribute("href");
             loadPage(href);
-            history.pushState({}, '', href);
-            }
+            history.pushState({}, "", href);
+          }
         });
-    
-        loadPage(window.location.pathname);    
-        });
-    </script>
 
+        loadPage(window.location.pathname);
+      });
+    </script>
   </body>
 </html>
