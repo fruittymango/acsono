@@ -72,13 +72,6 @@ h4 {
   gap: 1rem;
 }
 
-.separator {
-  display: block;
-  background-color: #ffffff;
-  height: 0.5rem;
-  align-self: center;
-}
-
 h1 {
   font-size: 800%;
   font-weight: 500;
@@ -502,12 +495,5 @@ label {
   }
   .header {
     font-size: large;
-  }
-
-  .separator {
-    display: block;
-    background-color: #ffffff;
-    height: 0.15rem;
-    align-self: center;
   }
 }
