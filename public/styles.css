@@ -84,14 +84,6 @@ h1 {
   font-weight: 500;
 }
 
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  position: relative;
-  bottom: 20px;
-}
-
 .info {
   max-width: 29rem;
   border-radius: 1rem;
@@ -351,10 +343,6 @@ label {
     display: none;
   }
 
-  .footer {
-    display: block;
-  }
-
   .links {
     display: flex;
     justify-content: center;
@@ -372,6 +360,7 @@ label {
     align-items: flex-start;
     gap: 1rem;
     font-size: 0.8rem;
+    margin-bottom: 10px;
   }
 }
 
@@ -481,10 +470,6 @@ label {
 
   .info {
     display: none;
-  }
-
-  .footer {
-    display: block;
   }
 
   .links {
