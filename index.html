@@ -155,8 +155,13 @@
             <!-- <div class="location">
               <p>Gauteng, S. Africa</p>
             </div> -->
-            <button onclick="toggleMenu()" class="menu" >
-              <li>menu</li>
+            <button onclick="toggleMenu()" class="menu">
+              <li id="acsono_menu_label">menu</li>
+
+              <div id="acsono_menu_close_icon" class="hidden p-2 text-[1.5rem]">
+
+                <span  class="material-icons text-[1rem]">close</span>
+              </div>
             </button>
           </div>
 
@@ -307,11 +312,16 @@
 
         <script>
           function toggleMenu() {
-            var myList = document.body.classList;
-            if (myList.length < 1) {
+            var menu_label = document.getElementById("acsono_menu_label");
+            var menu_icon = document.getElementById("acsono_menu_close_icon");
+            if (myList.length < 2) {
               document.body.classList.add("menu-body");
+              menu_label.classList.add("hidden");
+              menu_icon.classList.remove("hidden");
             } else {
               document.body.classList.remove("menu-body");
+              menu_icon.classList.add("hidden");
+              menu_label.classList.remove("hidden");
             }
           }
 
