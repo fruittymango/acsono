@@ -312,18 +312,19 @@
 
         <script>
           function toggleMenu() {
-            var myList = document.body.classList;
             var menu_label = document.getElementById("acsono_menu_label");
             var menu_icon = document.getElementById("acsono_menu_close_icon");
-            if (myList.length < 2) {
-              document.body.classList.add("menu-body");
-              menu_label.classList.add("hidden");
-              menu_icon.classList.remove("hidden");
-            } else {
-              document.body.classList.remove("menu-body");
+
+            if (menu_label.classList?.length){
               menu_icon.classList.add("hidden");
               menu_label.classList.remove("hidden");
+              document.body.classList.remove("menu-body");
+            }else {
+              menu_label.classList.add("hidden");
+              menu_icon.classList.remove("hidden");
+              document.body.classList.add("menu-body");
             }
+
           }
 
           function loadPage(url) {
