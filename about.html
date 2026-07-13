@@ -471,9 +471,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5V5WLCM4" height="0" width="0"
       style="display: none; visibility: hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <div class="main overflow-hidden scrollbar-none">
-
-
+  <div class="main max-h-screen overflow-hidden scrollbar-none">
     <div class="top-bar">
       <p class="logo">
         <a href="/"><span>acsono</span></a>
@@ -525,7 +523,7 @@
         </a>
       </div>
       <div class="action-links">
-        <a href="https://github.com/fruittymango">
+        <a href="https://github.com/fruittymango" target="_blank">
           <button class="link" target="_blank">
             <p>GitHub</p>
             <span class="material-icons">arrow_outward</span>
@@ -542,11 +540,7 @@
       <div class="place-holder"></div>
     </div>
 
-
-
-
-
-    <div class="content container md:max-w-5xl mx-auto overflow-scroll overflow-x-hidden scrollbar-none"
+    <div id="scrollContainer" class="content container md:max-w-5xl mx-auto overflow-scroll overflow-x-hidden scrollbar-none scroll-smooth"
       style="scrollbar-width: none">
       <section class="pb-10 sm:pb-16">
         <div class="space-y-12 lg:space-y-16">
@@ -554,7 +548,7 @@
 
 
           Awarded the <b>WeThinkCode_ Alchemist Award</b> as the Top Performing Student
-          and Master Developer, I have experience in production fintech and IoT systems —
+          and Master Developer, I have experience in production Asset Tracking, PropTech and IoT systems —
 payments automation, bank reconciliation, and real-time device
 data processing.<br/><br/> The
 real work is in the details — optimizing operations, tightening
@@ -574,7 +568,7 @@ reliability, and shipping production-grade software. I combine this industrial b
               <div class="tl-date">2022 — 2023</div>
               <div>
                 <div class="tl-role">Mobile App Developer</div>
-                <div class="tl-org">AllCash Technologies / JustGood Technologies</div>
+                <div class="tl-org">AllCash Technologies</div>
               </div>
             </div>
             <div class="tl-row">
@@ -1039,11 +1033,28 @@ reliability, and shipping production-grade software. I combine this industrial b
       </section>
 
     </div>
-
-
+    <button id="scrollUpBtn" 
+    onclick="scrollUp()"
+          class="absolute bottom-2 right-4 z-10 flex h-10 w-10 scale-95 items-center justify-center rounded-full  text-white shadow-md pointer-events-none transition-all duration-300 hover:bg-zinc-800 hover:scale-100 focus:outline-none"
+          title="Scroll container to top">
+    <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
   </div>
 
+   
+
   <script>
+
+    function scrollUp(){
+      const container = document.getElementById("scrollContainer");
+      container.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    
     function toggleMenu() {
       var menu_label = document.getElementById("acsono_menu_label");
       var menu_icon = document.getElementById("acsono_menu_close_icon");
@@ -1081,6 +1092,18 @@ reliability, and shipping production-grade software. I combine this industrial b
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       }
+
+      const container = document.getElementById("scrollContainer");
+      const containerBtn = document.getElementById("scrollUpBtn");
+      container.addEventListener("scroll", () => {
+        if (container.scrollTop > 150) {
+          containerBtn.classList.remove("opacity-0", "pointer-events-none", "scale-95");
+          containerBtn.classList.add("opacity-100", "pointer-events-auto", "scale-100");
+        } else {
+          containerBtn.classList.remove("opacity-100", "pointer-events-auto", "scale-100");
+          containerBtn.classList.add("opacity-0", "pointer-events-none", "scale-95");
+        }
+      });
     });
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -1098,9 +1121,8 @@ reliability, and shipping production-grade software. I combine this industrial b
       });
 
       loadPage(window.location.pathname);
-
-
-    });
+    }); 
+    
   </script>
 </body>
 
