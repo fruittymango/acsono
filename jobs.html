@@ -9,43 +9,146 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Spline+Sans:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@200;300;400&family=Spline+Sans:wght@300;400&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png" />
+  <link href="public/styles.css" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
-  <title>Dashboard | acsono</title>
+  <link rel="manifest" href="public/site.webmanifest" />
+  <title>Jobs | acsono</title>
+  <meta name="author" content="Isaac K. Mogano" />
+  <script>
+    try {
+      var storedTheme = localStorage.getItem("jobs-theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", storedTheme);
+      }
+    } catch (e) { }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="gis" src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
+    /* Theme tokens: dark by default (matches the rest of the site), light via
+       system preference or the top-bar toggle (stored per browser). */
+    :root {
+      color-scheme: dark;
+      --fg: #ffffff;
+      --muted: rgba(255, 255, 255, 0.7);
+      --overlay: #000000df;
+      --panel: rgba(53, 53, 53, 0.29);
+      --field: rgba(53, 53, 53, 0.4);
+      --option-bg: #212121;
+      --line: rgba(255, 255, 255, 0.15);
+      --line-strong: rgba(255, 255, 255, 0.3);
+      --hover: rgba(255, 255, 255, 0.1);
+      --high: #fca5a5;
+      --medium: #fcd34d;
+      --low: #93c5fd;
+      --avoid: #9ca3af;
+      --error: #fca5a5;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        color-scheme: light;
+        --fg: #1a1a1a;
+        --muted: rgba(0, 0, 0, 0.62);
+        --overlay: #f5f5f5e6;
+        --panel: rgba(255, 255, 255, 0.55);
+        --field: rgba(255, 255, 255, 0.75);
+        --option-bg: #ffffff;
+        --line: rgba(0, 0, 0, 0.15);
+        --line-strong: rgba(0, 0, 0, 0.3);
+        --hover: rgba(0, 0, 0, 0.06);
+        --high: #b91c1c;
+        --medium: #a16207;
+        --low: #1d4ed8;
+        --avoid: #4b5563;
+        --error: #b91c1c;
+      }
+    }
+
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --fg: #1a1a1a;
+      --muted: rgba(0, 0, 0, 0.62);
+      --overlay: #f5f5f5e6;
+      --panel: rgba(255, 255, 255, 0.55);
+      --field: rgba(255, 255, 255, 0.75);
+      --option-bg: #ffffff;
+      --line: rgba(0, 0, 0, 0.15);
+      --line-strong: rgba(0, 0, 0, 0.3);
+      --hover: rgba(0, 0, 0, 0.06);
+      --high: #b91c1c;
+      --medium: #a16207;
+      --low: #1d4ed8;
+      --avoid: #4b5563;
+      --error: #b91c1c;
+    }
+
+    /* Override the shared stylesheet's hard-coded white/dark values */
     body {
-      margin: 0;
-      min-height: 100dvh;
-      background-color: #212121;
-      color: #ffffff;
-      font-family: "Spline Sans", sans-serif;
-      font-weight: 300;
-      letter-spacing: 0.03em;
-      overflow-x: hidden;
+      color: var(--fg);
+      background:
+        linear-gradient(0deg, var(--overlay) 0%, var(--overlay) 100%),
+        url("public/IMG_20221225_172539.jpg"),
+        lightgray 50% / cover no-repeat;
+      background-position: 0% 45%;
+      background-size: 100%;
     }
 
-    h1,
-    h2,
-    .logo {
-      font-family: "Bebas Neue", sans-serif;
-      letter-spacing: 0.08em;
-      font-weight: 400;
+    a,
+    button {
+      color: var(--fg);
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 0.75rem;
+    .menu-content .menu-item:hover span,
+    .title-rule {
+      background-color: var(--fg);
+    }
+
+    .error-text {
+      color: var(--error);
+    }
+
+    /* Keep the theme toggle right next to "menu" */
+    .top-bar .menu {
+      flex: 0 0 auto;
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-self: flex-start;
+      margin: 0.15rem 2rem 0 0;
+      cursor: pointer;
+    }
+
+    /* Page content scrolls inside .main like about.html */
+    .jobs-scroll {
+      display: block;
+      scrollbar-width: none;
+    }
+
+    .jobs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel {
+      border-radius: 1rem;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
     }
 
     .muted {
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--muted);
+      font-weight: 300;
     }
 
     .wrap {
@@ -53,30 +156,35 @@
     }
 
     .field {
-      background: #2b2b2b;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 0.5rem;
+      display: block;
+      background: var(--field);
+      color: var(--fg);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
       padding: 0.5rem 0.75rem;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      letter-spacing: inherit;
       min-width: 0;
+    }
+
+    .field option {
+      background: var(--option-bg);
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid var(--line-strong);
       border-radius: 999px;
-      padding: 0.4rem 0.9rem;
+      padding: 0.35rem 0.9rem;
       font-size: 0.9rem;
-      color: #fff;
-      background: none;
       cursor: pointer;
     }
 
     .btn:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--hover);
     }
 
     .btn:disabled {
@@ -84,43 +192,33 @@
       cursor: default;
     }
 
-    .btn-primary {
-      background: #fff;
-      color: #212121;
-      border-color: #fff;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: #e5e5e5;
-    }
-
     .pill {
       display: inline-block;
       border-radius: 999px;
-      padding: 0.1rem 0.6rem;
+      padding: 0.05rem 0.6rem;
       font-size: 0.75rem;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid var(--line-strong);
       white-space: nowrap;
     }
 
     .p-high {
-      border-color: #f87171;
-      color: #fca5a5;
+      border-color: var(--high);
+      color: var(--high);
     }
 
     .p-medium {
-      border-color: #fbbf24;
-      color: #fcd34d;
+      border-color: var(--medium);
+      color: var(--medium);
     }
 
     .p-low {
-      border-color: #60a5fa;
-      color: #93c5fd;
+      border-color: var(--low);
+      color: var(--low);
     }
 
     .p-avoid {
-      border-color: #6b7280;
-      color: #9ca3af;
+      border-color: var(--avoid);
+      color: var(--avoid);
     }
 
     a.ext {
@@ -129,7 +227,7 @@
     }
 
     a.ext:hover {
-      color: #d4d4d4;
+      color: var(--muted);
     }
 
     .material-icons.sm {
@@ -139,54 +237,117 @@
 </head>
 
 <body>
-  <div class="max-w-5xl mx-auto px-4 md:px-8 pb-16">
-    <header class="flex items-center justify-between py-6">
-      <a href="/" class="logo text-[1.8rem]">acsono</a>
-      <button id="signOutBtn" class="btn hidden" type="button">
-        <span class="material-icons sm">logout</span>Sign out
+  <div class="main max-h-screen overflow-hidden scrollbar-none">
+    <div class="top-bar">
+      <p class="logo">
+        <a href="/"><span>acsono</span></a>
+      </p>
+      <button id="themeBtn" class="theme-toggle" type="button">
+        <span id="themeIcon" class="material-icons text-[1.4rem]" aria-hidden="true">light_mode</span>
       </button>
-    </header>
+      <button onclick="toggleMenu()" class="menu">
+        <li id="acsono_menu_label">menu</li>
 
-    <h1 class="text-[3rem] md:text-[4.5rem] leading-none">Job search</h1>
+        <div id="acsono_menu_close_icon" class="hidden p-2 text-[1.5rem]">
 
-    <!-- Signed-out view -->
-    <section id="signedOut" class="mt-8">
-      <button id="signInBtn" class="btn btn-primary" type="button" disabled>
-        <span class="material-icons sm">login</span>Sign in with Google
-      </button>
-      <p id="authMsg" class="mt-4 muted text-sm" role="status"></p>
-    </section>
-
-    <!-- Signed-in view (filled entirely by script after sign-in) -->
-    <main id="signedIn" class="hidden mt-6 space-y-10">
-      <div class="flex items-center gap-3">
-        <button id="refreshBtn" class="btn" type="button">
-          <span class="material-icons sm">refresh</span>Refresh
-        </button>
-        <span id="loadMsg" class="muted text-sm" role="status"></span>
-      </div>
-
-      <section>
-        <h2 class="text-[1.8rem] mb-3">Summary</h2>
-        <div id="summary" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-      </section>
-
-      <section>
-        <h2 class="text-[1.8rem] mb-3">Latest findings</h2>
-        <ul id="findings" class="space-y-2"></ul>
-      </section>
-
-      <section>
-        <h2 class="text-[1.8rem] mb-3">Companies <span id="companyCount" class="muted text-[1.2rem]"></span></h2>
-        <div class="flex flex-col md:flex-row gap-2 mb-4">
-          <input id="search" class="field md:flex-1" type="search" placeholder="Search companies, roles, notes"
-            aria-label="Search companies" />
-          <select id="priorityFilter" class="field" aria-label="Filter by priority"></select>
-          <select id="statusFilter" class="field" aria-label="Filter by status"></select>
+          <span class="material-icons text-[1rem]">close</span>
         </div>
-        <ul id="companies" class="space-y-3"></ul>
+      </button>
+    </div>
+
+    <div class="menu-content">
+      <div class="pages">
+        <a href="/">
+          <button class="menu-item">
+            <span></span>
+            <h2>Home</h2>
+          </button>
+        </a>
+        <a href="/about">
+          <button class="menu-item">
+            <span></span>
+            <h2>Overview</h2>
+          </button>
+        </a>
+        <a href="/about#work">
+          <button class="menu-item">
+            <span></span>
+            <h2>Work</h2>
+          </button>
+        </a>
+        <a href="/about#contact">
+          <button class="menu-item">
+            <span></span>
+            <h2>Connect</h2>
+          </button>
+        </a>
+        <button id="menuAuthBtn" class="menu-item" type="button" disabled>
+          <span></span>
+          <h2 id="menuAuthLabel">Sign in</h2>
+        </button>
+      </div>
+      <div class="action-links">
+        <a href="https://github.com/fruittymango" target="_blank">
+          <button class="link">
+            <p>GitHub</p>
+            <span class="material-icons">arrow_outward</span>
+          </button>
+        </a>
+        <a href="https://www.linkedin.com/in/isaac-mogano/" target="_blank"><button class="link">
+            <p>LinkedIn</p>
+            <span class="material-icons">arrow_outward</span>
+          </button>
+        </a>
+
+        <p class="email-address">email<span>kaymogano@gmail.com</span></p>
+      </div>
+      <div class="place-holder"></div>
+    </div>
+
+    <div class="content jobs-scroll container md:max-w-5xl mx-auto overflow-y-auto overflow-x-hidden scroll-smooth pb-10">
+      <h1 class="header text-[2.5rem] md:text-[5rem] leading-none mb-8">
+        JOB<span class="title-rule h-[0.15rem] self-center md:h-[0.4rem]"></span>SEARCH
+      </h1>
+
+      <!-- Signed-out view -->
+      <section id="signedOut">
+        <button id="signInBtn" class="btn" type="button" disabled>
+          <span class="material-icons sm">login</span>Sign in with Google
+        </button>
+        <p id="authMsg" class="mt-4 muted text-sm" role="status"></p>
       </section>
-    </main>
+
+      <!-- Signed-in view (filled entirely by script after sign-in) -->
+      <div id="signedIn" class="hidden space-y-10">
+        <div class="flex items-center gap-3">
+          <button id="refreshBtn" class="btn" type="button">
+            <span class="material-icons sm">refresh</span>refresh
+          </button>
+          <span id="loadMsg" class="muted text-sm" role="status"></span>
+        </div>
+
+        <section>
+          <h2 class="section-title">/ summary</h2>
+          <div id="summary" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+        </section>
+
+        <section>
+          <h2 class="section-title">/ latest findings</h2>
+          <ul id="findings" class="space-y-2"></ul>
+        </section>
+
+        <section>
+          <h2 class="section-title">/ companies <span id="companyCount" class="muted text-[0.9rem]"></span></h2>
+          <div class="flex flex-col md:flex-row gap-2 mb-4">
+            <input id="search" class="field md:flex-1" type="search" placeholder="search companies, roles, notes"
+              aria-label="Search companies" />
+            <select id="priorityFilter" class="field" aria-label="Filter by priority"></select>
+            <select id="statusFilter" class="field" aria-label="Filter by status"></select>
+          </div>
+          <ul id="companies" class="space-y-3"></ul>
+        </section>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -219,6 +380,22 @@
     const rowState = new Map(); // company name -> { saving, error }
 
     const $ = (id) => document.getElementById(id);
+
+    // Same menu toggle as the other pages
+    function toggleMenu() {
+      var menu_label = document.getElementById("acsono_menu_label");
+      var menu_icon = document.getElementById("acsono_menu_close_icon");
+
+      if (menu_label.classList?.length) {
+        menu_icon.classList.add("hidden");
+        menu_label.classList.remove("hidden");
+        document.body.classList.remove("menu-body");
+      } else {
+        menu_label.classList.add("hidden");
+        menu_icon.classList.remove("hidden");
+        document.body.classList.add("menu-body");
+      }
+    }
 
     // ---- DOM helpers (text only, never innerHTML) ----
 
@@ -262,6 +439,32 @@
       return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
     }
 
+    // ---- Theme ----
+
+    const lightQuery = window.matchMedia("(prefers-color-scheme: light)");
+
+    function currentTheme() {
+      return document.documentElement.getAttribute("data-theme")
+        || (lightQuery.matches ? "light" : "dark");
+    }
+
+    function updateThemeButton() {
+      const next = currentTheme() === "dark" ? "light" : "dark";
+      $("themeIcon").textContent = next + "_mode";
+      $("themeBtn").setAttribute("aria-label", "Switch to " + next + " mode");
+      $("themeBtn").title = "Switch to " + next + " mode";
+    }
+
+    $("themeBtn").addEventListener("click", () => {
+      const next = currentTheme() === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("jobs-theme", next); } catch (e) { }
+      updateThemeButton();
+    });
+
+    lightQuery.addEventListener("change", updateThemeButton);
+    updateThemeButton();
+
     // ---- Auth ----
 
     function gisLoaded() {
@@ -289,21 +492,27 @@
         },
       });
       $("signInBtn").disabled = false;
+      $("menuAuthBtn").disabled = false;
     }
 
     $("signInBtn").addEventListener("click", () => {
       if (tokenClient) tokenClient.requestAccessToken();
     });
 
-    $("signOutBtn").addEventListener("click", () => {
-      if (accessToken && window.google) google.accounts.oauth2.revoke(accessToken, () => { });
-      signOut("Signed out.");
+    $("menuAuthBtn").addEventListener("click", () => {
+      toggleMenu();
+      if (accessToken) {
+        if (window.google) google.accounts.oauth2.revoke(accessToken, () => { });
+        signOut("Signed out.");
+      } else if (tokenClient) {
+        tokenClient.requestAccessToken();
+      }
     });
 
     function showSignedIn() {
       $("signedOut").classList.add("hidden");
       $("signedIn").classList.remove("hidden");
-      $("signOutBtn").classList.remove("hidden");
+      $("menuAuthLabel").textContent = "Sign out";
     }
 
     function signOut(message) {
@@ -314,7 +523,7 @@
       for (const id of ["summary", "findings", "companies", "companyCount", "loadMsg"]) $(id).replaceChildren();
       $("search").value = "";
       $("signedIn").classList.add("hidden");
-      $("signOutBtn").classList.add("hidden");
+      $("menuAuthLabel").textContent = "Sign in";
       $("signedOut").classList.remove("hidden");
       $("authMsg").textContent = message || "";
     }
@@ -423,10 +632,10 @@
       renderCompanies();
     }
 
-    function statTile(label, value) {
-      return el("div", { class: "card p-4" }, [
+    function statTile(label, value, extraClass) {
+      return el("div", { class: "panel p-4" + (extraClass ? " " + extraClass : "") }, [
         el("div", { class: "muted text-xs uppercase tracking-widest", text: label }),
-        el("div", { class: "text-[1.6rem] mt-1 wrap", text: String(value) }),
+        el("div", { class: "text-[1.4rem] md:text-[1.6rem] mt-1 whitespace-nowrap", text: String(value) }),
       ]);
     }
 
@@ -436,7 +645,7 @@
       const openings = companies.filter((c) => c.status === "Has other openings").length;
       const latest = sortedLog()[0];
 
-      const priorityTile = el("div", { class: "card p-4 col-span-2 md:col-span-1" }, [
+      const priorityTile = el("div", { class: "panel p-4 col-span-2 md:col-span-1" }, [
         el("div", { class: "muted text-xs uppercase tracking-widest", text: companies.length + " companies" }),
         el("div", { class: "flex flex-wrap gap-1 mt-2" }, PRIORITIES.map((p, i) =>
           el("span", { class: "pill p-" + p.toLowerCase(), text: byPriority[i] }))),
@@ -446,7 +655,7 @@
         priorityTile,
         statTile("Applied", applied),
         statTile("Has other openings", openings),
-        statTile("Latest run", latest && latest.date ? latest.date : "—"),
+        statTile("Latest run", latest && latest.date ? latest.date : "—", "col-span-2 md:col-span-1"),
       );
     }
 
@@ -459,7 +668,7 @@
       $("findings").replaceChildren(...entries.map((e) => {
         const title = link(e.link, e.title || e.link) || el("span", { text: e.title });
         const meta = [e.date, e.type, e.company].filter(Boolean).join(" · ");
-        return el("li", { class: "card p-3" }, [
+        return el("li", { class: "panel p-3" }, [
           el("div", { class: "flex flex-wrap items-baseline justify-between gap-2" }, [
             el("span", { class: "muted text-xs wrap", text: meta }),
             e.fit ? el("span", { class: "pill", text: "Fit " + e.fit + "/10" }) : null,
@@ -538,10 +747,10 @@
       const feedback = state.saving
         ? el("span", { class: "muted text-sm", text: "Saving…", attrs: { role: "status" } })
         : state.error
-          ? el("span", { class: "text-sm text-red-300 wrap", text: state.error, attrs: { role: "alert" } })
+          ? el("span", { class: "text-sm error-text wrap", text: state.error, attrs: { role: "alert" } })
           : null;
 
-      return el("li", { class: "card p-4" }, [
+      return el("li", { class: "panel p-4" }, [
         el("div", { class: "flex flex-wrap items-center gap-2" }, [
           el("span", { class: "text-[1.15rem] font-normal wrap", text: c.company }),
           priorityPill(c.priority),
