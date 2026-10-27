@@ -34,58 +34,94 @@
        system preference or the top-bar toggle (stored per browser). */
     :root {
       color-scheme: dark;
-      --fg: #ffffff;
-      --muted: rgba(255, 255, 255, 0.7);
-      --overlay: #000000df;
-      --panel: rgba(53, 53, 53, 0.29);
-      --field: rgba(53, 53, 53, 0.4);
-      --option-bg: #212121;
-      --line: rgba(255, 255, 255, 0.15);
-      --line-strong: rgba(255, 255, 255, 0.3);
-      --hover: rgba(255, 255, 255, 0.1);
-      --high: #fca5a5;
-      --medium: #fcd34d;
-      --low: #93c5fd;
-      --avoid: #9ca3af;
+      --fg: #f2f2f2;
+      --muted: #a1a1a6;
+      --faint: #6e6e73;
+      --on-fg: #141414;
+      --overlay: rgba(12, 12, 12, 0.9);
+      --main-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      --panel: rgba(255, 255, 255, 0.045);
+      --panel-hover: rgba(255, 255, 255, 0.07);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --panel-shadow: none;
+      --field: rgba(255, 255, 255, 0.06);
+      --option-bg: #1c1c1c;
+      --line: rgba(255, 255, 255, 0.12);
+      --divider: rgba(255, 255, 255, 0.07);
+      --hover: rgba(255, 255, 255, 0.08);
+      --high-fg: #fca5a5;
+      --high-bg: rgba(248, 113, 113, 0.14);
+      --medium-fg: #fcd34d;
+      --medium-bg: rgba(251, 191, 36, 0.13);
+      --low-fg: #93c5fd;
+      --low-bg: rgba(96, 165, 250, 0.14);
+      --neutral-fg: #c7c7cc;
+      --neutral-bg: rgba(255, 255, 255, 0.07);
+      --ok: #4ade80;
+      --info: #60a5fa;
       --error: #fca5a5;
     }
 
     @media (prefers-color-scheme: light) {
       :root:not([data-theme="dark"]) {
         color-scheme: light;
-        --fg: #1a1a1a;
-        --muted: rgba(0, 0, 0, 0.62);
-        --overlay: #f5f5f5e6;
-        --panel: rgba(255, 255, 255, 0.55);
-        --field: rgba(255, 255, 255, 0.75);
+        --fg: #1c1c1e;
+        --muted: #5e5e66;
+        --faint: #8e8e96;
+        --on-fg: #ffffff;
+        --overlay: rgba(255, 255, 255, 0.9);
+        --main-shadow: 0 12px 40px rgba(28, 28, 30, 0.08);
+        --panel: #ffffff;
+        --panel-hover: #ffffff;
+        --panel-border: rgba(28, 28, 30, 0.09);
+        --panel-shadow: 0 1px 3px rgba(28, 28, 30, 0.06), 0 1px 2px rgba(28, 28, 30, 0.03);
+        --field: #ffffff;
         --option-bg: #ffffff;
-        --line: rgba(0, 0, 0, 0.15);
-        --line-strong: rgba(0, 0, 0, 0.3);
-        --hover: rgba(0, 0, 0, 0.06);
-        --high: #b91c1c;
-        --medium: #a16207;
-        --low: #1d4ed8;
-        --avoid: #4b5563;
-        --error: #b91c1c;
+        --line: rgba(28, 28, 30, 0.14);
+        --divider: rgba(28, 28, 30, 0.07);
+        --hover: rgba(28, 28, 30, 0.05);
+        --high-fg: #b42318;
+        --high-bg: #fdecea;
+        --medium-fg: #8a5a00;
+        --medium-bg: #fdf2d8;
+        --low-fg: #1d4ed8;
+        --low-bg: #e8effd;
+        --neutral-fg: #4a4a52;
+        --neutral-bg: #f0efec;
+        --ok: #16a34a;
+        --info: #2563eb;
+        --error: #b42318;
       }
     }
 
     :root[data-theme="light"] {
       color-scheme: light;
-      --fg: #1a1a1a;
-      --muted: rgba(0, 0, 0, 0.62);
-      --overlay: #f5f5f5e6;
-      --panel: rgba(255, 255, 255, 0.55);
-      --field: rgba(255, 255, 255, 0.75);
+      --fg: #1c1c1e;
+      --muted: #5e5e66;
+      --faint: #8e8e96;
+      --on-fg: #ffffff;
+      --overlay: rgba(255, 255, 255, 0.9);
+      --main-shadow: 0 12px 40px rgba(28, 28, 30, 0.08);
+      --panel: #ffffff;
+      --panel-hover: #ffffff;
+      --panel-border: rgba(28, 28, 30, 0.09);
+      --panel-shadow: 0 1px 3px rgba(28, 28, 30, 0.06), 0 1px 2px rgba(28, 28, 30, 0.03);
+      --field: #ffffff;
       --option-bg: #ffffff;
-      --line: rgba(0, 0, 0, 0.15);
-      --line-strong: rgba(0, 0, 0, 0.3);
-      --hover: rgba(0, 0, 0, 0.06);
-      --high: #b91c1c;
-      --medium: #a16207;
-      --low: #1d4ed8;
-      --avoid: #4b5563;
-      --error: #b91c1c;
+      --line: rgba(28, 28, 30, 0.14);
+      --divider: rgba(28, 28, 30, 0.07);
+      --hover: rgba(28, 28, 30, 0.05);
+      --high-fg: #b42318;
+      --high-bg: #fdecea;
+      --medium-fg: #8a5a00;
+      --medium-bg: #fdf2d8;
+      --low-fg: #1d4ed8;
+      --low-bg: #e8effd;
+      --neutral-fg: #4a4a52;
+      --neutral-bg: #f0efec;
+      --ok: #16a34a;
+      --info: #2563eb;
+      --error: #b42318;
     }
 
     /* Override the shared stylesheet's hard-coded white/dark values */
@@ -99,18 +135,33 @@
       background-size: 100%;
     }
 
+    .main {
+      box-shadow: var(--main-shadow);
+    }
+
     a,
     button {
       color: var(--fg);
     }
 
-    .menu-content .menu-item:hover span,
-    .title-rule {
+    .menu-content .menu-item:hover span {
       background-color: var(--fg);
     }
 
-    .error-text {
-      color: var(--error);
+    /* Keep [hidden] working on elements that also get a display class */
+    [hidden] {
+      display: none !important;
+    }
+
+    /* Smooth theme switches */
+    body,
+    a,
+    button,
+    .panel,
+    .field,
+    .btn,
+    .chip {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     /* Keep the theme toggle right next to "menu" */
@@ -138,12 +189,60 @@
     .panel {
       border-radius: 1rem;
       background: var(--panel);
+      border: 1px solid var(--panel-border);
+      box-shadow: var(--panel-shadow);
       backdrop-filter: blur(10px);
     }
 
-    .section-title {
-      font-size: 1.2rem;
-      margin-bottom: 0.75rem;
+    .company-card:hover {
+      background: var(--panel-hover);
+      border-color: var(--line);
+    }
+
+    .tab {
+      color: var(--faint);
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      color: var(--muted);
+    }
+
+    .tab-active,
+    .tab-active:hover {
+      color: var(--fg);
+      border-bottom-color: var(--fg);
+    }
+
+    .tab-strip {
+      scrollbar-width: none;
+    }
+
+    .tab-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      .tab-strip {
+        mask-image: linear-gradient(to right, #000 80%, transparent);
+        -webkit-mask-image: linear-gradient(to right, #000 80%, transparent);
+      }
+    }
+
+    .tab .count {
+      color: var(--faint);
+      font-size: 0.75rem;
+      margin-left: 0.3rem;
+    }
+
+    .label {
+      color: var(--faint);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
     }
 
     .muted {
@@ -151,8 +250,16 @@
       font-weight: 300;
     }
 
+    .faint {
+      color: var(--faint);
+    }
+
     .wrap {
       overflow-wrap: anywhere;
+    }
+
+    .divided > * + * {
+      border-top: 1px solid var(--divider);
     }
 
     .field {
@@ -164,23 +271,35 @@
       padding: 0.5rem 0.75rem;
       font-size: 0.9rem;
       font-family: inherit;
-      letter-spacing: inherit;
+      letter-spacing: 0.04em;
       min-width: 0;
+    }
+
+    .field::placeholder {
+      color: var(--faint);
+    }
+
+    .field:focus {
+      outline: none;
+      border-color: var(--muted);
     }
 
     .field option {
       background: var(--option-bg);
+      color: var(--fg);
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.4rem;
-      border: 1px solid var(--line-strong);
+      border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.9rem;
+      padding: 0.4rem 0.95rem;
+      font-size: 0.85rem;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .btn:hover:not(:disabled) {
@@ -188,46 +307,118 @@
     }
 
     .btn:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: default;
     }
 
-    .pill {
-      display: inline-block;
+    .btn-sm {
+      padding: 0.3rem 0.75rem;
+      font-size: 0.78rem;
+      gap: 0.3rem;
+    }
+
+    .btn-sm .material-icons {
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--fg);
+      color: var(--on-fg);
+      border-color: var(--fg);
+    }
+
+    .btn-primary:hover:not(:disabled),
+    .btn-active,
+    .btn-active:hover:not(:disabled) {
+      background: var(--fg);
+      color: var(--on-fg);
+      border-color: var(--fg);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+
+    .btn-active .count {
+      color: var(--on-fg);
+      opacity: 0.7;
+    }
+
+    .btn .count {
+      color: var(--faint);
+    }
+
+    .status-menu {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.78rem;
       border-radius: 999px;
-      padding: 0.05rem 0.6rem;
-      font-size: 0.75rem;
-      border: 1px solid var(--line-strong);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.72rem;
       white-space: nowrap;
+      color: var(--neutral-fg);
+      background: var(--neutral-bg);
     }
 
-    .p-high {
-      border-color: var(--high);
-      color: var(--high);
+    .chip-high {
+      color: var(--high-fg);
+      background: var(--high-bg);
     }
 
-    .p-medium {
-      border-color: var(--medium);
-      color: var(--medium);
+    .chip-medium {
+      color: var(--medium-fg);
+      background: var(--medium-bg);
     }
 
-    .p-low {
-      border-color: var(--low);
-      color: var(--low);
+    .chip-low {
+      color: var(--low-fg);
+      background: var(--low-bg);
     }
 
-    .p-avoid {
-      border-color: var(--avoid);
-      color: var(--avoid);
+    .dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: var(--faint);
+      flex: none;
+    }
+
+    .dot-ok {
+      background: var(--ok);
+    }
+
+    .dot-info {
+      background: var(--info);
+    }
+
+    .dot-medium {
+      background: var(--medium-fg);
     }
 
     a.ext {
       text-decoration: underline;
+      text-decoration-color: var(--line);
       text-underline-offset: 3px;
     }
 
     a.ext:hover {
-      color: var(--muted);
+      text-decoration-color: var(--fg);
+    }
+
+    .error-text {
+      color: var(--error);
+    }
+
+    textarea.field {
+      resize: vertical;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
     }
 
     .material-icons.sm {
@@ -304,47 +495,157 @@
       <div class="place-holder"></div>
     </div>
 
-    <div class="content jobs-scroll container md:max-w-5xl mx-auto overflow-y-auto overflow-x-hidden scroll-smooth pb-10">
-      <h1 class="header text-[2.5rem] md:text-[5rem] leading-none mb-8">
-        JOB<span class="title-rule h-[0.15rem] self-center md:h-[0.4rem]"></span>SEARCH
-      </h1>
-
+    <div class="content jobs-scroll overflow-y-auto overflow-x-hidden scroll-smooth pb-10">
       <!-- Signed-out view -->
-      <section id="signedOut">
-        <button id="signInBtn" class="btn" type="button" disabled>
-          <span class="material-icons sm">login</span>Sign in with Google
-        </button>
-        <p id="authMsg" class="mt-4 muted text-sm" role="status"></p>
+      <section id="signedOut" class="h-full flex items-center justify-center">
+        <div class="panel p-8 max-w-sm w-full text-center">
+          <span class="material-icons text-[2rem] faint" aria-hidden="true">lock</span>
+          <p class="mt-3 muted text-sm">Private watchlist.</p>
+          <button id="signInBtn" class="btn btn-primary mt-6" type="button" disabled>
+            <span class="material-icons sm">login</span>Sign in with Google
+          </button>
+          <p id="authMsg" class="mt-4 muted text-sm" role="status"></p>
+        </div>
       </section>
 
       <!-- Signed-in view (filled entirely by script after sign-in) -->
-      <div id="signedIn" class="hidden space-y-10">
-        <div class="flex items-center gap-3">
-          <button id="refreshBtn" class="btn" type="button">
-            <span class="material-icons sm">refresh</span>refresh
-          </button>
-          <span id="loadMsg" class="muted text-sm" role="status"></span>
+      <div id="signedIn" class="hidden">
+        <div class="flex items-end justify-between gap-4 mb-5">
+          <nav id="tabStrip" class="tab-strip relative flex gap-x-6 overflow-x-auto min-w-0" role="tablist" aria-label="Dashboard sections">
+            <button id="tabbtn-overview" class="tab" type="button" role="tab" data-tab="overview">/ overview</button>
+            <button id="tabbtn-companies" class="tab" type="button" role="tab" data-tab="companies">/ companies<span
+                id="count-companies" class="count"></span></button>
+            <button id="tabbtn-news" class="tab" type="button" role="tab" data-tab="news">/ news<span id="count-news"
+                class="count"></span></button>
+            <button id="tabbtn-contracts" class="tab" type="button" role="tab" data-tab="contracts">/ contract &amp;
+              freelance<span id="count-contracts" class="count"></span></button>
+            <button id="tabbtn-documents" class="tab" type="button" role="tab" data-tab="documents">/ documents</button>
+          </nav>
+          <div class="flex items-center gap-3 flex-none">
+            <span id="loadMsg" class="text-xs faint" role="status"></span>
+            <button id="refreshBtn" class="btn" type="button" title="Reload from the sheet"
+              aria-label="Reload from the sheet">
+              <span class="material-icons sm">refresh</span>
+            </button>
+          </div>
         </div>
 
-        <section>
-          <h2 class="section-title">/ summary</h2>
-          <div id="summary" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-        </section>
+        <section id="tab-overview" role="tabpanel" class="space-y-5">
+          <div id="docQuick" class="flex flex-wrap gap-2" aria-label="Documents"></div>
+          <div id="summary" class="grid grid-cols-2 lg:grid-cols-5 gap-3"></div>
 
-        <section>
-          <h2 class="section-title">/ latest findings</h2>
-          <ul id="findings" class="space-y-2"></ul>
-        </section>
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-5 items-start">
+            <!-- Run log feed: first on phones, right-hand column on wide screens -->
+            <ul id="findings" class="panel divided lg:order-2"></ul>
 
-        <section>
-          <h2 class="section-title">/ companies <span id="companyCount" class="muted text-[0.9rem]"></span></h2>
-          <div class="flex flex-col md:flex-row gap-2 mb-4">
-            <input id="search" class="field md:flex-1" type="search" placeholder="search companies, roles, notes"
-              aria-label="Search companies" />
-            <select id="priorityFilter" class="field" aria-label="Filter by priority"></select>
-            <select id="statusFilter" class="field" aria-label="Filter by status"></select>
+            <div class="space-y-3 lg:order-1 min-w-0">
+              <div class="flex flex-col md:flex-row md:items-center gap-2">
+                <input id="search" class="field md:flex-1" type="search" placeholder="Search companies, roles, notes"
+                  aria-label="Search companies" />
+                <div class="flex gap-2">
+                  <select id="priorityFilter" class="field flex-1" aria-label="Filter by priority"></select>
+                  <select id="statusFilter" class="field flex-1" aria-label="Filter by status"></select>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div id="quickFilters" class="flex flex-wrap gap-2" role="group" aria-label="Quick status filters"></div>
+                <div id="companyCount" class="text-xs faint px-1"></div>
+              </div>
+              <ul id="companies" class="space-y-3"></ul>
+            </div>
           </div>
-          <ul id="companies" class="space-y-3"></ul>
+        </section>
+
+        <section id="tab-companies" role="tabpanel" class="space-y-3" hidden>
+          <div class="flex flex-col md:flex-row md:items-center gap-2">
+            <input id="manageSearch" class="field md:flex-1" type="search" placeholder="Search companies"
+              aria-label="Search companies to manage" />
+            <button id="addToggle" class="btn btn-primary" type="button">
+              <span class="material-icons sm">add</span>Add company
+            </button>
+          </div>
+
+          <form id="addForm" class="panel p-4 md:p-5" hidden novalidate>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+              <label class="space-y-1"><span class="label">Company *</span>
+                <input id="addCompany" class="field w-full" type="text" autocomplete="off" required /></label>
+              <label class="space-y-1"><span class="label">Priority</span>
+                <select id="addPriority" class="field w-full"></select></label>
+              <label class="space-y-1"><span class="label">What they do</span>
+                <input id="addWhat" class="field w-full" type="text" autocomplete="off" /></label>
+              <label class="space-y-1"><span class="label">Found via</span>
+                <input id="addFoundVia" class="field w-full" type="text" autocomplete="off" /></label>
+              <label class="space-y-1"><span class="label">Careers page</span>
+                <input id="addCareers" class="field w-full" type="url" placeholder="https://" autocomplete="off" /></label>
+              <label class="space-y-1"><span class="label">Post link</span>
+                <input id="addPost" class="field w-full" type="url" placeholder="https://" autocomplete="off" /></label>
+              <label class="space-y-1"><span class="label">Role seen</span>
+                <input id="addRole" class="field w-full" type="text" autocomplete="off" /></label>
+              <label class="space-y-1"><span class="label">Contact</span>
+                <input id="addContact" class="field w-full" type="text" autocomplete="off" /></label>
+              <label class="space-y-1 md:col-span-2"><span class="label">Notes</span>
+                <input id="addNotes" class="field w-full" type="text" autocomplete="off" /></label>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              <button id="addSave" class="btn btn-primary" type="submit">
+                <span class="material-icons sm">check</span>Save to sheet
+              </button>
+              <button id="addCancel" class="btn" type="button">Cancel</button>
+              <span id="addMsg" class="text-xs" role="status"></span>
+            </div>
+          </form>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs px-1">
+            <span id="manageCount" class="faint"></span>
+            <span id="manageMsg" class="faint" role="status"></span>
+          </div>
+          <ul id="manageList" class="panel divided"></ul>
+        </section>
+
+        <section id="tab-news" role="tabpanel" hidden>
+          <ul id="newsList" class="panel divided"></ul>
+        </section>
+
+        <section id="tab-contracts" role="tabpanel" hidden>
+          <ul id="contractList" class="panel divided"></ul>
+        </section>
+
+        <section id="tab-documents" role="tabpanel" hidden>
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-5 items-start">
+            <div class="space-y-3 min-w-0">
+              <ul id="docList" class="panel divided"></ul>
+              <p class="text-xs faint px-1 wrap">Files live in your Google Drive and are listed in the sheet's Documents
+                tab. To update one, upload a new version in Drive (Manage versions keeps the same link) or paste a new
+                link here.</p>
+            </div>
+
+            <div class="panel p-4 md:p-5 space-y-3 min-w-0">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <label class="space-y-1"><span class="label">Template</span>
+                  <select id="emailTemplate" class="field w-full"></select></label>
+                <label class="space-y-1"><span class="label">Company</span>
+                  <select id="emailCompany" class="field w-full"></select></label>
+                <label class="space-y-1"><span class="label">Industry</span>
+                  <select id="emailIndustry" class="field w-full"></select></label>
+              </div>
+              <div id="emailFields" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+              <label id="subjectRow" class="space-y-1 block"><span class="label">Subject</span>
+                <input id="emailSubject" class="field w-full" type="text" /></label>
+              <label class="space-y-1 block"><span class="label">Body</span>
+                <textarea id="emailBody" class="field w-full" rows="14"></textarea></label>
+              <div class="flex flex-wrap items-center gap-2">
+                <a id="emailGmail" class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="#">
+                  <span class="material-icons sm">send</span>Open in Gmail</a>
+                <button id="printLetter" class="btn btn-primary" type="button" hidden><span
+                    class="material-icons sm">print</span>Print / save PDF</button>
+                <button id="copySubject" class="btn" type="button"><span class="material-icons sm">content_copy</span>Copy
+                  subject</button>
+                <button id="copyBody" class="btn" type="button"><span class="material-icons sm">content_copy</span>Copy
+                  body</button>
+                <span id="emailMsg" class="text-xs faint wrap" role="status"></span>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>
@@ -366,6 +667,28 @@
     const PRIORITIES = ["High", "Medium", "Low", "Avoid"];
     const STATUSES = ["Not checked", "No other openings", "Has other openings", "Applied", "Not interested"];
     const FINDINGS_LIMIT = 15;
+    // Quick filter buttons on the overview ("" = all statuses)
+    const QUICK_FILTERS = [["", "All"], ["Not checked", "Not checked"], ["Applied", "Applied"]];
+    // Statuses that are the outcome of a check, so setting them also stamps Last checked.
+    const CHECK_OUTCOMES = ["Has other openings", "No other openings"];
+    const TABS = ["overview", "companies", "news", "contracts", "documents"];
+    const DOCUMENTS = "Documents";
+    // Documents columns A-H
+    const DOC = { name: 0, kind: 1, link: 2, subject: 3, body: 4, updated: 5, notes: 6, industry: 7 };
+    // Placeholder filled from the Documents "Paragraph" row for the chosen industry
+    const INDUSTRY_SLOT = "industry paragraph";
+    // Guess a company's industry from "What they do" and the role; first match wins.
+    const INDUSTRY_HINTS = [
+      ["Energy tech", /\b(energy|metering|meters?|utilit(y|ies)|electric\w*|solar|power|grid|wheeling|municipal|prepaid|vending)\b/i],
+      ["PropTech", /\b(propert(y|ies)|real estate|rental|tenants?|landlords?|proptech|estate)\b/i],
+      ["Fintech", /\b(payments?|fintech|bank\w*|stablecoin|lending|insur\w*|wallet|cards?|credit|money|remittance)\b/i],
+      ["IoT", /\b(iot|telematics|devices?|sensors?|tracking|fleet|embedded|asset tracking)\b/i],
+      ["Data-intensive", /\b(data|analytics|ingestion|pipelines?|reporting|ml|ai)\b/i],
+    ];
+    // Contract/freelance work: Run log rows typed Contract/Freelance, plus Job rows
+    // whose title or note says so.
+    const CONTRACT_TYPES = ["contract", "freelance"];
+    const CONTRACT_WORDS = /\b(contract|contractor|freelance|freelancer|fixed[- ]term|part[- ]time)\b/i;
 
     // Companies columns A-M
     const COL = {
@@ -377,6 +700,11 @@
     let accessToken = null;
     let companies = [];
     let runLog = [];
+    let docs = [];
+    let docsError = "";
+    const docState = new Map(); // document name -> { editing, saving, error }
+    const emailFill = {}; // placeholder -> value typed on the composer
+    let emailIndustry = "";
     const rowState = new Map(); // company name -> { saving, error }
 
     const $ = (id) => document.getElementById(id);
@@ -428,9 +756,22 @@
       });
     }
 
-    function priorityPill(priority) {
-      const cls = PRIORITIES.includes(priority) ? " p-" + priority.toLowerCase() : "";
-      return el("span", { class: "pill" + cls, text: priority || "No priority" });
+    const PRIORITY_CHIP = { High: "chip chip-high", Medium: "chip chip-medium", Low: "chip chip-low" };
+    const STATUS_DOT = {
+      "Applied": "dot dot-ok",
+      "Has other openings": "dot dot-info",
+      "Not checked": "dot dot-medium",
+    };
+
+    function priorityChip(priority, text) {
+      return el("span", { class: PRIORITY_CHIP[priority] || "chip", text: text || priority || "No priority" });
+    }
+
+    function statusChip(status) {
+      return el("span", { class: "chip" }, [
+        el("span", { class: STATUS_DOT[status] || "dot", attrs: { "aria-hidden": "true" } }),
+        el("span", { text: status }),
+      ]);
     }
 
     function todayIso() {
@@ -520,8 +861,18 @@
       companies = [];
       runLog = [];
       rowState.clear();
-      for (const id of ["summary", "findings", "companies", "companyCount", "loadMsg"]) $(id).replaceChildren();
+      for (const id of ["summary", "findings", "companies", "companyCount", "loadMsg", "newsList", "contractList",
+        "count-companies", "count-news", "count-contracts", "manageList", "manageCount", "manageMsg", "addMsg",
+        "docList", "docQuick", "emailTemplate", "emailCompany", "emailIndustry", "emailFields", "emailMsg"]) $(id).replaceChildren();
+      docs = [];
+      docState.clear();
+      for (const key of Object.keys(emailFill)) delete emailFill[key];
+      emailIndustry = "";
+      $("emailSubject").value = "";
+      $("emailBody").value = "";
       $("search").value = "";
+      $("manageSearch").value = "";
+      closeAddForm();
       $("signedIn").classList.add("hidden");
       $("menuAuthLabel").textContent = "Sign in";
       $("signedOut").classList.remove("hidden");
@@ -583,6 +934,7 @@
         runLog = (logRange && logRange.values || [])
           .map(toLogEntry)
           .filter((e) => e.date || e.company || e.title);
+        await loadDocs();
         $("loadMsg").textContent = "";
         renderAll();
       } catch (err) {
@@ -627,56 +979,104 @@
 
     function renderAll() {
       renderSummary();
-      renderFindings();
+      renderFeeds();
       renderFilters();
       renderCompanies();
+      renderManage();
+      renderDocs();
+      renderComposerOptions();
     }
+
+    // ---- Tabs ----
+
+    function showTab(name) {
+      if (!TABS.includes(name)) name = "overview";
+      for (const t of TABS) {
+        const active = t === name;
+        $("tab-" + t).hidden = !active;
+        $("tabbtn-" + t).classList.toggle("tab-active", active);
+        $("tabbtn-" + t).setAttribute("aria-selected", String(active));
+      }
+      document.querySelector(".jobs-scroll").scrollTop = 0;
+      $("tabStrip").scrollLeft = $("tabbtn-" + name).offsetLeft;
+    }
+
+    for (const t of TABS) {
+      $("tabbtn-" + t).addEventListener("click", () => {
+        history.replaceState(null, "", "#" + t);
+        showTab(t);
+      });
+    }
+
+    showTab(location.hash.slice(1));
 
     function statTile(label, value, extraClass) {
       return el("div", { class: "panel p-4" + (extraClass ? " " + extraClass : "") }, [
-        el("div", { class: "muted text-xs uppercase tracking-widest", text: label }),
-        el("div", { class: "text-[1.4rem] md:text-[1.6rem] mt-1 whitespace-nowrap", text: String(value) }),
+        el("div", { class: "label", text: label }),
+        el("div", { class: "text-[1.5rem] md:text-[1.75rem] mt-1 whitespace-nowrap", text: String(value) }),
       ]);
     }
 
     function renderSummary() {
-      const byPriority = PRIORITIES.map((p) => p + " " + companies.filter((c) => c.priority === p).length);
       const applied = companies.filter((c) => c.status === "Applied").length;
       const openings = companies.filter((c) => c.status === "Has other openings").length;
       const latest = sortedLog()[0];
 
-      const priorityTile = el("div", { class: "panel p-4 col-span-2 md:col-span-1" }, [
-        el("div", { class: "muted text-xs uppercase tracking-widest", text: companies.length + " companies" }),
-        el("div", { class: "flex flex-wrap gap-1 mt-2" }, PRIORITIES.map((p, i) =>
-          el("span", { class: "pill p-" + p.toLowerCase(), text: byPriority[i] }))),
+      const priorityTile = el("div", { class: "panel p-4 col-span-2" }, [
+        el("div", { class: "label", text: companies.length + " companies by priority" }),
+        el("div", { class: "flex flex-wrap gap-1.5 mt-2.5" }, PRIORITIES.map((p) =>
+          priorityChip(p, p + " · " + companies.filter((c) => c.priority === p).length))),
       ]);
 
       $("summary").replaceChildren(
         priorityTile,
         statTile("Applied", applied),
         statTile("Has other openings", openings),
-        statTile("Latest run", latest && latest.date ? latest.date : "—", "col-span-2 md:col-span-1"),
+        statTile("Latest run", latest && latest.date ? latest.date : "—", "col-span-2 lg:col-span-1"),
       );
     }
 
-    function renderFindings() {
-      const entries = sortedLog().slice(0, FINDINGS_LIMIT);
-      if (!entries.length) {
-        $("findings").replaceChildren(el("li", { class: "muted", text: "No run log entries yet." }));
-        return;
-      }
-      $("findings").replaceChildren(...entries.map((e) => {
-        const title = link(e.link, e.title || e.link) || el("span", { text: e.title });
-        const meta = [e.date, e.type, e.company].filter(Boolean).join(" · ");
-        return el("li", { class: "panel p-3" }, [
-          el("div", { class: "flex flex-wrap items-baseline justify-between gap-2" }, [
-            el("span", { class: "muted text-xs wrap", text: meta }),
-            e.fit ? el("span", { class: "pill", text: "Fit " + e.fit + "/10" }) : null,
-          ]),
-          el("div", { class: "mt-1 wrap" }, [title]),
-          e.note ? el("p", { class: "muted text-sm mt-1 wrap", text: e.note }) : null,
-        ]);
-      }));
+    function isNews(e) {
+      return e.type.toLowerCase() === "news";
+    }
+
+    function isContract(e) {
+      const type = e.type.toLowerCase();
+      return CONTRACT_TYPES.includes(type) || (type === "job" && CONTRACT_WORDS.test(e.title + " " + e.note));
+    }
+
+    function feedItem(e) {
+      const title = link(e.link, e.title || e.link) || el("span", { text: e.title });
+      const meta = [e.type, e.company].filter(Boolean).join(" · ");
+      return el("li", { class: "px-4 py-3" }, [
+        el("div", { class: "flex items-baseline justify-between gap-2 text-xs" }, [
+          el("span", { class: "faint wrap", text: meta }),
+          el("span", { class: "faint whitespace-nowrap", text: e.date }),
+        ]),
+        el("div", { class: "mt-1 text-sm wrap" }, [title]),
+        e.note || e.fit ? el("div", { class: "mt-1 flex items-start justify-between gap-2" }, [
+          el("p", { class: "muted text-xs wrap", text: e.note }),
+          e.fit ? el("span", { class: "chip", text: "Fit " + e.fit + "/10" }) : null,
+        ]) : null,
+      ]);
+    }
+
+    function renderFeed(list, entries, emptyText) {
+      list.replaceChildren(...(entries.length
+        ? entries.map(feedItem)
+        : [el("li", { class: "p-4 muted text-sm", text: emptyText })]));
+    }
+
+    function renderFeeds() {
+      const log = sortedLog();
+      const news = log.filter(isNews);
+      const contracts = log.filter(isContract);
+      renderFeed($("findings"), log.slice(0, FINDINGS_LIMIT), "No run log entries yet.");
+      renderFeed($("newsList"), news, "No news in the run log yet.");
+      renderFeed($("contractList"), contracts,
+        "No contract or freelance roles yet. Log them in the Run log with Type \"Contract\" or \"Freelance\".");
+      $("count-news").textContent = news.length;
+      $("count-contracts").textContent = contracts.length;
     }
 
     function fillSelect(select, allLabel, values) {
@@ -712,11 +1112,29 @@
           || a.company.localeCompare(b.company, undefined, { sensitivity: "base" }));
     }
 
+    function renderQuickFilters() {
+      const current = $("statusFilter").value;
+      $("quickFilters").replaceChildren(...QUICK_FILTERS.map(([status, label]) => {
+        const count = status ? companies.filter((c) => c.status === status).length : companies.length;
+        const active = current === status;
+        const btn = el("button", {
+          class: "btn btn-sm" + (active ? " btn-active" : ""),
+          attrs: { type: "button", "aria-pressed": String(active) },
+        }, [el("span", { text: label }), el("span", { class: "count", text: String(count) })]);
+        btn.addEventListener("click", () => {
+          $("statusFilter").value = status;
+          renderCompanies();
+        });
+        return btn;
+      }));
+    }
+
     function renderCompanies() {
+      renderQuickFilters();
       const list = visibleCompanies();
-      $("companyCount").textContent = "(" + list.length + " of " + companies.length + ")";
+      $("companyCount").textContent = list.length + " of " + companies.length + " companies";
       if (!list.length) {
-        $("companies").replaceChildren(el("li", { class: "muted", text: "No companies match." }));
+        $("companies").replaceChildren(el("li", { class: "panel p-4 muted text-sm", text: "No companies match." }));
         return;
       }
       $("companies").replaceChildren(...list.map(companyRow));
@@ -731,40 +1149,568 @@
 
       const links = [link(c.post, "Job post"), link(c.careers, "Careers page")].filter(Boolean);
 
-      const statusSelect = el("select", { class: "field text-sm", attrs: { "aria-label": "Status for " + c.company } });
-      const statusValues = STATUSES.includes(c.status) || !c.status ? STATUSES : STATUSES.concat(c.status);
-      if (!c.status) statusSelect.appendChild(el("option", { text: "No status", attrs: { value: "" } }));
-      for (const s of statusValues) statusSelect.appendChild(el("option", { text: s, attrs: { value: s } }));
-      statusSelect.value = c.status;
-      statusSelect.disabled = !!state.saving;
-      statusSelect.addEventListener("change", () => setStatus(c.company, statusSelect.value));
+      // Card actions: Mark applied and Checked (while still in play), Email, and the status menu.
+      const actionButtons = [];
+      if (c.status !== "Applied" && c.status !== "Not interested") {
+        const applyBtn = el("button", { class: "btn btn-sm btn-primary", attrs: { type: "button" } },
+          [icon("task_alt"), el("span", { text: "Mark applied" })]);
+        applyBtn.disabled = !!state.saving;
+        applyBtn.addEventListener("click", () => markApplied(c.company));
 
-      const applyBtn = el("button", { class: "btn text-sm", attrs: { type: "button" } },
-        [icon("task_alt"), el("span", { text: "Mark applied" })]);
-      applyBtn.disabled = !!state.saving || c.status === "Applied";
-      applyBtn.addEventListener("click", () => markApplied(c.company));
+        const today = todayIso();
+        const checkBtn = el("button", { class: "btn btn-sm", attrs: { type: "button", title: "Set Last checked to today" } },
+          [icon("done"), el("span", { text: c.lastChecked === today ? "Checked today" : "Checked" })]);
+        checkBtn.disabled = !!state.saving || c.lastChecked === today;
+        checkBtn.addEventListener("click", () => markChecked(c.company));
+
+        actionButtons.push(applyBtn, checkBtn);
+      }
+
+      const emailBtn = el("button", { class: "btn btn-sm", attrs: { type: "button", title: "Draft an application email" } },
+        [icon("mail"), el("span", { text: "Email" })]);
+      emailBtn.addEventListener("click", () => draftEmailFor(c.company));
+
+      // Every status change goes through this menu.
+      const statusSelect = el("select", { class: "field status-menu", attrs: { "aria-label": "Change status for " + c.company } });
+      statusSelect.appendChild(el("option", { text: "Change status…", attrs: { value: "" } }));
+      for (const s of STATUSES.filter((x) => x !== c.status)) {
+        statusSelect.appendChild(el("option", { text: s, attrs: { value: s } }));
+      }
+      statusSelect.disabled = !!state.saving;
+      statusSelect.addEventListener("change", () => {
+        const status = statusSelect.value;
+        if (status) setStatus(c.company, status, CHECK_OUTCOMES.includes(status));
+      });
 
       const feedback = state.saving
-        ? el("span", { class: "muted text-sm", text: "Saving…", attrs: { role: "status" } })
+        ? el("span", { class: "faint text-xs", text: "Saving…", attrs: { role: "status" } })
         : state.error
-          ? el("span", { class: "text-sm error-text wrap", text: state.error, attrs: { role: "alert" } })
+          ? el("span", { class: "text-xs error-text wrap", text: state.error, attrs: { role: "alert" } })
           : null;
 
-      return el("li", { class: "panel p-4" }, [
+      const extras = links.concat(
+        c.lastChecked ? [el("span", { class: "faint text-xs", text: "Checked " + c.lastChecked })] : [],
+        c.appliedOn ? [el("span", { class: "faint text-xs", text: "Applied " + c.appliedOn })] : []);
+
+      const details = el("div", { class: "min-w-0 flex-1" }, [
         el("div", { class: "flex flex-wrap items-center gap-2" }, [
-          el("span", { class: "text-[1.15rem] font-normal wrap", text: c.company }),
-          priorityPill(c.priority),
-          c.status ? el("span", { class: "pill", text: c.status }) : null,
+          el("span", { class: "text-[1.1rem] font-normal wrap mr-1", text: c.company }),
+          priorityChip(c.priority),
+          c.status ? statusChip(c.status) : null,
         ]),
+        c.what ? el("p", { class: "mt-1.5 text-sm muted wrap", text: c.what }) : null,
         c.role ? el("p", { class: "mt-2 text-sm wrap" }, [
-          el("span", { class: "muted", text: "Role seen: " }), el("span", { text: c.role }),
+          el("span", { class: "faint", text: "Role seen: " }), el("span", { text: c.role }),
         ]) : null,
-        c.what ? el("p", { class: "mt-1 text-sm muted wrap", text: c.what }) : null,
-        c.appliedOn ? el("p", { class: "mt-1 text-sm muted", text: "Applied on " + c.appliedOn }) : null,
-        links.length ? el("div", { class: "mt-2 flex flex-wrap gap-4 text-sm" }, links) : null,
-        el("div", { class: "mt-3 flex flex-wrap items-center gap-2" }, [statusSelect, applyBtn, feedback]),
+        extras.length ? el("div", { class: "mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" }, extras) : null,
+      ]);
+
+      const actions = el("div", { class: "flex flex-col gap-1.5 pt-3 border-t", attrs: { style: "border-color: var(--divider)" } }, [
+        el("div", { class: "flex flex-wrap items-center gap-1.5" },
+          actionButtons.concat([emailBtn, statusSelect])),
+        feedback,
+      ]);
+
+      return el("li", { class: "panel company-card p-4 flex flex-col gap-3" }, [details, actions]);
+    }
+
+    // ---- Companies tab: manage the sheet's company list ----
+
+    function companySite(c) {
+      const careers = safeUrl(c.careers);
+      if (careers) return { url: careers, label: "Visit site" };
+      return { url: "https://www.google.com/search?q=" + encodeURIComponent(c.company), label: "Search web" };
+    }
+
+    function byName(a, b) {
+      return a.company.localeCompare(b.company, undefined, { sensitivity: "base" });
+    }
+
+    function renderManage() {
+      const q = $("manageSearch").value.trim().toLowerCase();
+      const list = companies
+        .filter((c) => !q || [c.company, c.what, c.foundVia, c.contact].some((v) => v.toLowerCase().includes(q)))
+        .sort(byName);
+      $("count-companies").textContent = companies.length;
+      $("manageCount").textContent = list.length + " of " + companies.length + " companies";
+      $("manageList").replaceChildren(...(list.length
+        ? list.map(manageRow)
+        : [el("li", { class: "p-4 muted text-sm", text: companies.length ? "No companies match." : "No companies yet." })]));
+    }
+
+    $("manageSearch").addEventListener("input", renderManage);
+
+    function manageRow(c) {
+      const state = rowState.get(c.company) || {};
+      const site = companySite(c);
+
+      const name = el("a", {
+        class: "text-[1.05rem] font-normal wrap hover:underline",
+        text: c.company,
+        attrs: { href: site.url, target: "_blank", rel: "noopener noreferrer", title: site.label },
+      });
+
+      const prioritySelect = el("select", { class: "field text-sm", attrs: { "aria-label": "Priority for " + c.company } });
+      const priorityValues = PRIORITIES.includes(c.priority) || !c.priority ? PRIORITIES : PRIORITIES.concat(c.priority);
+      if (!c.priority) prioritySelect.appendChild(el("option", { text: "No priority", attrs: { value: "" } }));
+      for (const v of priorityValues) prioritySelect.appendChild(el("option", { text: v, attrs: { value: v } }));
+      prioritySelect.value = c.priority;
+      prioritySelect.disabled = !!state.saving;
+      prioritySelect.addEventListener("change", () => setPriority(c.company, prioritySelect.value));
+
+      const visit = el("a", {
+        class: "btn",
+        attrs: { href: site.url, target: "_blank", rel: "noopener noreferrer" },
+      }, [icon("open_in_new"), el("span", { text: site.label })]);
+
+      const meta = [c.foundVia && "Found via " + c.foundVia, c.contact && "Contact: " + c.contact,
+      c.lastChecked && "Checked " + c.lastChecked].filter(Boolean).join(" · ");
+
+      const feedback = state.saving
+        ? el("span", { class: "faint text-xs", text: "Saving…", attrs: { role: "status" } })
+        : state.error
+          ? el("span", { class: "text-xs error-text wrap", text: state.error, attrs: { role: "alert" } })
+          : null;
+
+      return el("li", { class: "px-4 py-3 flex flex-col md:flex-row md:items-center gap-3" }, [
+        el("div", { class: "min-w-0 flex-1" }, [
+          el("div", { class: "flex flex-wrap items-center gap-2" }, [name, c.status ? statusChip(c.status) : null]),
+          c.what ? el("p", { class: "mt-1 text-sm muted wrap", text: c.what }) : null,
+          meta ? el("p", { class: "mt-1 text-xs faint wrap", text: meta }) : null,
+          feedback,
+        ]),
+        el("div", { class: "flex items-center gap-2 flex-none" }, [prioritySelect, visit]),
       ]);
     }
+
+    function openAddForm() {
+      $("addForm").hidden = false;
+      $("addToggle").disabled = true;
+      $("addMsg").textContent = "";
+      $("manageMsg").textContent = "";
+      $("addCompany").focus();
+    }
+
+    function closeAddForm() {
+      $("addForm").reset();
+      $("addForm").hidden = true;
+      $("addToggle").disabled = false;
+    }
+
+    fillSelect($("addPriority"), "No priority", PRIORITIES);
+    $("addToggle").addEventListener("click", openAddForm);
+    $("addCancel").addEventListener("click", closeAddForm);
+
+    function showAddMessage(text, isError) {
+      $("addMsg").textContent = text;
+      $("addMsg").className = "text-xs " + (isError ? "error-text" : "faint");
+    }
+
+    $("addForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const value = (id) => $(id).value.trim();
+      const company = value("addCompany");
+      const careers = value("addCareers");
+      const post = value("addPost");
+
+      if (!company) return showAddMessage("Company name is required.", true);
+      if ((careers && !safeUrl(careers)) || (post && !safeUrl(post))) {
+        return showAddMessage("Links must start with https:// or http://.", true);
+      }
+
+      const row = new Array(13).fill("");
+      row[COL.company] = company;
+      row[COL.priority] = $("addPriority").value;
+      row[COL.status] = "Not checked";
+      row[COL.role] = value("addRole");
+      row[COL.what] = value("addWhat");
+      row[COL.foundVia] = value("addFoundVia");
+      row[COL.post] = post;
+      row[COL.contact] = value("addContact");
+      row[COL.careers] = careers;
+      row[COL.notes] = value("addNotes");
+
+      $("addSave").disabled = true;
+      showAddMessage("Saving…", false);
+      try {
+        // Re-read names right before writing: other tools may have added it meanwhile.
+        const names = await getRange(quoted(COMPANIES) + "!A:A");
+        const exists = names.slice(1).some((r) => String(r[0] || "").trim().toLowerCase() === company.toLowerCase());
+        if (exists) throw new Error("\"" + company + "\" is already in the sheet.");
+        await api("/values/" + encodeURIComponent(quoted(COMPANIES) + "!A:M") +
+          ":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS", {
+          method: "POST",
+          body: JSON.stringify({ values: [row] }),
+        });
+        closeAddForm();
+        await loadAll();
+        $("manageMsg").textContent = "Added " + company + ".";
+      } catch (err) {
+        if (accessToken) showAddMessage(err.message, true);
+      } finally {
+        $("addSave").disabled = false;
+      }
+    });
+
+    // ---- Documents tab: CV / cover letters in Drive, email templates in the sheet ----
+
+    async function loadDocs() {
+      try {
+        const rows = await getRange(quoted(DOCUMENTS) + "!A2:H");
+        docs = rows.map((row) => {
+          const d = {};
+          for (const [key, i] of Object.entries(DOC)) d[key] = row[i] == null ? "" : String(row[i]);
+          d.name = d.name.trim();
+          d.kind = d.kind.trim();
+          d.industry = d.industry.trim();
+          return d;
+        }).filter((d) => d.name);
+        docsError = "";
+      } catch (err) {
+        if (!accessToken) throw err;
+        docs = [];
+        docsError = "Couldn't read the Documents tab: " + err.message;
+      }
+    }
+
+    function isParagraph(d) {
+      return d.kind.toLowerCase() === "paragraph";
+    }
+
+    // Text templates (emails and text cover letters) are written in the Body column.
+    function isTextTemplate(d) {
+      return !isParagraph(d) && d.body.trim() !== "";
+    }
+
+    function isEmailDoc(d) {
+      return isTextTemplate(d) && d.kind.toLowerCase() === "email";
+    }
+
+    // Direct download link for Drive files and Google Docs; null when the link is something else.
+    function downloadUrl(d) {
+      const url = safeUrl(d.link);
+      if (!url) return null;
+      let m = url.match(/^https:\/\/docs\.google\.com\/document\/d\/([\w-]+)/);
+      if (m) return "https://docs.google.com/document/d/" + m[1] + "/export?format=" + (d.kind === "CV" ? "pdf" : "docx");
+      m = url.match(/^https:\/\/drive\.google\.com\/file\/d\/([\w-]+)/) || url.match(/^https:\/\/drive\.google\.com\/open\?id=([\w-]+)/);
+      if (m) return "https://drive.google.com/uc?export=download&id=" + m[1];
+      return null;
+    }
+
+    function extLink(url, label, iconName, extraClass) {
+      return el("a", {
+        class: "btn btn-sm" + (extraClass ? " " + extraClass : ""),
+        attrs: { href: url, target: "_blank", rel: "noopener noreferrer" },
+      }, [icon(iconName), el("span", { text: label })]);
+    }
+
+    function goToTab(name) {
+      history.replaceState(null, "", "#" + name);
+      showTab(name);
+    }
+
+    function renderDocQuick() {
+      const cv = docs.find((d) => d.kind === "CV");
+      const cvUrl = cv && (downloadUrl(cv) || safeUrl(cv.link));
+      const items = [];
+      if (cvUrl) {
+        items.push(extLink(cvUrl, "Download CV", "download", "btn-primary"));
+      } else {
+        const add = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon("upload_file"), el("span", { text: "Add CV link" })]);
+        add.addEventListener("click", () => {
+          if (cv) docState.set(cv.name, { editing: true });
+          goToTab("documents");
+          renderDocs();
+        });
+        items.push(add);
+      }
+      for (const [label, iconName, letter] of [["Cover letters", "description", true], ["Email template", "mail", false]]) {
+        const btn = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon(iconName), el("span", { text: label })]);
+        btn.addEventListener("click", () => {
+          goToTab("documents");
+          const t = docs.filter(isTextTemplate).find((d) => isLetter(d) === letter);
+          if (t) {
+            $("emailTemplate").value = t.name;
+            renderComposer();
+          }
+        });
+        items.push(btn);
+      }
+      $("docQuick").replaceChildren(...items);
+    }
+
+    function renderDocs() {
+      renderDocQuick();
+      const files = docs.filter((d) => !isTextTemplate(d) && !isParagraph(d));
+      if (docsError) {
+        $("docList").replaceChildren(el("li", { class: "p-4 text-sm error-text wrap", text: docsError }));
+        return;
+      }
+      $("docList").replaceChildren(...(files.length
+        ? files.map(docRow)
+        : [el("li", { class: "p-4 muted text-sm", text: "No documents yet. Add rows to the sheet's Documents tab." })]));
+    }
+
+    function docRow(d) {
+      const state = docState.get(d.name) || {};
+      const open = safeUrl(d.link);
+      const download = downloadUrl(d);
+
+      const actions = [];
+      if (open) actions.push(extLink(open, "Open", "open_in_new"));
+      if (download) actions.push(extLink(download, "Download", "download"));
+      if (!state.editing) {
+        const edit = el("button", { class: "btn btn-sm" + (open ? "" : " btn-primary"), attrs: { type: "button" } },
+          [icon(open ? "edit" : "add_link"), el("span", { text: open ? "Update link" : "Add link" })]);
+        edit.disabled = !!state.saving;
+        edit.addEventListener("click", () => {
+          docState.set(d.name, { editing: true });
+          renderDocs();
+        });
+        actions.push(edit);
+      }
+
+      let editor = null;
+      if (state.editing) {
+        const input = el("input", {
+          class: "field w-full text-sm",
+          attrs: { type: "url", placeholder: "https://drive.google.com/…", "aria-label": "Link for " + d.name },
+        });
+        input.value = d.link;
+        const save = el("button", { class: "btn btn-sm btn-primary", attrs: { type: "button" } }, [el("span", { text: "Save" })]);
+        const cancel = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [el("span", { text: "Cancel" })]);
+        save.disabled = !!state.saving;
+        save.addEventListener("click", () => setDocLink(d.name, input.value.trim()));
+        cancel.addEventListener("click", () => {
+          docState.delete(d.name);
+          renderDocs();
+        });
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") setDocLink(d.name, input.value.trim());
+        });
+        editor = el("div", { class: "mt-2 flex flex-col sm:flex-row gap-2" }, [
+          input, el("div", { class: "flex gap-2 flex-none" }, [save, cancel]),
+        ]);
+        setTimeout(() => input.focus(), 0);
+      }
+
+      const feedback = state.saving
+        ? el("p", { class: "mt-1 faint text-xs", text: "Saving…", attrs: { role: "status" } })
+        : state.error
+          ? el("p", { class: "mt-1 text-xs error-text wrap", text: state.error, attrs: { role: "alert" } })
+          : null;
+
+      return el("li", { class: "px-4 py-3" }, [
+        el("div", { class: "flex flex-wrap items-center gap-2" }, [
+          el("span", { class: "font-normal wrap", text: d.name }),
+          el("span", { class: "chip", text: d.kind || "Document" }),
+          d.updated ? el("span", { class: "faint text-xs", text: "Updated " + d.updated }) : null,
+        ]),
+        d.notes ? el("p", { class: "mt-1 muted text-xs wrap", text: d.notes }) : null,
+        actions.length ? el("div", { class: "mt-2 flex flex-wrap gap-1.5" }, actions) : null,
+        editor,
+        feedback,
+      ]);
+    }
+
+    async function setDocLink(name, link) {
+      if (link && !safeUrl(link)) {
+        docState.set(name, { editing: true, error: "Links must start with https:// or http://." });
+        return renderDocs();
+      }
+      docState.set(name, { editing: true, saving: true });
+      renderDocs();
+      try {
+        // Re-read names first: the sheet may have been edited or re-sorted.
+        const rows = await getRange(quoted(DOCUMENTS) + "!A:A");
+        const matches = [];
+        rows.forEach((row, i) => {
+          if (i > 0 && String(row[0] || "").trim() === name) matches.push(i + 1);
+        });
+        if (matches.length !== 1) {
+          throw new Error(matches.length ? "\"" + name + "\" appears more than once in Documents."
+            : "\"" + name + "\" is no longer in Documents. Refresh and try again.");
+        }
+        const today = todayIso();
+        await api("/values:batchUpdate", {
+          method: "POST",
+          body: JSON.stringify({
+            valueInputOption: "RAW",
+            data: [
+              { range: quoted(DOCUMENTS) + "!C" + matches[0], values: [[link]] },
+              { range: quoted(DOCUMENTS) + "!F" + matches[0], values: [[today]] },
+            ],
+          }),
+        });
+        const d = docs.find((x) => x.name === name);
+        if (d) Object.assign(d, { link, updated: today });
+        docState.delete(name);
+      } catch (err) {
+        if (!accessToken) return;
+        docState.set(name, { editing: true, error: err.message });
+      }
+      renderDocs();
+    }
+
+    // ---- Email / cover letter composer ----
+
+    function placeholders(text) {
+      return [...new Set([...text.matchAll(/\[([^\]\n]+)\]/g)].map((m) => m[1]))];
+    }
+
+    function industryParagraph() {
+      const para = docs.find((d) => isParagraph(d) && d.industry === emailIndustry);
+      return para ? para.body.trim() : "";
+    }
+
+    // Insert the industry paragraph first so its own [placeholders] get filled too.
+    function expandTemplate(text) {
+      return text.replace("[" + INDUSTRY_SLOT + "]", () => industryParagraph() || "[" + INDUSTRY_SLOT + "]");
+    }
+
+    function fillTemplate(text) {
+      return expandTemplate(text).replace(/\[([^\]\n]+)\]/g,
+        (whole, key) => (key === INDUSTRY_SLOT ? "" : (emailFill[key] || "").trim()) || whole);
+    }
+
+    function currentTemplate() {
+      return docs.filter(isTextTemplate).find((d) => d.name === $("emailTemplate").value);
+    }
+
+    function isLetter(t) {
+      return t && t.kind.toLowerCase() !== "email";
+    }
+
+    function guessIndustry(c) {
+      const text = [c.what, c.role, c.company].join(" ");
+      const hit = INDUSTRY_HINTS.find(([, re]) => re.test(text));
+      return hit ? hit[0] : "";
+    }
+
+    function renderComposerOptions() {
+      const templates = docs.filter(isTextTemplate);
+      const keepTemplate = $("emailTemplate").value;
+      $("emailTemplate").replaceChildren(...(templates.length
+        ? templates.map((d) => el("option", { text: d.name, attrs: { value: d.name } }))
+        : [el("option", { text: "No templates in Documents", attrs: { value: "" } })]));
+      if (templates.some((d) => d.name === keepTemplate)) $("emailTemplate").value = keepTemplate;
+
+      const keepCompany = $("emailCompany").value;
+      $("emailCompany").replaceChildren(el("option", { text: "Choose a company…", attrs: { value: "" } }),
+        ...[...companies].sort(byName).map((c) => el("option", { text: c.company, attrs: { value: c.company } })));
+      if (companies.some((c) => c.company === keepCompany)) $("emailCompany").value = keepCompany;
+
+      const industries = [...new Set(docs.filter(isParagraph).map((d) => d.industry).filter(Boolean))];
+      $("emailIndustry").replaceChildren(el("option", { text: "Choose an industry…", attrs: { value: "" } }),
+        ...industries.map((i) => el("option", { text: i, attrs: { value: i } })));
+      if (!industries.includes(emailIndustry)) emailIndustry = "";
+      $("emailIndustry").value = emailIndustry;
+      renderComposer();
+    }
+
+    function renderComposer() {
+      const t = currentTemplate();
+      const letter = isLetter(t);
+      $("subjectRow").hidden = letter;
+      $("emailGmail").hidden = letter;
+      $("copySubject").hidden = letter;
+      $("printLetter").hidden = !letter;
+      $("copyBody").lastChild.textContent = letter ? "Copy letter" : "Copy body";
+
+      const keys = t ? placeholders(expandTemplate(t.subject + "\n" + t.body)).filter((k) => k !== INDUSTRY_SLOT) : [];
+      $("emailFields").replaceChildren(...keys.map((key) => {
+        const input = el("input", { class: "field w-full", attrs: { type: "text", autocomplete: "off" } });
+        input.value = emailFill[key] || "";
+        input.addEventListener("input", () => {
+          emailFill[key] = input.value;
+          updateEmailText();
+        });
+        return el("label", { class: "space-y-1" }, [el("span", { class: "label", text: key }), input]);
+      }));
+      updateEmailText();
+    }
+
+    function updateEmailText() {
+      const t = currentTemplate();
+      $("emailSubject").value = t ? fillTemplate(t.subject) : "";
+      $("emailBody").value = t ? fillTemplate(t.body) : "";
+      updateEmailActions();
+    }
+
+    function updateEmailActions() {
+      const subject = isLetter(currentTemplate()) ? "" : $("emailSubject").value;
+      const body = $("emailBody").value;
+      $("emailGmail").href = "https://mail.google.com/mail/?view=cm&fs=1&su=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+      const left = placeholders(subject + "\n" + body).map((k) => k === INDUSTRY_SLOT ? "industry" : "[" + k + "]");
+      $("emailMsg").className = "text-xs wrap " + (left.length ? "error-text" : "faint");
+      $("emailMsg").textContent = left.length ? "Still to fill: " + left.join(", ") : "";
+    }
+
+    function setIndustry(industry) {
+      emailIndustry = industry;
+      $("emailIndustry").value = industry;
+      renderComposer();
+    }
+
+    // Opens the letter on a plain page and starts the browser's print dialog (Save as PDF).
+    function printLetter() {
+      const company = $("emailCompany").value;
+      const w = window.open("", "_blank");
+      if (!w) {
+        $("emailMsg").className = "text-xs error-text";
+        $("emailMsg").textContent = "Allow pop-ups for this site to print the letter.";
+        return;
+      }
+      w.document.title = "Isaac Mogano - Cover letter" + (company ? " - " + company : "");
+      const style = w.document.createElement("style");
+      style.textContent = "body{font-family:Georgia,'Times New Roman',serif;font-size:11.5pt;line-height:1.5;" +
+        "color:#111;max-width:42rem;margin:2.5rem auto;padding:0 1.5rem;white-space:pre-wrap}" +
+        "@page{margin:2cm}@media print{body{margin:0;padding:0}}";
+      w.document.head.appendChild(style);
+      w.document.body.textContent = $("emailBody").value;
+      w.focus();
+      w.print();
+    }
+
+    $("printLetter").addEventListener("click", printLetter);
+    $("emailIndustry").addEventListener("change", () => setIndustry($("emailIndustry").value));
+
+    function pickCompany(name) {
+      const c = companies.find((x) => x.company === name);
+      emailFill.Company = name;
+      const role = c && c.role && !/^no role/i.test(c.role) ? c.role : "";
+      for (const key of ["job title", "Job title", "Role", "role"]) emailFill[key] = role;
+      const guess = c ? guessIndustry(c) : "";
+      if (guess && [...$("emailIndustry").options].some((o) => o.value === guess)) emailIndustry = guess;
+      $("emailIndustry").value = emailIndustry;
+      renderComposer();
+    }
+
+    function draftEmailFor(name) {
+      goToTab("documents");
+      $("emailCompany").value = name;
+      pickCompany(name);
+    }
+
+    $("emailTemplate").addEventListener("change", renderComposer);
+    $("emailCompany").addEventListener("change", () => pickCompany($("emailCompany").value));
+    $("emailSubject").addEventListener("input", updateEmailActions);
+    $("emailBody").addEventListener("input", updateEmailActions);
+
+    async function copyText(text, what) {
+      try {
+        await navigator.clipboard.writeText(text);
+        $("emailMsg").className = "text-xs faint";
+        $("emailMsg").textContent = "Copied " + what + ".";
+      } catch (err) {
+        $("emailMsg").className = "text-xs error-text";
+        $("emailMsg").textContent = "Couldn't copy; select the text and copy it manually.";
+      }
+    }
+
+    $("copySubject").addEventListener("click", () => copyText($("emailSubject").value, "subject"));
+    $("copyBody").addEventListener("click", () => copyText($("emailBody").value, "body"));
 
     // ---- Writes ----
     // Other tools edit and re-sort this sheet, so every write re-reads it and
@@ -798,6 +1744,7 @@
     async function withRowSave(company, work) {
       rowState.set(company, { saving: true });
       renderCompanies();
+      renderManage();
       try {
         await work();
         rowState.delete(company);
@@ -807,14 +1754,37 @@
       }
       renderSummary();
       renderCompanies();
+      renderManage();
     }
 
-    function setStatus(company, status) {
+    function setPriority(company, priority) {
       return withRowSave(company, async () => {
         const { rowNumber } = await findRow(company);
-        await writeCells([[cellRef("C", rowNumber), status]]);
+        await writeCells([[cellRef("B", rowNumber), priority]]);
         const c = companies.find((x) => x.company === company);
-        if (c) c.status = status;
+        if (c) c.priority = priority;
+      });
+    }
+
+    function setStatus(company, status, checked) {
+      return withRowSave(company, async () => {
+        const { rowNumber } = await findRow(company);
+        const today = todayIso();
+        const updates = [[cellRef("C", rowNumber), status]];
+        if (checked) updates.push([cellRef("K", rowNumber), today]);
+        await writeCells(updates);
+        const c = companies.find((x) => x.company === company);
+        if (c) Object.assign(c, checked ? { status, lastChecked: today } : { status });
+      });
+    }
+
+    function markChecked(company) {
+      return withRowSave(company, async () => {
+        const { rowNumber } = await findRow(company);
+        const today = todayIso();
+        await writeCells([[cellRef("K", rowNumber), today]]);
+        const c = companies.find((x) => x.company === company);
+        if (c) c.lastChecked = today;
       });
     }
 
