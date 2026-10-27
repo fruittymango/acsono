@@ -413,6 +413,76 @@
       color: var(--fg);
     }
 
+    /* Searchable dropdowns in the composer */
+    .combo {
+      position: relative;
+    }
+
+    .combo-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .combo-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .combo-btn > span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .combo-btn .material-icons {
+      color: var(--faint);
+      flex: none;
+    }
+
+    .combo-pop {
+      position: absolute;
+      z-index: 30;
+      left: 0;
+      right: 0;
+      top: calc(100% + 0.35rem);
+      padding: 0.4rem;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      background: var(--option-bg);
+      box-shadow: var(--main-shadow);
+    }
+
+    .combo-list {
+      max-height: 15rem;
+      overflow-y: auto;
+      margin-top: 0.35rem;
+    }
+
+    .combo-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 0.5rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .combo-list li.is-active {
+      background: var(--hover);
+    }
+
+    .combo-list li.combo-empty {
+      color: var(--faint);
+      cursor: default;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -766,18 +836,17 @@
             <div class="space-y-3 min-w-0">
               <ul id="docList" class="panel divided"></ul>
               <p class="text-xs faint px-1 wrap">Files live in your Google Drive and are listed in the sheet's Documents
-                tab. To update one, upload a new version in Drive (Manage versions keeps the same link) or paste a new
-                link here.</p>
+                tab. Upload CV saves the file to your Drive; uploading again replaces that file and keeps its link.</p>
             </div>
 
             <div class="panel p-4 md:p-5 space-y-3 min-w-0">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <label class="space-y-1"><span class="label">Template</span>
-                  <select id="emailTemplate" class="field w-full"></select></label>
-                <label class="space-y-1"><span class="label">Company</span>
-                  <select id="emailCompany" class="field w-full"></select></label>
-                <label class="space-y-1"><span class="label">Industry</span>
-                  <select id="emailIndustry" class="field w-full"></select></label>
+                <div class="space-y-1 min-w-0"><span id="emailTemplateLabel" class="label">Template</span>
+                  <select id="emailTemplate" class="field w-full" aria-labelledby="emailTemplateLabel"></select></div>
+                <div class="space-y-1 min-w-0"><span id="emailCompanyLabel" class="label">Company</span>
+                  <select id="emailCompany" class="field w-full" aria-labelledby="emailCompanyLabel"></select></div>
+                <div class="space-y-1 min-w-0"><span id="emailIndustryLabel" class="label">Industry</span>
+                  <select id="emailIndustry" class="field w-full" aria-labelledby="emailIndustryLabel"></select></div>
               </div>
               <p id="templateNotes" class="text-xs muted wrap" hidden></p>
               <div id="emailFields" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
@@ -823,7 +892,11 @@
     // =======================================================================
 
     const SHEET_ID = "1PAIOjM6jF4UqJdmjUUZQJBcp0Zejwf2XtxVwNyIUM9M";
-    const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
+    // drive.file only reaches files this page uploads (used for the CV), not the rest of Drive.
+    const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+    const SCOPE = "https://www.googleapis.com/auth/spreadsheets " + DRIVE_SCOPE;
+    const DRIVE_UPLOAD = "https://www.googleapis.com/upload/drive/v3/files";
+    const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // simple multipart upload limit
     const API = "https://sheets.googleapis.com/v4/spreadsheets/" + SHEET_ID;
     const COMPANIES = "Companies";
     const RUN_LOG = "Run log";
@@ -864,6 +937,7 @@
 
     let tokenClient = null;
     let accessToken = null;
+    let driveGranted = false;
     let companies = [];
     let runLog = [];
     let docs = [];
@@ -1005,10 +1079,21 @@
             setAuthMessage("Sign-in failed: " + resp.error, "error");
             return;
           }
+          // Google lets people untick Drive on the consent screen; uploads then ask again.
+          driveGranted = google.accounts.oauth2.hasGrantedAllScopes(resp, DRIVE_SCOPE);
+          const reconnecting = !!accessToken;
           accessToken = resp.access_token;
           setAuthMessage("");
           showSignedIn();
-          loadAll();
+          if (!reconnecting) return loadAll();
+          for (const [name, state] of docState) {
+            if (!state.note) continue;
+            docState.set(name, {
+              note: driveGranted ? "Drive access allowed. Press Upload CV to choose your file."
+                : "Drive access wasn't allowed, so the CV can't be uploaded.",
+            });
+          }
+          renderDocs();
         },
         error_callback: (err) => {
           setSignInBusy(false);
@@ -1045,6 +1130,7 @@
 
     function signOut(message) {
       accessToken = null;
+      driveGranted = false;
       loaded = false;
       companies = [];
       runLog = [];
@@ -1689,7 +1775,7 @@
         });
         items.push(add);
       }
-      for (const [label, iconName, letter] of [["Cover letters", "description", true], ["Email template", "mail", false]]) {
+      for (const [label, iconName, letter] of [["Cover letter", "description", true], ["Email template", "mail", false]]) {
         const btn = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon(iconName), el("span", { text: label })]);
         btn.addEventListener("click", () => {
           goToTab("documents");
@@ -1707,7 +1793,8 @@
 
     function renderDocs() {
       renderDocQuick();
-      const files = docs.filter((d) => !isTextTemplate(d) && !isParagraph(d));
+      // Cover letters come from the template in the composer, never from an uploaded file.
+      const files = docs.filter((d) => !isTextTemplate(d) && !isParagraph(d) && d.kind.toLowerCase() !== "cover letter");
       if (docsError) {
         $("docList").replaceChildren(el("li", { class: "p-4 text-sm error-text wrap", text: docsError }));
         return;
@@ -1735,6 +1822,25 @@
         });
         actions.push(edit);
       }
+      if (d.kind.toLowerCase() === "cv" && !state.editing) {
+        const picker = el("input", { attrs: { type: "file", accept: ".pdf,.doc,.docx,application/pdf", hidden: "" } });
+        picker.addEventListener("change", () => {
+          if (picker.files[0]) uploadDoc(d.name, picker.files[0]);
+        });
+        const upload = el("button", { class: "btn btn-sm" + (open ? "" : " btn-primary"), attrs: { type: "button" } },
+          [icon("upload_file"), el("span", { text: "Upload CV" })]);
+        upload.disabled = !!(state.saving || state.uploading);
+        upload.addEventListener("click", () => {
+          if (driveGranted) {
+            picker.click();
+            return;
+          }
+          docState.set(d.name, { note: "Allow Google Drive access in the window that opens, then press Upload CV again." });
+          renderDocs();
+          tokenClient.requestAccessToken({ prompt: "consent" });
+        });
+        actions.push(upload, picker);
+      }
 
       let editor = null;
       if (state.editing) {
@@ -1760,11 +1866,13 @@
         setTimeout(() => input.focus(), 0);
       }
 
-      const feedback = state.saving
-        ? el("p", { class: "mt-1 faint text-xs", text: "Saving…", attrs: { role: "status" } })
+      const feedback = state.saving || state.uploading
+        ? el("p", { class: "mt-1 faint text-xs", text: state.uploading ? "Uploading to Google Drive…" : "Saving…", attrs: { role: "status" } })
         : state.error
           ? el("p", { class: "mt-1 text-xs error-text wrap", text: state.error, attrs: { role: "alert" } })
-          : null;
+          : state.note
+            ? el("p", { class: "mt-1 faint text-xs wrap", text: state.note, attrs: { role: "status" } })
+            : null;
 
       return el("li", { class: "px-4 py-3" }, [
         el("div", { class: "flex flex-wrap items-center gap-2" }, [
@@ -1777,6 +1885,74 @@
         editor,
         feedback,
       ]);
+    }
+
+    function driveFileId(link) {
+      const m = /\/d\/([\w-]{10,})/.exec(link || "") || /[?&]id=([\w-]{10,})/.exec(link || "");
+      return m ? m[1] : null;
+    }
+
+    // Multipart upload: creates a file, or replaces the contents of file `id`. Returns null when
+    // `id` can't be replaced (drive.file only reaches files this page uploaded itself).
+    async function driveUpload(file, id) {
+      if (!accessToken) throw new ApiError("Not signed in.");
+      const type = file.type || "application/octet-stream";
+      const boundary = "jobs-" + Math.random().toString(36).slice(2);
+      const meta = id ? { name: file.name } : { name: file.name, mimeType: type };
+      const body = new Blob([
+        "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + JSON.stringify(meta) + "\r\n",
+        "--" + boundary + "\r\nContent-Type: " + type + "\r\n\r\n", file,
+        "\r\n--" + boundary + "--",
+      ]);
+      const res = await fetch(DRIVE_UPLOAD + (id ? "/" + encodeURIComponent(id) : "") +
+        "?uploadType=multipart&fields=id,webViewLink", {
+        method: id ? "PATCH" : "POST",
+        headers: { Authorization: "Bearer " + accessToken, "Content-Type": "multipart/related; boundary=" + boundary },
+        body,
+      });
+      if (res.status === 401) {
+        signOut("Your session expired. Sign in again.");
+        throw new ApiError("Session expired.");
+      }
+      if (id && (res.status === 403 || res.status === 404)) return null;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const detail = data.error && data.error.message ? ": " + data.error.message : ".";
+        throw new ApiError("Google Drive refused the upload (" + res.status + ")" + detail);
+      }
+      return res.json();
+    }
+
+    // Uploads a file to Drive and points the Documents row at it. A file this page uploaded
+    // before is replaced in place, so its link stays the same.
+    async function uploadDoc(name, file) {
+      if (file.size > MAX_UPLOAD_BYTES) {
+        docState.set(name, { error: "That file is over 5 MB. Choose a smaller PDF." });
+        return renderDocs();
+      }
+      docState.set(name, { uploading: true });
+      renderDocs();
+      try {
+        const d = docs.find((x) => x.name === name);
+        const id = d && driveFileId(d.link);
+        const uploaded = (id && await driveUpload(file, id)) || await driveUpload(file);
+        const link = uploaded.webViewLink || "https://drive.google.com/file/d/" + uploaded.id + "/view";
+        const row = await findDocRow(name);
+        const today = todayIso();
+        await writeCells([
+          [quoted(DOCUMENTS) + "!C" + row, link],
+          [quoted(DOCUMENTS) + "!F" + row, today],
+        ]);
+        if (d) Object.assign(d, { link, updated: today });
+        docState.set(name, {
+          note: uploaded.id === id ? "Replaced the file in your Google Drive with " + file.name + "; the link is unchanged."
+            : "Uploaded " + file.name + " to your Google Drive.",
+        });
+      } catch (err) {
+        if (!accessToken) return;
+        docState.set(name, { error: err.message });
+      }
+      renderDocs();
     }
 
     // Re-reads names first: the sheet may have been edited or re-sorted.
@@ -1816,6 +1992,137 @@
       }
       renderDocs();
     }
+
+    // ---- Searchable dropdowns ----
+    // Each composer <select> stays the source of truth (the code reads and sets its value and
+    // options); a button with a search popover stands in for it on screen.
+
+    const combos = [];
+
+    function makeCombo(id) {
+      const select = $(id);
+      const text = el("span");
+      const button = el("button", {
+        class: "field combo-btn",
+        attrs: {
+          type: "button", id: id + "Btn", "aria-haspopup": "listbox", "aria-expanded": "false",
+          "aria-labelledby": id + "Label " + id + "Btn",
+        },
+      }, [text, icon("expand_more")]);
+      const search = el("input", {
+        class: "field w-full text-sm",
+        attrs: { type: "search", placeholder: "Search…", autocomplete: "off", "aria-label": "Search", "aria-controls": id + "List" },
+      });
+      const list = el("ul", { class: "combo-list", attrs: { role: "listbox", id: id + "List" } });
+      const pop = el("div", { class: "combo-pop" }, [search, list]);
+      pop.hidden = true;
+      const wrap = el("div", { class: "combo" }, [button, pop]);
+      select.hidden = true;
+      select.after(wrap);
+
+      const combo = { select, button, text, pop, search, list, items: [], active: 0 };
+      combos.push(combo);
+      button.addEventListener("click", () => (pop.hidden ? openCombo(combo) : closeCombo(combo)));
+      button.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowDown") return;
+        e.preventDefault();
+        openCombo(combo);
+      });
+      search.addEventListener("input", () => {
+        combo.active = 0;
+        renderComboList(combo);
+      });
+      search.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          if (combo.items.length) {
+            combo.active = (combo.active + (e.key === "ArrowDown" ? 1 : -1) + combo.items.length) % combo.items.length;
+            highlightCombo(combo);
+          }
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          if (combo.items[combo.active]) chooseCombo(combo, combo.items[combo.active].value);
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          closeCombo(combo);
+          button.focus();
+        }
+      });
+      // Keep focus in the search box while clicking an option.
+      list.addEventListener("mousedown", (e) => e.preventDefault());
+      wrap.addEventListener("focusout", (e) => {
+        if (!wrap.contains(e.relatedTarget)) closeCombo(combo);
+      });
+    }
+
+    function renderComboList(combo) {
+      const q = combo.search.value.trim().toLowerCase();
+      combo.items = [...combo.select.options].filter((o) => !q || (o.value && o.text.toLowerCase().includes(q)));
+      combo.active = Math.min(combo.active, Math.max(0, combo.items.length - 1));
+      combo.list.replaceChildren(...(combo.items.length ? combo.items.map((o, i) => {
+        const current = o.value === combo.select.value;
+        const li = el("li", {
+          attrs: { role: "option", id: combo.select.id + "Opt" + i, "aria-selected": String(current) },
+        }, [el("span", { class: "wrap" + (o.value ? "" : " faint"), text: o.text }), current ? icon("check") : null]);
+        li.addEventListener("click", () => chooseCombo(combo, o.value));
+        li.addEventListener("mousemove", () => {
+          if (combo.active === i) return;
+          combo.active = i;
+          highlightCombo(combo);
+        });
+        return li;
+      }) : [el("li", { class: "combo-empty", text: "No matches" })]));
+      highlightCombo(combo);
+    }
+
+    function highlightCombo(combo) {
+      [...combo.list.children].forEach((li, i) => li.classList.toggle("is-active", i === combo.active && !!combo.items.length));
+      const active = combo.items.length ? combo.list.children[combo.active] : null;
+      if (active) {
+        combo.search.setAttribute("aria-activedescendant", active.id);
+        active.scrollIntoView({ block: "nearest" });
+      } else {
+        combo.search.removeAttribute("aria-activedescendant");
+      }
+    }
+
+    function openCombo(combo) {
+      if (combo.button.disabled) return;
+      for (const other of combos) if (other !== combo) closeCombo(other);
+      combo.search.value = "";
+      combo.pop.hidden = false;
+      combo.button.setAttribute("aria-expanded", "true");
+      combo.active = Math.max(0, [...combo.select.options].findIndex((o) => o.value === combo.select.value));
+      renderComboList(combo);
+      combo.search.focus();
+    }
+
+    function closeCombo(combo) {
+      if (combo.pop.hidden) return;
+      combo.pop.hidden = true;
+      combo.button.setAttribute("aria-expanded", "false");
+    }
+
+    function chooseCombo(combo, value) {
+      closeCombo(combo);
+      combo.button.focus();
+      if (combo.select.value === value) return;
+      combo.select.value = value;
+      combo.select.dispatchEvent(new Event("change"));
+      syncCombos();
+    }
+
+    // Shows each select's current choice and disabled state on its button.
+    function syncCombos() {
+      for (const combo of combos) {
+        const opt = combo.select.selectedOptions[0];
+        combo.text.textContent = opt ? opt.text : "";
+        combo.button.disabled = combo.select.disabled || !combo.select.options.length;
+        if (combo.button.disabled) closeCombo(combo);
+      }
+    }
+
+    for (const id of ["emailTemplate", "emailCompany", "emailIndustry"]) makeCombo(id);
 
     // ---- Email / cover letter composer ----
 
@@ -1869,7 +2176,10 @@
       $("emailTemplate").replaceChildren(...(templates.length
         ? templates.map((d) => el("option", { text: d.name, attrs: { value: d.name } }))
         : [el("option", { text: "No templates in Documents", attrs: { value: "" } })]));
+      // Start on the cover letter so it is prefilled from its template.
+      const letter = templates.find(isLetter);
       if (templates.some((d) => d.name === keepTemplate)) $("emailTemplate").value = keepTemplate;
+      else if (letter) $("emailTemplate").value = letter.name;
 
       const keepCompany = $("emailCompany").value;
       $("emailCompany").replaceChildren(el("option", { text: "Choose a company…", attrs: { value: "" } }),
@@ -1906,6 +2216,7 @@
       $("templateNotes").textContent = t ? t.notes : "";
       $("templateNotes").hidden = editing || !t || !t.notes;
       for (const id of ["emailTemplate", "emailCompany", "emailIndustry"]) $(id).disabled = editing;
+      syncCombos();
       $("bodyLabel").textContent = editing ? "Template (saved to the sheet)" : letter ? "Letter" : "Body";
       // While editing, the boxes hold the raw template; leave them alone.
       if (editing) return;
@@ -2218,6 +2529,8 @@
     function draftEmailFor(name) {
       goToTab("documents");
       if (composerBusy()) return;
+      const email = docs.find(isEmailDoc);
+      if (email) $("emailTemplate").value = email.name;
       $("emailCompany").value = name;
       pickCompany(name);
     }
