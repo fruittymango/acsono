@@ -4,6 +4,7 @@ Allow: /
 Allow: /public/
 Disallow: /*.png$
 Disallow: /*.jpg$
+Disallow: /jobs
 
 
 Sitemap: https://www.acsono.co.za/sitemap.xml

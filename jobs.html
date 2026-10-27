@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Spline+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
+  <title>Dashboard | acsono</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="gis" src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background-color: #212121;
+      color: #ffffff;
+      font-family: "Spline Sans", sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    .logo {
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 0.08em;
+      font-weight: 400;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.75rem;
+    }
+
+    .muted {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .wrap {
+      overflow-wrap: anywhere;
+    }
+
+    .field {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.95rem;
+      min-width: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.9rem;
+      color: #fff;
+      background: none;
+      cursor: pointer;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #212121;
+      border-color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #e5e5e5;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      white-space: nowrap;
+    }
+
+    .p-high {
+      border-color: #f87171;
+      color: #fca5a5;
+    }
+
+    .p-medium {
+      border-color: #fbbf24;
+      color: #fcd34d;
+    }
+
+    .p-low {
+      border-color: #60a5fa;
+      color: #93c5fd;
+    }
+
+    .p-avoid {
+      border-color: #6b7280;
+      color: #9ca3af;
+    }
+
+    a.ext {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a.ext:hover {
+      color: #d4d4d4;
+    }
+
+    .material-icons.sm {
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="max-w-5xl mx-auto px-4 md:px-8 pb-16">
+    <header class="flex items-center justify-between py-6">
+      <a href="/" class="logo text-[1.8rem]">acsono</a>
+      <button id="signOutBtn" class="btn hidden" type="button">
+        <span class="material-icons sm">logout</span>Sign out
+      </button>
+    </header>
+
+    <h1 class="text-[3rem] md:text-[4.5rem] leading-none">Job search</h1>
+
+    <!-- Signed-out view -->
+    <section id="signedOut" class="mt-8">
+      <button id="signInBtn" class="btn btn-primary" type="button" disabled>
+        <span class="material-icons sm">login</span>Sign in with Google
+      </button>
+      <p id="authMsg" class="mt-4 muted text-sm" role="status"></p>
+    </section>
+
+    <!-- Signed-in view (filled entirely by script after sign-in) -->
+    <main id="signedIn" class="hidden mt-6 space-y-10">
+      <div class="flex items-center gap-3">
+        <button id="refreshBtn" class="btn" type="button">
+          <span class="material-icons sm">refresh</span>Refresh
+        </button>
+        <span id="loadMsg" class="muted text-sm" role="status"></span>
+      </div>
+
+      <section>
+        <h2 class="text-[1.8rem] mb-3">Summary</h2>
+        <div id="summary" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </section>
+
+      <section>
+        <h2 class="text-[1.8rem] mb-3">Latest findings</h2>
+        <ul id="findings" class="space-y-2"></ul>
+      </section>
+
+      <section>
+        <h2 class="text-[1.8rem] mb-3">Companies <span id="companyCount" class="muted text-[1.2rem]"></span></h2>
+        <div class="flex flex-col md:flex-row gap-2 mb-4">
+          <input id="search" class="field md:flex-1" type="search" placeholder="Search companies, roles, notes"
+            aria-label="Search companies" />
+          <select id="priorityFilter" class="field" aria-label="Filter by priority"></select>
+          <select id="statusFilter" class="field" aria-label="Filter by status"></select>
+        </div>
+        <ul id="companies" class="space-y-3"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ==== CONFIG ===========================================================
+    // OAuth 2.0 Web client ID from Google Cloud Console
+    // (APIs & Services > Credentials). Paste it here.
+    const CLIENT_ID = "151538073075-r8iua3efnqenb62nubjbmdpbe4a6qt85.apps.googleusercontent.com";
+    // =======================================================================
+
+    const SHEET_ID = "1PAIOjM6jF4UqJdmjUUZQJBcp0Zejwf2XtxVwNyIUM9M";
+    const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
+    const API = "https://sheets.googleapis.com/v4/spreadsheets/" + SHEET_ID;
+    const COMPANIES = "Companies";
+    const RUN_LOG = "Run log";
+
+    const PRIORITIES = ["High", "Medium", "Low", "Avoid"];
+    const STATUSES = ["Not checked", "No other openings", "Has other openings", "Applied", "Not interested"];
+    const FINDINGS_LIMIT = 15;
+
+    // Companies columns A-M
+    const COL = {
+      company: 0, priority: 1, status: 2, role: 3, what: 4, foundVia: 5, post: 6,
+      posted: 7, contact: 8, careers: 9, lastChecked: 10, appliedOn: 11, notes: 12,
+    };
+
+    let tokenClient = null;
+    let accessToken = null;
+    let companies = [];
+    let runLog = [];
+    const rowState = new Map(); // company name -> { saving, error }
+
+    const $ = (id) => document.getElementById(id);
+
+    // ---- DOM helpers (text only, never innerHTML) ----
+
+    function el(tag, opts, children) {
+      const node = document.createElement(tag);
+      if (opts) {
+        if (opts.class) node.className = opts.class;
+        if (opts.text != null) node.textContent = opts.text;
+        if (opts.attrs) for (const [k, v] of Object.entries(opts.attrs)) node.setAttribute(k, v);
+      }
+      for (const child of children || []) if (child) node.appendChild(child);
+      return node;
+    }
+
+    function icon(name) {
+      return el("span", { class: "material-icons sm", text: name, attrs: { "aria-hidden": "true" } });
+    }
+
+    function safeUrl(value) {
+      const url = (value || "").trim();
+      return /^https?:\/\//i.test(url) ? url : null;
+    }
+
+    function link(href, text) {
+      const url = safeUrl(href);
+      if (!url) return null;
+      return el("a", {
+        class: "ext", text,
+        attrs: { href: url, target: "_blank", rel: "noopener noreferrer" },
+      });
+    }
+
+    function priorityPill(priority) {
+      const cls = PRIORITIES.includes(priority) ? " p-" + priority.toLowerCase() : "";
+      return el("span", { class: "pill" + cls, text: priority || "No priority" });
+    }
+
+    function todayIso() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    }
+
+    // ---- Auth ----
+
+    function gisLoaded() {
+      if (CLIENT_ID === "PASTE_ME") {
+        $("authMsg").textContent = "Set CLIENT_ID in jobs.html before signing in.";
+        return;
+      }
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPE,
+        callback: (resp) => {
+          if (resp.error) {
+            $("authMsg").textContent = "Sign-in failed: " + resp.error;
+            return;
+          }
+          accessToken = resp.access_token;
+          $("authMsg").textContent = "";
+          showSignedIn();
+          loadAll();
+        },
+        error_callback: (err) => {
+          $("authMsg").textContent = err && err.type === "popup_closed"
+            ? "Sign-in window closed."
+            : "Sign-in couldn't start. Allow pop-ups for this site and try again.";
+        },
+      });
+      $("signInBtn").disabled = false;
+    }
+
+    $("signInBtn").addEventListener("click", () => {
+      if (tokenClient) tokenClient.requestAccessToken();
+    });
+
+    $("signOutBtn").addEventListener("click", () => {
+      if (accessToken && window.google) google.accounts.oauth2.revoke(accessToken, () => { });
+      signOut("Signed out.");
+    });
+
+    function showSignedIn() {
+      $("signedOut").classList.add("hidden");
+      $("signedIn").classList.remove("hidden");
+      $("signOutBtn").classList.remove("hidden");
+    }
+
+    function signOut(message) {
+      accessToken = null;
+      companies = [];
+      runLog = [];
+      rowState.clear();
+      for (const id of ["summary", "findings", "companies", "companyCount", "loadMsg"]) $(id).replaceChildren();
+      $("search").value = "";
+      $("signedIn").classList.add("hidden");
+      $("signOutBtn").classList.add("hidden");
+      $("signedOut").classList.remove("hidden");
+      $("authMsg").textContent = message || "";
+    }
+
+    // ---- Sheets API ----
+
+    class ApiError extends Error { }
+
+    async function api(path, options) {
+      if (!accessToken) throw new ApiError("Not signed in.");
+      const res = await fetch(API + path, {
+        ...options,
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 401) {
+        signOut("Your session expired. Sign in again.");
+        throw new ApiError("Session expired.");
+      }
+      if (res.status === 403 || res.status === 404) {
+        throw new ApiError("This Google account can't open the watchlist.");
+      }
+      if (!res.ok) throw new ApiError("Google Sheets returned an error (" + res.status + ").");
+      return res.json();
+    }
+
+    function rangeParam(range) {
+      return "ranges=" + encodeURIComponent(range);
+    }
+
+    function quoted(tab) {
+      return "'" + tab.replace(/'/g, "''") + "'";
+    }
+
+    async function getRange(range) {
+      const data = await api("/values/" + encodeURIComponent(range));
+      return data.values || [];
+    }
+
+    // ---- Loading ----
+
+    async function loadAll() {
+      $("loadMsg").textContent = "Loading…";
+      $("refreshBtn").disabled = true;
+      try {
+        const query = [
+          rangeParam(quoted(COMPANIES) + "!A2:M"),
+          rangeParam(quoted(RUN_LOG) + "!A2:G"),
+        ].join("&");
+        const data = await api("/values:batchGet?" + query);
+        const [companyRange, logRange] = data.valueRanges || [];
+        companies = (companyRange && companyRange.values || [])
+          .map(toCompany)
+          .filter((c) => c.company);
+        runLog = (logRange && logRange.values || [])
+          .map(toLogEntry)
+          .filter((e) => e.date || e.company || e.title);
+        $("loadMsg").textContent = "";
+        renderAll();
+      } catch (err) {
+        if (accessToken) $("loadMsg").textContent = err.message;
+      } finally {
+        $("refreshBtn").disabled = false;
+      }
+    }
+
+    $("refreshBtn").addEventListener("click", loadAll);
+
+    function cell(row, i) {
+      return (row[i] == null ? "" : String(row[i])).trim();
+    }
+
+    function toCompany(row) {
+      const c = {};
+      for (const [key, i] of Object.entries(COL)) c[key] = cell(row, i);
+      // Keep the name exactly as stored so writes can match it.
+      c.company = row[COL.company] == null ? "" : String(row[COL.company]);
+      return c;
+    }
+
+    function toLogEntry(row, index) {
+      return {
+        date: cell(row, 0), company: cell(row, 1), type: cell(row, 2), title: cell(row, 3),
+        link: cell(row, 4), fit: cell(row, 5), note: cell(row, 6), index,
+      };
+    }
+
+    function dateValue(text) {
+      const t = Date.parse(text);
+      return Number.isNaN(t) ? -Infinity : t;
+    }
+
+    // Newest first; rows with the same (or unparseable) date fall back to sheet order, later rows first.
+    function sortedLog() {
+      return [...runLog].sort((a, b) => dateValue(b.date) - dateValue(a.date) || b.index - a.index);
+    }
+
+    // ---- Rendering ----
+
+    function renderAll() {
+      renderSummary();
+      renderFindings();
+      renderFilters();
+      renderCompanies();
+    }
+
+    function statTile(label, value) {
+      return el("div", { class: "card p-4" }, [
+        el("div", { class: "muted text-xs uppercase tracking-widest", text: label }),
+        el("div", { class: "text-[1.6rem] mt-1 wrap", text: String(value) }),
+      ]);
+    }
+
+    function renderSummary() {
+      const byPriority = PRIORITIES.map((p) => p + " " + companies.filter((c) => c.priority === p).length);
+      const applied = companies.filter((c) => c.status === "Applied").length;
+      const openings = companies.filter((c) => c.status === "Has other openings").length;
+      const latest = sortedLog()[0];
+
+      const priorityTile = el("div", { class: "card p-4 col-span-2 md:col-span-1" }, [
+        el("div", { class: "muted text-xs uppercase tracking-widest", text: companies.length + " companies" }),
+        el("div", { class: "flex flex-wrap gap-1 mt-2" }, PRIORITIES.map((p, i) =>
+          el("span", { class: "pill p-" + p.toLowerCase(), text: byPriority[i] }))),
+      ]);
+
+      $("summary").replaceChildren(
+        priorityTile,
+        statTile("Applied", applied),
+        statTile("Has other openings", openings),
+        statTile("Latest run", latest && latest.date ? latest.date : "—"),
+      );
+    }
+
+    function renderFindings() {
+      const entries = sortedLog().slice(0, FINDINGS_LIMIT);
+      if (!entries.length) {
+        $("findings").replaceChildren(el("li", { class: "muted", text: "No run log entries yet." }));
+        return;
+      }
+      $("findings").replaceChildren(...entries.map((e) => {
+        const title = link(e.link, e.title || e.link) || el("span", { text: e.title });
+        const meta = [e.date, e.type, e.company].filter(Boolean).join(" · ");
+        return el("li", { class: "card p-3" }, [
+          el("div", { class: "flex flex-wrap items-baseline justify-between gap-2" }, [
+            el("span", { class: "muted text-xs wrap", text: meta }),
+            e.fit ? el("span", { class: "pill", text: "Fit " + e.fit + "/10" }) : null,
+          ]),
+          el("div", { class: "mt-1 wrap" }, [title]),
+          e.note ? el("p", { class: "muted text-sm mt-1 wrap", text: e.note }) : null,
+        ]);
+      }));
+    }
+
+    function fillSelect(select, allLabel, values) {
+      const current = select.value;
+      const options = [el("option", { text: allLabel, attrs: { value: "" } })]
+        .concat(values.map((v) => el("option", { text: v, attrs: { value: v } })));
+      select.replaceChildren(...options);
+      select.value = values.includes(current) ? current : "";
+    }
+
+    function renderFilters() {
+      const extraStatuses = [...new Set(companies.map((c) => c.status))]
+        .filter((s) => s && !STATUSES.includes(s));
+      fillSelect($("priorityFilter"), "All priorities", PRIORITIES);
+      fillSelect($("statusFilter"), "All statuses", STATUSES.concat(extraStatuses));
+    }
+
+    function priorityRank(p) {
+      const i = PRIORITIES.indexOf(p);
+      return i === -1 ? PRIORITIES.length : i;
+    }
+
+    function visibleCompanies() {
+      const q = $("search").value.trim().toLowerCase();
+      const priority = $("priorityFilter").value;
+      const status = $("statusFilter").value;
+      return companies
+        .filter((c) => !priority || c.priority === priority)
+        .filter((c) => !status || c.status === status)
+        .filter((c) => !q || [c.company, c.role, c.what, c.foundVia, c.notes, c.contact]
+          .some((v) => v.toLowerCase().includes(q)))
+        .sort((a, b) => priorityRank(a.priority) - priorityRank(b.priority)
+          || a.company.localeCompare(b.company, undefined, { sensitivity: "base" }));
+    }
+
+    function renderCompanies() {
+      const list = visibleCompanies();
+      $("companyCount").textContent = "(" + list.length + " of " + companies.length + ")";
+      if (!list.length) {
+        $("companies").replaceChildren(el("li", { class: "muted", text: "No companies match." }));
+        return;
+      }
+      $("companies").replaceChildren(...list.map(companyRow));
+    }
+
+    for (const id of ["search", "priorityFilter", "statusFilter"]) {
+      $(id).addEventListener("input", renderCompanies);
+    }
+
+    function companyRow(c) {
+      const state = rowState.get(c.company) || {};
+
+      const links = [link(c.post, "Job post"), link(c.careers, "Careers page")].filter(Boolean);
+
+      const statusSelect = el("select", { class: "field text-sm", attrs: { "aria-label": "Status for " + c.company } });
+      const statusValues = STATUSES.includes(c.status) || !c.status ? STATUSES : STATUSES.concat(c.status);
+      if (!c.status) statusSelect.appendChild(el("option", { text: "No status", attrs: { value: "" } }));
+      for (const s of statusValues) statusSelect.appendChild(el("option", { text: s, attrs: { value: s } }));
+      statusSelect.value = c.status;
+      statusSelect.disabled = !!state.saving;
+      statusSelect.addEventListener("change", () => setStatus(c.company, statusSelect.value));
+
+      const applyBtn = el("button", { class: "btn text-sm", attrs: { type: "button" } },
+        [icon("task_alt"), el("span", { text: "Mark applied" })]);
+      applyBtn.disabled = !!state.saving || c.status === "Applied";
+      applyBtn.addEventListener("click", () => markApplied(c.company));
+
+      const feedback = state.saving
+        ? el("span", { class: "muted text-sm", text: "Saving…", attrs: { role: "status" } })
+        : state.error
+          ? el("span", { class: "text-sm text-red-300 wrap", text: state.error, attrs: { role: "alert" } })
+          : null;
+
+      return el("li", { class: "card p-4" }, [
+        el("div", { class: "flex flex-wrap items-center gap-2" }, [
+          el("span", { class: "text-[1.15rem] font-normal wrap", text: c.company }),
+          priorityPill(c.priority),
+          c.status ? el("span", { class: "pill", text: c.status }) : null,
+        ]),
+        c.role ? el("p", { class: "mt-2 text-sm wrap" }, [
+          el("span", { class: "muted", text: "Role seen: " }), el("span", { text: c.role }),
+        ]) : null,
+        c.what ? el("p", { class: "mt-1 text-sm muted wrap", text: c.what }) : null,
+        c.appliedOn ? el("p", { class: "mt-1 text-sm muted", text: "Applied on " + c.appliedOn }) : null,
+        links.length ? el("div", { class: "mt-2 flex flex-wrap gap-4 text-sm" }, links) : null,
+        el("div", { class: "mt-3 flex flex-wrap items-center gap-2" }, [statusSelect, applyBtn, feedback]),
+      ]);
+    }
+
+    // ---- Writes ----
+    // Other tools edit and re-sort this sheet, so every write re-reads it and
+    // locates the row by exact company name instead of trusting cached positions.
+
+    async function findRow(company) {
+      const rows = await getRange(quoted(COMPANIES) + "!A:M");
+      const matches = [];
+      rows.forEach((row, i) => {
+        if (i > 0 && row[COL.company] === company) matches.push({ rowNumber: i + 1, row });
+      });
+      if (matches.length === 0) throw new Error("\"" + company + "\" is no longer in the sheet. Refresh and try again.");
+      if (matches.length > 1) throw new Error("\"" + company + "\" appears more than once in the sheet; edit it there.");
+      return matches[0];
+    }
+
+    async function writeCells(updates) {
+      await api("/values:batchUpdate", {
+        method: "POST",
+        body: JSON.stringify({
+          valueInputOption: "RAW",
+          data: updates.map(([range, value]) => ({ range, values: [[value]] })),
+        }),
+      });
+    }
+
+    function cellRef(column, rowNumber) {
+      return quoted(COMPANIES) + "!" + column + rowNumber;
+    }
+
+    async function withRowSave(company, work) {
+      rowState.set(company, { saving: true });
+      renderCompanies();
+      try {
+        await work();
+        rowState.delete(company);
+      } catch (err) {
+        if (!accessToken) return; // signed out on 401; nothing left to render
+        rowState.set(company, { error: err.message });
+      }
+      renderSummary();
+      renderCompanies();
+    }
+
+    function setStatus(company, status) {
+      return withRowSave(company, async () => {
+        const { rowNumber } = await findRow(company);
+        await writeCells([[cellRef("C", rowNumber), status]]);
+        const c = companies.find((x) => x.company === company);
+        if (c) c.status = status;
+      });
+    }
+
+    function markApplied(company) {
+      return withRowSave(company, async () => {
+        const { rowNumber, row } = await findRow(company);
+        const today = todayIso();
+        const existing = cell(row, COL.notes);
+        const notes = (existing ? existing + " " : "") + "Applied " + today + ".";
+        await writeCells([
+          [cellRef("C", rowNumber), "Applied"],
+          [cellRef("L", rowNumber), today],
+          [cellRef("M", rowNumber), notes],
+        ]);
+        const c = companies.find((x) => x.company === company);
+        if (c) Object.assign(c, { status: "Applied", appliedOn: today, notes });
+      });
+    }
+
+    // The GIS script is async and may finish before or after this script runs.
+    if (window.google && google.accounts && google.accounts.oauth2) gisLoaded();
+    else $("gis").addEventListener("load", gisLoaded);
+  </script>
+</body>
+
+</html>
