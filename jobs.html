@@ -779,22 +779,35 @@
                 <label class="space-y-1"><span class="label">Industry</span>
                   <select id="emailIndustry" class="field w-full"></select></label>
               </div>
+              <p id="templateNotes" class="text-xs muted wrap" hidden></p>
               <div id="emailFields" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
               <label id="subjectRow" class="space-y-1 block"><span class="label">Subject</span>
                 <input id="emailSubject" class="field w-full" type="text" /></label>
-              <label class="space-y-1 block"><span class="label">Body</span>
+              <label class="space-y-1 block"><span id="bodyLabel" class="label">Body</span>
                 <textarea id="emailBody" class="field w-full" rows="14"></textarea></label>
-              <div class="flex flex-wrap items-center gap-2">
+              <div id="draftActions" class="flex flex-wrap items-center gap-2">
                 <a id="emailGmail" class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="#">
                   <span class="material-icons sm">send</span>Open in Gmail</a>
                 <button id="printLetter" class="btn btn-primary" type="button" hidden><span
                     class="material-icons sm">print</span>Print / save PDF</button>
+                <button id="downloadLetter" class="btn" type="button" hidden><span
+                    class="material-icons sm">download</span>Download Word</button>
                 <button id="copySubject" class="btn" type="button"><span class="material-icons sm">content_copy</span>Copy
                   subject</button>
                 <button id="copyBody" class="btn" type="button"><span class="material-icons sm">content_copy</span>Copy
                   body</button>
-                <span id="emailMsg" class="text-xs faint wrap" role="status"></span>
+                <button id="resetDraft" class="btn" type="button" hidden
+                  title="Discard your edits and fill the text from the template again"><span
+                    class="material-icons sm">restart_alt</span>Reset</button>
+                <button id="editTemplate" class="btn" type="button"><span class="material-icons sm">edit_note</span>Edit
+                  template</button>
               </div>
+              <div id="templateActions" class="flex flex-wrap items-center gap-2" hidden>
+                <button id="saveTemplate" class="btn btn-primary" type="button"><span
+                    class="material-icons sm">save</span>Save template</button>
+                <button id="cancelTemplate" class="btn" type="button">Cancel</button>
+              </div>
+              <p id="emailMsg" class="text-xs faint wrap" role="status"></p>
             </div>
           </div>
         </section>
@@ -833,7 +846,9 @@
       ["Energy tech", /\b(energy|metering|meters?|utilit(y|ies)|electric\w*|solar|power|grid|wheeling|municipal|prepaid|vending)\b/i],
       ["PropTech", /\b(propert(y|ies)|real estate|rental|tenants?|landlords?|proptech|estate)\b/i],
       ["Fintech", /\b(payments?|fintech|bank\w*|stablecoin|lending|insur\w*|wallet|cards?|credit|money|remittance)\b/i],
-      ["IoT", /\b(iot|telematics|devices?|sensors?|tracking|fleet|embedded|asset tracking)\b/i],
+      ["Telematics", /\b(telematics|fleet|vehicles?|tracking|asset tracking|mining)\b/i],
+      ["IoT", /\b(iot|devices?|sensors?|embedded)\b/i],
+      ["Integration", /\b(integrations?|solutions? engineer\w*|apis?|middleware)\b/i],
       ["Data-intensive", /\b(data|analytics|ingestion|pipelines?|reporting|ml|ai)\b/i],
     ];
     // Contract/freelance work: Run log rows typed Contract/Freelance, plus Job rows
@@ -856,6 +871,9 @@
     const docState = new Map(); // document name -> { editing, saving, error }
     const emailFill = {}; // placeholder -> value typed on the composer
     let emailIndustry = "";
+    let composerMode = "draft"; // "draft", or "template" while editing the saved template
+    let draftEdited = false; // the draft was changed by hand, so field changes no longer rebuild it
+    let draftBeforeEdit = null; // hand-edited draft kept while the template is being edited
     const rowState = new Map(); // company name -> { saving, error }
 
     const $ = (id) => document.getElementById(id);
@@ -1039,6 +1057,9 @@
       docState.clear();
       for (const key of Object.keys(emailFill)) delete emailFill[key];
       emailIndustry = "";
+      composerMode = "draft";
+      draftEdited = false;
+      draftBeforeEdit = null;
       $("emailSubject").value = "";
       $("emailBody").value = "";
       $("search").value = "";
@@ -1672,10 +1693,11 @@
         const btn = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon(iconName), el("span", { text: label })]);
         btn.addEventListener("click", () => {
           goToTab("documents");
+          if (composerBusy()) return;
           const t = docs.filter(isTextTemplate).find((d) => isLetter(d) === letter);
           if (t) {
             $("emailTemplate").value = t.name;
-            renderComposer();
+            restartDraft();
           }
         });
         items.push(btn);
@@ -1757,6 +1779,20 @@
       ]);
     }
 
+    // Re-reads names first: the sheet may have been edited or re-sorted.
+    async function findDocRow(name) {
+      const rows = await getRange(quoted(DOCUMENTS) + "!A:A");
+      const matches = [];
+      rows.forEach((row, i) => {
+        if (i > 0 && String(row[0] || "").trim() === name) matches.push(i + 1);
+      });
+      if (matches.length !== 1) {
+        throw new Error(matches.length ? "\"" + name + "\" appears more than once in Documents."
+          : "\"" + name + "\" is no longer in Documents. Refresh and try again.");
+      }
+      return matches[0];
+    }
+
     async function setDocLink(name, link) {
       if (link && !safeUrl(link)) {
         docState.set(name, { editing: true, error: "Links must start with https:// or http://." });
@@ -1765,27 +1801,12 @@
       docState.set(name, { editing: true, saving: true });
       renderDocs();
       try {
-        // Re-read names first: the sheet may have been edited or re-sorted.
-        const rows = await getRange(quoted(DOCUMENTS) + "!A:A");
-        const matches = [];
-        rows.forEach((row, i) => {
-          if (i > 0 && String(row[0] || "").trim() === name) matches.push(i + 1);
-        });
-        if (matches.length !== 1) {
-          throw new Error(matches.length ? "\"" + name + "\" appears more than once in Documents."
-            : "\"" + name + "\" is no longer in Documents. Refresh and try again.");
-        }
+        const row = await findDocRow(name);
         const today = todayIso();
-        await api("/values:batchUpdate", {
-          method: "POST",
-          body: JSON.stringify({
-            valueInputOption: "RAW",
-            data: [
-              { range: quoted(DOCUMENTS) + "!C" + matches[0], values: [[link]] },
-              { range: quoted(DOCUMENTS) + "!F" + matches[0], values: [[today]] },
-            ],
-          }),
-        });
+        await writeCells([
+          [quoted(DOCUMENTS) + "!C" + row, link],
+          [quoted(DOCUMENTS) + "!F" + row, today],
+        ]);
         const d = docs.find((x) => x.name === name);
         if (d) Object.assign(d, { link, updated: today });
         docState.delete(name);
@@ -1812,9 +1833,20 @@
       return text.replace("[" + INDUSTRY_SLOT + "]", () => industryParagraph() || "[" + INDUSTRY_SLOT + "]");
     }
 
+    // Placeholders the composer fills by itself unless something else is typed.
+    function autoFill(key) {
+      return /^date$/i.test(key)
+        ? new Date().toLocaleDateString("en-ZA", { day: "numeric", month: "long", year: "numeric" })
+        : "";
+    }
+
+    function fillValue(key) {
+      return (emailFill[key] || "").trim() || autoFill(key);
+    }
+
     function fillTemplate(text) {
       return expandTemplate(text).replace(/\[([^\]\n]+)\]/g,
-        (whole, key) => (key === INDUSTRY_SLOT ? "" : (emailFill[key] || "").trim()) || whole);
+        (whole, key) => (key === INDUSTRY_SLOT ? "" : fillValue(key)) || whole);
     }
 
     function currentTemplate() {
@@ -1852,19 +1884,36 @@
       renderComposer();
     }
 
+    function setEmailMsg(text, kind) {
+      $("emailMsg").className = "text-xs wrap " + (kind === "error" ? "error-text" : "faint");
+      $("emailMsg").textContent = text || "";
+    }
+
     function renderComposer() {
       const t = currentTemplate();
       const letter = isLetter(t);
+      const editing = composerMode === "template";
       $("subjectRow").hidden = letter;
       $("emailGmail").hidden = letter;
       $("copySubject").hidden = letter;
       $("printLetter").hidden = !letter;
+      $("downloadLetter").hidden = !letter;
       $("copyBody").lastChild.textContent = letter ? "Copy letter" : "Copy body";
+      $("editTemplate").disabled = !t;
+      $("draftActions").hidden = editing;
+      $("templateActions").hidden = !editing;
+      $("emailFields").hidden = editing;
+      $("templateNotes").textContent = t ? t.notes : "";
+      $("templateNotes").hidden = editing || !t || !t.notes;
+      for (const id of ["emailTemplate", "emailCompany", "emailIndustry"]) $(id).disabled = editing;
+      $("bodyLabel").textContent = editing ? "Template (saved to the sheet)" : letter ? "Letter" : "Body";
+      // While editing, the boxes hold the raw template; leave them alone.
+      if (editing) return;
 
       const keys = t ? placeholders(expandTemplate(t.subject + "\n" + t.body)).filter((k) => k !== INDUSTRY_SLOT) : [];
       $("emailFields").replaceChildren(...keys.map((key) => {
         const input = el("input", { class: "field w-full", attrs: { type: "text", autocomplete: "off" } });
-        input.value = emailFill[key] || "";
+        input.value = emailFill[key] || autoFill(key);
         input.addEventListener("input", () => {
           emailFill[key] = input.value;
           updateEmailText();
@@ -1874,45 +1923,273 @@
       updateEmailText();
     }
 
+    // A hand-edited draft keeps its edits: field values only fill the placeholders still left in it.
     function updateEmailText() {
       const t = currentTemplate();
-      $("emailSubject").value = t ? fillTemplate(t.subject) : "";
-      $("emailBody").value = t ? fillTemplate(t.body) : "";
+      const subject = draftEdited ? $("emailSubject").value : t ? t.subject : "";
+      const body = draftEdited ? $("emailBody").value : t ? t.body : "";
+      $("emailSubject").value = fillTemplate(subject);
+      $("emailBody").value = fillTemplate(body);
+      $("resetDraft").hidden = !draftEdited;
       updateEmailActions();
     }
 
     function updateEmailActions() {
-      const subject = isLetter(currentTemplate()) ? "" : $("emailSubject").value;
+      const letter = isLetter(currentTemplate());
+      const subject = letter ? "" : $("emailSubject").value;
       const body = $("emailBody").value;
       $("emailGmail").href = "https://mail.google.com/mail/?view=cm&fs=1&su=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(body);
       const left = placeholders(subject + "\n" + body).map((k) => k === INDUSTRY_SLOT ? "industry" : "[" + k + "]");
-      $("emailMsg").className = "text-xs wrap " + (left.length ? "error-text" : "faint");
-      $("emailMsg").textContent = left.length ? "Still to fill: " + left.join(", ") : "";
+      const parts = left.length ? ["Still to fill: " + left.join(", ")] : [];
+      if (letter && body.trim()) parts.push(body.trim().split(/\s+/).length + " words");
+      setEmailMsg(parts.join(" · "), left.length ? "error" : "");
+    }
+
+    // Choosing a different template, company or industry starts a fresh draft.
+    function restartDraft() {
+      draftEdited = false;
+      renderComposer();
+    }
+
+    function onDraftInput() {
+      if (composerMode === "template") return;
+      draftEdited = true;
+      $("resetDraft").hidden = false;
+      updateEmailActions();
     }
 
     function setIndustry(industry) {
       emailIndustry = industry;
       $("emailIndustry").value = industry;
+      restartDraft();
+    }
+
+    // ---- Editing the saved template ----
+
+    function editTemplate() {
+      const t = currentTemplate();
+      if (!t) return;
+      draftBeforeEdit = draftEdited ? { subject: $("emailSubject").value, body: $("emailBody").value } : null;
+      composerMode = "template";
+      renderComposer();
+      $("emailSubject").value = t.subject;
+      $("emailBody").value = t.body;
+      setEmailMsg("Editing the saved template. Words in [square brackets] become fields; [" + INDUSTRY_SLOT +
+        "] is replaced by the chosen industry's paragraph.");
+      $("emailBody").focus();
+    }
+
+    function leaveTemplateEdit() {
+      composerMode = "draft";
+      if (draftBeforeEdit) {
+        $("emailSubject").value = draftBeforeEdit.subject;
+        $("emailBody").value = draftBeforeEdit.body;
+      }
+      draftBeforeEdit = null;
       renderComposer();
     }
 
+    function setTemplateSaving(on) {
+      $("saveTemplate").disabled = on;
+      $("cancelTemplate").disabled = on;
+      $("emailBody").readOnly = on;
+      $("emailSubject").readOnly = on;
+    }
+
+    async function saveTemplate() {
+      const t = currentTemplate();
+      if (!t) return;
+      const body = $("emailBody").value;
+      if (!body.trim()) return setEmailMsg("The template can't be empty.", "error");
+      const letter = isLetter(t);
+      const subject = $("emailSubject").value;
+      setTemplateSaving(true);
+      setEmailMsg("Saving…");
+      try {
+        const row = await findDocRow(t.name);
+        const today = todayIso();
+        const updates = [[quoted(DOCUMENTS) + "!E" + row, body], [quoted(DOCUMENTS) + "!F" + row, today]];
+        if (!letter) updates.push([quoted(DOCUMENTS) + "!D" + row, subject]);
+        await writeCells(updates);
+        Object.assign(t, { body, updated: today }, letter ? {} : { subject });
+        // Show the new template filled in, rather than the old hand-edited draft.
+        draftEdited = false;
+        draftBeforeEdit = null;
+        composerMode = "draft";
+        renderComposer();
+        setEmailMsg("Template saved to the sheet.");
+      } catch (err) {
+        if (!accessToken) return;
+        setEmailMsg(err.message, "error");
+      } finally {
+        setTemplateSaving(false);
+      }
+    }
+
+    $("editTemplate").addEventListener("click", editTemplate);
+    $("cancelTemplate").addEventListener("click", leaveTemplateEdit);
+    $("saveTemplate").addEventListener("click", saveTemplate);
+    $("resetDraft").addEventListener("click", restartDraft);
+
+    // ---- Letter downloads ----
+
+    function letterTitle() {
+      const company = $("emailCompany").value;
+      return "Isaac Mogano – Cover letter" + (company ? " – " + company : "");
+    }
+
+    // Splits the letter into lines of [text, bold] parts for Word and print:
+    // "Re:" lines are bold, and "• Label: text" lines become bullets with a bold label.
+    function letterLines(text) {
+      return text.replace(/\r\n?/g, "\n").split("\n").map((line) => {
+        const bullet = /^\s*[•*-]\s+/.exec(line);
+        if (bullet) {
+          const rest = line.slice(bullet[0].length);
+          const label = /^([^:]{1,60}:)(.*)$/.exec(rest);
+          return { bullet: true, parts: label ? [[label[1], true], [label[2], false]] : [[rest, false]] };
+        }
+        return { bullet: false, parts: line ? [[line, /^re:/i.test(line.trim())]] : [] };
+      });
+    }
+
+    const CRC_TABLE = (() => {
+      const table = new Uint32Array(256);
+      for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+        table[n] = c >>> 0;
+      }
+      return table;
+    })();
+
+    function crc32(bytes) {
+      let c = 0xffffffff;
+      for (const b of bytes) c = CRC_TABLE[(c ^ b) & 0xff] ^ (c >>> 8);
+      return (c ^ 0xffffffff) >>> 0;
+    }
+
+    // Uncompressed ("stored") zip archive, which is all a .docx needs.
+    function zipBlob(files, type) {
+      const enc = new TextEncoder();
+      const DOS_DATE = (1 << 5) | 1; // 1980-01-01
+      const parts = [];
+      const central = [];
+      let offset = 0;
+      for (const [name, content] of Object.entries(files)) {
+        const nameBytes = enc.encode(name);
+        const data = enc.encode(content);
+        const crc = crc32(data);
+        const local = new DataView(new ArrayBuffer(30));
+        local.setUint32(0, 0x04034b50, true);
+        local.setUint16(4, 20, true);
+        local.setUint16(12, DOS_DATE, true);
+        local.setUint32(14, crc, true);
+        local.setUint32(18, data.length, true);
+        local.setUint32(22, data.length, true);
+        local.setUint16(26, nameBytes.length, true);
+        parts.push(local, nameBytes, data);
+
+        const entry = new DataView(new ArrayBuffer(46));
+        entry.setUint32(0, 0x02014b50, true);
+        entry.setUint16(4, 20, true);
+        entry.setUint16(6, 20, true);
+        entry.setUint16(14, DOS_DATE, true);
+        entry.setUint32(16, crc, true);
+        entry.setUint32(20, data.length, true);
+        entry.setUint32(24, data.length, true);
+        entry.setUint16(28, nameBytes.length, true);
+        entry.setUint32(42, offset, true);
+        central.push(entry, nameBytes);
+        offset += 30 + nameBytes.length + data.length;
+      }
+      const count = Object.keys(files).length;
+      const size = central.reduce((n, p) => n + p.byteLength, 0);
+      const end = new DataView(new ArrayBuffer(22));
+      end.setUint32(0, 0x06054b50, true);
+      end.setUint16(8, count, true);
+      end.setUint16(10, count, true);
+      end.setUint32(12, size, true);
+      end.setUint32(16, offset, true);
+      return new Blob([...parts, ...central, end], { type });
+    }
+
+    // Minimal Word document: one paragraph per line, Segoe UI 11pt on A4 with 2 cm margins.
+    function docxBlob(text) {
+      const esc = (s) => s.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const rPr = (bold) => '<w:rPr><w:rFonts w:ascii="Segoe UI" w:hAnsi="Segoe UI" w:cs="Segoe UI"/>' +
+        (bold ? "<w:b/>" : "") + '<w:sz w:val="22"/></w:rPr>';
+      const run = ([t, bold]) => "<w:r>" + rPr(bold) + '<w:t xml:space="preserve">' + esc(t) + "</w:t></w:r>";
+      const paras = letterLines(text).map(({ bullet, parts }) =>
+        '<w:p><w:pPr><w:spacing w:after="0" w:line="276" w:lineRule="auto"/>' +
+        (bullet ? '<w:ind w:left="360" w:hanging="360"/>' : "") + rPr(false) + "</w:pPr>" +
+        (bullet ? "<w:r>" + rPr(false) + "<w:t>•</w:t><w:tab/></w:r>" : "") +
+        parts.map(run).join("") + "</w:p>").join("");
+      const xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+      return zipBlob({
+        "[Content_Types].xml": xml +
+          '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+          '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+          '<Default Extension="xml" ContentType="application/xml"/>' +
+          '<Override PartName="/word/document.xml" ' +
+          'ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>',
+        "_rels/.rels": xml +
+          '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+          '<Relationship Id="rId1" ' +
+          'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" ' +
+          'Target="word/document.xml"/></Relationships>',
+        "word/document.xml": xml +
+          '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + paras +
+          '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/>' +
+          '<w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/>' +
+          "</w:sectPr></w:body></w:document>",
+      }, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    }
+
+    function downloadLetter() {
+      const url = URL.createObjectURL(docxBlob($("emailBody").value));
+      const a = el("a", { attrs: { href: url, download: letterTitle().replace(/[\\/:*?"<>|]+/g, "") + ".docx" } });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setEmailMsg("Downloaded the letter as a Word document.");
+    }
+
+    $("downloadLetter").addEventListener("click", downloadLetter);
+
     // Opens the letter on a plain page and starts the browser's print dialog (Save as PDF).
     function printLetter() {
-      const company = $("emailCompany").value;
       const w = window.open("", "_blank");
       if (!w) {
-        $("emailMsg").className = "text-xs error-text";
-        $("emailMsg").textContent = "Allow pop-ups for this site to print the letter.";
+        setEmailMsg("Allow pop-ups for this site to print the letter.", "error");
         return;
       }
-      w.document.title = "Isaac Mogano - Cover letter" + (company ? " - " + company : "");
+      w.document.title = letterTitle();
       const style = w.document.createElement("style");
-      style.textContent = "body{font-family:Georgia,'Times New Roman',serif;font-size:11.5pt;line-height:1.5;" +
-        "color:#111;max-width:42rem;margin:2.5rem auto;padding:0 1.5rem;white-space:pre-wrap}" +
+      style.textContent = "body{font-family:'Segoe UI',system-ui,sans-serif;font-size:11pt;line-height:1.45;" +
+        "color:#111;max-width:42rem;margin:2.5rem auto;padding:0 1.5rem}" +
+        "div{min-height:1.45em;white-space:pre-wrap}.bullet{padding-left:1.4em;text-indent:-1.4em}" +
         "@page{margin:2cm}@media print{body{margin:0;padding:0}}";
       w.document.head.appendChild(style);
-      w.document.body.textContent = $("emailBody").value;
+      w.document.body.replaceChildren(...letterLines($("emailBody").value).map(({ bullet, parts }) => {
+        const line = w.document.createElement("div");
+        if (bullet) {
+          line.className = "bullet";
+          line.append("• ");
+        }
+        for (const [t, bold] of parts) {
+          if (!bold) {
+            line.append(t);
+            continue;
+          }
+          const strong = w.document.createElement("strong");
+          strong.textContent = t;
+          line.append(strong);
+        }
+        return line;
+      }));
       w.focus();
       w.print();
     }
@@ -1928,33 +2205,40 @@
       const guess = c ? guessIndustry(c) : "";
       if (guess && [...$("emailIndustry").options].some((o) => o.value === guess)) emailIndustry = guess;
       $("emailIndustry").value = emailIndustry;
-      renderComposer();
+      restartDraft();
+    }
+
+    // Shortcuts from elsewhere on the page don't throw away unsaved template edits.
+    function composerBusy() {
+      if (composerMode !== "template") return false;
+      setEmailMsg("Save or cancel the template edit first.", "error");
+      return true;
     }
 
     function draftEmailFor(name) {
       goToTab("documents");
+      if (composerBusy()) return;
       $("emailCompany").value = name;
       pickCompany(name);
     }
 
-    $("emailTemplate").addEventListener("change", renderComposer);
+    $("emailTemplate").addEventListener("change", restartDraft);
     $("emailCompany").addEventListener("change", () => pickCompany($("emailCompany").value));
-    $("emailSubject").addEventListener("input", updateEmailActions);
-    $("emailBody").addEventListener("input", updateEmailActions);
+    $("emailSubject").addEventListener("input", onDraftInput);
+    $("emailBody").addEventListener("input", onDraftInput);
 
     async function copyText(text, what) {
       try {
         await navigator.clipboard.writeText(text);
-        $("emailMsg").className = "text-xs faint";
-        $("emailMsg").textContent = "Copied " + what + ".";
+        setEmailMsg("Copied " + what + ".");
       } catch (err) {
-        $("emailMsg").className = "text-xs error-text";
-        $("emailMsg").textContent = "Couldn't copy; select the text and copy it manually.";
+        setEmailMsg("Couldn't copy; select the text and copy it manually.", "error");
       }
     }
 
     $("copySubject").addEventListener("click", () => copyText($("emailSubject").value, "subject"));
-    $("copyBody").addEventListener("click", () => copyText($("emailBody").value, "body"));
+    $("copyBody").addEventListener("click", () =>
+      copyText($("emailBody").value, isLetter(currentTemplate()) ? "letter" : "body"));
 
     // ---- Writes ----
     // Other tools edit and re-sort this sheet, so every write re-reads it and
