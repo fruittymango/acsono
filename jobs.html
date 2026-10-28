@@ -1018,16 +1018,19 @@
     const PRIORITIES = ["High", "Medium", "Low", "Avoid"];
     const STATUSES = ["Not checked", "No other openings", "Has other openings", "Applied", "Not interested"];
     const FINDINGS_LIMIT = 15;
-    // Overview views. Active holds roles that still need you: anything applied to,
-    // ruled out, or checked since it was posted moves to its own view.
+    // Overview views; every company lands in exactly one. Active holds roles that still
+    // need you. "Checked" means you set a check outcome in Status: Last checked alone
+    // doesn't count, because the job-search run stamps it on every company it scans.
     const COMPANY_VIEWS = [
-      { key: "active", label: "Active", test: (c) => hasRole(c) && !isApplied(c) && !isRuledOut(c) && !checkedSincePosted(c),
+      { key: "active", label: "Active", test: (c) => hasRole(c) && inPlay(c) && !isCheckedByYou(c),
         hint: "Roles you haven't applied to or checked yet, newest first." },
-      { key: "checked", label: "Checked", test: (c) => hasRole(c) && !isApplied(c) && !isRuledOut(c) && checkedSincePosted(c),
-        hint: "Roles you've checked since they were posted. A newer posting brings them back to Active." },
+      { key: "checked", label: "Checked", test: (c) => hasRole(c) && inPlay(c) && isCheckedByYou(c),
+        hint: "Roles you've checked (Status: Has or No other openings), newest first." },
       { key: "applied", label: "Applied", test: isApplied, hint: "Companies you've applied to, newest first." },
-      { key: "noroles", label: "No roles", test: (c) => !hasRole(c) && !isApplied(c) && !isRuledOut(c),
+      { key: "noroles", label: "No roles", test: (c) => !hasRole(c) && inPlay(c),
         hint: "Watched companies with no role seen yet." },
+      { key: "ruledout", label: "Not interested", test: (c) => !isApplied(c) && isRuledOut(c),
+        hint: "Companies marked Not interested or Avoid." },
     ];
     // Statuses that are the outcome of a check, so setting them also stamps Last checked.
     const CHECK_OUTCOMES = ["Has other openings", "No other openings"];
@@ -1561,7 +1564,7 @@
     }
 
     function renderSummary() {
-      const applied = companies.filter((c) => c.status === "Applied").length;
+      const applied = companies.filter(isApplied).length;
       const openings = companies.filter((c) => c.status === "Has other openings").length;
       const latest = sortedLog()[0];
 
@@ -1843,9 +1846,24 @@
       return c.status === "Not interested" || c.priority === "Avoid";
     }
 
-    // Checked counts only if it happened on or after the role's posted date.
-    function checkedSincePosted(c) {
-      return c.lastChecked !== "" && (!c.posted || dateValue(c.lastChecked) >= dateValue(c.posted));
+    function inPlay(c) {
+      return !isApplied(c) && !isRuledOut(c);
+    }
+
+    function isCheckedByYou(c) {
+      return CHECK_OUTCOMES.includes(c.status);
+    }
+
+    // Posted is often approximate: "~2026-10-14", "~Jul 2026", "not stated", or
+    // "2026-05-04 (reposted on LinkedIn 2026-10-23)". Uses the latest full date in the
+    // text, else "Mon YYYY" as the 1st of that month; -Infinity when there's no date.
+    function postedValue(text) {
+      const days = (text.match(/\d{4}-\d{2}-\d{2}/g) || []).map(dateValue);
+      if (days.length) return Math.max(...days);
+      const month = text.match(/\b([A-Za-z]{3,9})\.?\s+(\d{4})\b/);
+      const monthIndex = month ? new Date(month[1] + " 1, 2000").getMonth() : NaN;
+      if (!Number.isNaN(monthIndex)) return Date.UTC(Number(month[2]), monthIndex, 1);
+      return dateValue(text);
     }
 
     function currentView() {
@@ -1859,7 +1877,7 @@
 
     // Newest posting first, then priority, then name.
     function byNewest(a, b) {
-      return dateValue(b.posted) - dateValue(a.posted)
+      return postedValue(b.posted) - postedValue(a.posted)
         || priorityRank(a.priority) - priorityRank(b.priority)
         || a.company.localeCompare(b.company, undefined, { sensitivity: "base" });
     }
@@ -1922,21 +1940,25 @@
 
       const links = [link(c.post, "Job post"), link(c.careers, "Careers page")].filter(Boolean);
 
-      // Card actions: Mark applied and Checked (while still in play), Email, and the status menu.
+      // Card actions: Mark applied (while in play), Checked (until a check outcome is set),
+      // Email, and the status menu.
       const actionButtons = [];
-      if (c.status !== "Applied" && c.status !== "Not interested") {
+      if (inPlay(c)) {
         const applyBtn = el("button", { class: "btn btn-sm btn-primary", attrs: { type: "button" } },
           [icon("task_alt"), el("span", { text: "Mark applied" })]);
         applyBtn.disabled = !!state.saving;
         applyBtn.addEventListener("click", () => markApplied(c.company));
+        actionButtons.push(applyBtn);
 
-        const today = todayIso();
-        const checkBtn = el("button", { class: "btn btn-sm", attrs: { type: "button", title: "Set Last checked to today" } },
-          [icon("done"), el("span", { text: c.lastChecked === today ? "Checked today" : "Checked" })]);
-        checkBtn.disabled = !!state.saving || c.lastChecked === today;
-        checkBtn.addEventListener("click", () => markChecked(c.company));
-
-        actionButtons.push(applyBtn, checkBtn);
+        if (!isCheckedByYou(c)) {
+          const checkBtn = el("button", {
+            class: "btn btn-sm",
+            attrs: { type: "button", title: "Sets Status to No other openings and Last checked to today. Pick Has other openings from the menu instead if there are more." },
+          }, [icon("done"), el("span", { text: "Checked" })]);
+          checkBtn.disabled = !!state.saving;
+          checkBtn.addEventListener("click", () => setStatus(c.company, "No other openings", true));
+          actionButtons.push(checkBtn);
+        }
       }
 
       const emailBtn = el("button", { class: "btn btn-sm", attrs: { type: "button", title: "Draft an application email" } },
@@ -3430,16 +3452,6 @@
         await writeCells(updates);
         const c = companies.find((x) => x.company === company);
         if (c) Object.assign(c, checked ? { status, lastChecked: today } : { status });
-      });
-    }
-
-    function markChecked(company) {
-      return withRowSave(company, async () => {
-        const { rowNumber } = await findRow(company);
-        const today = todayIso();
-        await writeCells([[cellRef("K", rowNumber), today]]);
-        const c = companies.find((x) => x.company === company);
-        if (c) c.lastChecked = today;
       });
     }
 
