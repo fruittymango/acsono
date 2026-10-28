@@ -171,6 +171,34 @@
       letter-spacing: 0.04em;
     }
 
+    .signin-features li {
+      display: flex;
+      gap: 0.85rem;
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--divider);
+      letter-spacing: 0.04em;
+    }
+
+    .signin-features .material-icons {
+      color: var(--faint);
+      font-size: 1.25rem;
+      margin-top: 0.1rem;
+    }
+
+    .signin-features p {
+      color: var(--fg);
+      font-size: 0.95rem;
+    }
+
+    .signin-features span:not(.material-icons) {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
     .signin-mark {
       display: flex;
       align-items: center;
@@ -609,6 +637,41 @@
       color: var(--error);
     }
 
+    /* "Follow-ups due" filter when something is due */
+    .btn.chip-high {
+      border-color: transparent;
+    }
+
+    .btn-active.chip-high,
+    .btn-active.chip-high:hover:not(:disabled) {
+      color: var(--high-fg);
+      background: var(--high-bg);
+      border-color: var(--high-fg);
+    }
+
+    .btn.chip-high .count {
+      color: inherit;
+      opacity: 0.75;
+    }
+
+    .draft > summary {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .draft > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .draft > summary .material-icons {
+      color: var(--faint);
+      transition: transform 0.2s ease;
+    }
+
+    .draft[open] > summary .material-icons {
+      transform: rotate(90deg);
+    }
+
     textarea.field {
       resize: vertical;
       line-height: 1.55;
@@ -691,8 +754,9 @@
 
     <div class="content jobs-scroll overflow-y-auto overflow-x-hidden scroll-smooth pb-10">
       <!-- Signed-out view -->
-      <section id="signedOut" class="min-h-full flex items-center justify-center py-6">
-        <div class="panel signin-card w-full max-w-md p-7 md:p-10">
+      <section id="signedOut" class="min-h-full flex items-center justify-center lg:justify-start py-6">
+        <div class="signin-layout w-full max-w-md lg:max-w-none grid grid-cols-1 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] gap-10 xl:gap-16 items-center">
+        <div class="panel signin-card w-full p-7 md:p-10">
           <div class="flex items-center gap-3">
             <span class="signin-mark" aria-hidden="true"><span class="material-icons">work_outline</span></span>
             <div>
@@ -727,6 +791,26 @@
               <span>Sessions last about an hour, then you'll be asked to sign in again.</span></li>
           </ul>
         </div>
+
+        <!-- Wide screens: what the dashboard holds, so the card isn't floating in empty space -->
+        <div class="hidden lg:block min-w-0" aria-hidden="true">
+          <p class="label">What's inside</p>
+          <ul class="signin-features mt-4 grid grid-cols-2 gap-x-8">
+            <li><span class="material-icons">dashboard</span>
+              <div><p>/ overview</p><span>Roles worth a look, quick filters and the latest finds.</span></div></li>
+            <li><span class="material-icons">apartment</span>
+              <div><p>/ companies</p><span>Your watchlist: priorities, careers pages, new additions.</span></div></li>
+            <li><span class="material-icons">newspaper</span>
+              <div><p>/ news</p><span>Funding, contracts and expansions at companies you follow.</span></div></li>
+            <li><span class="material-icons">handshake</span>
+              <div><p>/ contract &amp; freelance</p><span>Rate, duration and who's behind each lead.</span></div></li>
+            <li><span class="material-icons">campaign</span>
+              <div><p>/ outreach</p><span>Drafted messages to send yourself, with follow-ups.</span></div></li>
+            <li><span class="material-icons">description</span>
+              <div><p>/ documents</p><span>Your CV, cover letter and email templates.</span></div></li>
+          </ul>
+        </div>
+        </div>
       </section>
 
       <!-- Signed-in view (filled entirely by script after sign-in) -->
@@ -740,6 +824,8 @@
                 class="count"></span></button>
             <button id="tabbtn-contracts" class="tab" type="button" role="tab" data-tab="contracts">/ contract &amp;
               freelance<span id="count-contracts" class="count"></span></button>
+            <button id="tabbtn-outreach" class="tab" type="button" role="tab" data-tab="outreach">/ outreach<span
+                id="count-outreach" class="count"></span></button>
             <button id="tabbtn-documents" class="tab" type="button" role="tab" data-tab="documents">/ documents</button>
           </nav>
           <div class="flex items-center gap-3 flex-none">
@@ -753,7 +839,7 @@
 
         <section id="tab-overview" role="tabpanel" class="space-y-5">
           <div id="docQuick" class="flex flex-wrap gap-2" aria-label="Documents"></div>
-          <div id="summary" class="grid grid-cols-2 lg:grid-cols-5 gap-3"></div>
+          <div id="summary" class="grid grid-cols-2 lg:grid-cols-6 gap-3"></div>
 
           <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-5 items-start">
             <!-- Run log feed: first on phones, right-hand column on wide screens -->
@@ -828,7 +914,25 @@
         </section>
 
         <section id="tab-contracts" role="tabpanel" hidden>
-          <ul id="contractList" class="panel divided"></ul>
+          <div class="space-y-3">
+            <div id="contractFilters" class="flex flex-wrap gap-2" role="group" aria-label="Contract filters"></div>
+            <ul id="contractList" class="panel divided"></ul>
+          </div>
+        </section>
+
+        <section id="tab-outreach" role="tabpanel" class="space-y-3" hidden>
+          <p class="text-sm muted wrap px-1">Companies that could use your vending, billing, payments-integration or
+            meter-data experience, for a role or a contract, even without a job ad. Claude finds them and drafts a
+            message; you review, send it yourself, and track replies here. One follow-up at most, and anyone who says
+            no is never contacted again.</p>
+          <input id="outreachSearch" class="field w-full" type="search"
+            placeholder="Search companies, contacts, reasons, notes" aria-label="Search outreach prospects" />
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div id="outreachChips" class="flex flex-wrap gap-2" role="group" aria-label="Outreach filters"></div>
+            <div id="outreachCount" class="text-xs faint px-1"></div>
+          </div>
+          <p id="outreachMsg" class="text-xs error-text wrap px-1" role="alert" hidden></p>
+          <ul id="outreachList" class="space-y-3"></ul>
         </section>
 
         <section id="tab-documents" role="tabpanel" hidden>
@@ -908,7 +1012,7 @@
     const QUICK_FILTERS = [["", "All"], ["Not checked", "Not checked"], ["Applied", "Applied"]];
     // Statuses that are the outcome of a check, so setting them also stamps Last checked.
     const CHECK_OUTCOMES = ["Has other openings", "No other openings"];
-    const TABS = ["overview", "companies", "news", "contracts", "documents"];
+    const TABS = ["overview", "companies", "news", "contracts", "outreach", "documents"];
     const DOCUMENTS = "Documents";
     // Documents columns A-H
     const DOC = { name: 0, kind: 1, link: 2, subject: 3, body: 4, updated: 5, notes: 6, industry: 7 };
@@ -924,16 +1028,46 @@
       ["Integration", /\b(integrations?|solutions? engineer\w*|apis?|middleware)\b/i],
       ["Data-intensive", /\b(data|analytics|ingestion|pipelines?|reporting|ml|ai)\b/i],
     ];
-    // Contract/freelance work: Run log rows typed Contract/Freelance, plus Job rows
-    // whose title or note says so.
+    // Contract/freelance work: Run log rows typed Contract or Freelance.
     const CONTRACT_TYPES = ["contract", "freelance"];
-    const CONTRACT_WORDS = /\b(contract|contractor|freelance|freelancer|fixed[- ]term|part[- ]time)\b/i;
+    // Run log columns H-I hold what you did about a row; the dashboard writes only these.
+    const LOG_STATUSES = ["Applied", "Contacted", "Not interested"];
+    const LOG_STATUS_DOT = { "Applied": "dot dot-ok", "Contacted": "dot dot-ok" };
+    // Contract notes start with "Rate: … · Duration: … · Start: … · Where: … · Via: …".
+    const CONTRACT_FIELD = /^(Rate|Duration|Start|Where|Via):\s*(.*)$/i;
+    const CONTRACT_FILTERS = [
+      { key: "open", label: "Open", test: (e) => !e.status },
+      { key: "actioned", label: "Applied / contacted", test: (e) => e.status === "Applied" || e.status === "Contacted" },
+      { key: "closed", label: "Not interested", test: (e) => e.status === "Not interested" },
+      { key: "all", label: "All", test: () => true },
+    ];
+    const CHIP_MAX = 40;
 
     // Companies columns A-M
     const COL = {
       company: 0, priority: 1, status: 2, role: 3, what: 4, foundVia: 5, post: 6,
       posted: 7, contact: 8, careers: 9, lastChecked: 10, appliedOn: 11, notes: 12,
     };
+
+    // Outreach columns A-N, written by the niche-outreach-prospects skill
+    const OUTREACH = "Outreach";
+    const OUT = {
+      date: 0, company: 1, what: 2, why: 3, contact: 4, role: 5, route: 6, source: 7,
+      channel: 8, status: 9, last: 10, notes: 11, draft: 12, due: 13,
+    };
+    const OUTREACH_DOT = {
+      "New": "dot dot-medium",
+      "Drafted": "dot dot-info",
+      "Contacted": "dot dot-ok",
+      "Replied": "dot dot-ok",
+    };
+    // Statuses that stop all messaging from the dashboard.
+    const OUTREACH_CLOSED = ["Not interested", "Do not contact"];
+    const OUTREACH_STATUS_MENU = ["Replied", "Not interested", "Do not contact"];
+    // List order after "follow-up due"; unknown statuses come last.
+    const OUTREACH_ORDER = ["Drafted", "New", "Contacted", "Replied"];
+    const FOLLOW_UP_DAYS = 7;
+    const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
 
     let tokenClient = null;
     let accessToken = null;
@@ -950,6 +1084,12 @@
     let draftEdited = false; // the draft was changed by hand, so field changes no longer rebuild it
     let draftBeforeEdit = null; // hand-edited draft kept while the template is being edited
     const rowState = new Map(); // company name -> { saving, error }
+    let outreach = [];
+    let outreachError = "";
+    let outreachFilter = ""; // key of the active summary chip, "" for none
+    const outreachState = new Map(); // outreachKey -> { saving, error, confirm }
+    let contractFilter = "open";
+    const contractState = new Map(); // logKey -> { saving, error }
 
     const $ = (id) => document.getElementById(id);
 
@@ -1011,17 +1151,26 @@
       return el("span", { class: PRIORITY_CHIP[priority] || "chip", text: text || priority || "No priority" });
     }
 
-    function statusChip(status) {
+    function statusChip(status, dots) {
       return el("span", { class: "chip" }, [
-        el("span", { class: STATUS_DOT[status] || "dot", attrs: { "aria-hidden": "true" } }),
+        el("span", { class: (dots || STATUS_DOT)[status] || "dot", attrs: { "aria-hidden": "true" } }),
         el("span", { text: status }),
       ]);
     }
 
-    function todayIso() {
-      const d = new Date();
+    function isoDate(d) {
       const pad = (n) => String(n).padStart(2, "0");
       return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    }
+
+    function todayIso() {
+      return isoDate(new Date());
+    }
+
+    function daysFromToday(days) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      return isoDate(d);
     }
 
     // ---- Theme ----
@@ -1137,10 +1286,18 @@
       companies = [];
       runLog = [];
       rowState.clear();
+      outreach = [];
+      outreachError = "";
+      outreachFilter = "";
+      outreachState.clear();
+      contractFilter = "open";
+      contractState.clear();
       for (const id of ["summary", "findings", "companies", "companyCount", "loadMsg", "newsList", "contractList",
         "count-companies", "count-news", "count-contracts", "manageList", "manageCount", "manageMsg", "addMsg",
         "docList", "docQuick", "emailTemplate", "emailCompany", "emailIndustry", "emailFields", "emailMsg",
-        "quickFilters"]) $(id).replaceChildren();
+        "quickFilters", "contractFilters", "outreachList", "outreachChips", "outreachCount", "outreachMsg", "count-outreach"]) $(id).replaceChildren();
+      $("outreachMsg").hidden = true;
+      $("outreachSearch").value = "";
       docs = [];
       docState.clear();
       for (const key of Object.keys(emailFill)) delete emailFill[key];
@@ -1179,7 +1336,11 @@
       if (res.status === 403 || res.status === 404) {
         throw new ApiError("This Google account can't open the watchlist.");
       }
-      if (!res.ok) throw new ApiError("Google Sheets returned an error (" + res.status + ").");
+      if (!res.ok) {
+        const err = new ApiError("Google Sheets returned an error (" + res.status + ").");
+        err.status = res.status; // 400 when a range names a tab that doesn't exist
+        throw err;
+      }
       return res.json();
     }
 
@@ -1229,7 +1390,8 @@
     }
 
     function showSkeletons() {
-      $("summary").replaceChildren(skeletonTile("col-span-2"), skeletonTile(), skeletonTile(), skeletonTile("col-span-2 lg:col-span-1"));
+      $("summary").replaceChildren(skeletonTile("col-span-2"), skeletonTile(), skeletonTile(),
+        skeletonTile("col-span-2 lg:col-span-1"), skeletonTile("col-span-2 lg:col-span-1"));
       $("findings").replaceChildren(...skeletonFeed(5));
       $("companies").replaceChildren(skeletonCard(), skeletonCard(), skeletonCard());
       $("quickFilters").replaceChildren(bar("3rem", "1.7rem"), bar("6.5rem", "1.7rem"), bar("5rem", "1.7rem"), bar("5.5rem", "1.7rem"));
@@ -1241,19 +1403,24 @@
       $("contractList").replaceChildren(...skeletonFeed(3));
       $("docList").replaceChildren(...skeletonFeed(3));
       $("docQuick").replaceChildren(bar("8rem", "1.8rem"), bar("7rem", "1.8rem"), bar("7.5rem", "1.8rem"));
+      $("outreachList").replaceChildren(skeletonCard(), skeletonCard());
+      $("outreachChips").replaceChildren(bar("8rem", "1.7rem"), bar("4rem", "1.7rem"), bar("5rem", "1.7rem"), bar("6rem", "1.7rem"));
+      $("outreachCount").textContent = "Loading prospects…";
     }
 
     // Replaces the placeholders when the first load fails, with a way to retry.
     function showLoadError(message) {
       const retry = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon("refresh"), el("span", { text: "Try again" })]);
       retry.addEventListener("click", loadAll);
-      $("summary").replaceChildren(el("div", { class: "panel p-4 col-span-2 lg:col-span-5 flex flex-wrap items-center justify-between gap-3" }, [
+      $("summary").replaceChildren(el("div", { class: "panel p-4 col-span-2 lg:col-span-6 flex flex-wrap items-center justify-between gap-3" }, [
         el("span", { class: "text-sm error-text wrap", text: message }), retry,
       ]));
-      for (const id of ["findings", "companies", "quickFilters", "manageList", "newsList", "contractList", "docList", "docQuick"]) {
+      for (const id of ["findings", "companies", "quickFilters", "manageList", "newsList", "contractList", "contractFilters", "docList", "docQuick",
+        "outreachList", "outreachChips"]) {
         $(id).replaceChildren();
       }
       $("companyCount").textContent = "";
+      $("outreachCount").textContent = "";
       $("manageCount").textContent = "";
     }
 
@@ -1274,7 +1441,7 @@
       try {
         const query = [
           rangeParam(quoted(COMPANIES) + "!A2:M"),
-          rangeParam(quoted(RUN_LOG) + "!A2:G"),
+          rangeParam(quoted(RUN_LOG) + "!A2:I"),
         ].join("&");
         const data = await api("/values:batchGet?" + query);
         const [companyRange, logRange] = data.valueRanges || [];
@@ -1285,6 +1452,8 @@
           .map(toLogEntry)
           .filter((e) => e.date || e.company || e.title);
         await loadDocs();
+        // Its own request: a missing Outreach tab would fail the whole batchGet.
+        await loadOutreach();
         $("loadMsg").textContent = "";
         loaded = true;
         renderAll();
@@ -1314,7 +1483,8 @@
     function toLogEntry(row, index) {
       return {
         date: cell(row, 0), company: cell(row, 1), type: cell(row, 2), title: cell(row, 3),
-        link: cell(row, 4), fit: cell(row, 5), note: cell(row, 6), index,
+        link: cell(row, 4), fit: cell(row, 5), note: cell(row, 6),
+        status: cell(row, 7), actionedOn: cell(row, 8), index,
       };
     }
 
@@ -1338,6 +1508,7 @@
       renderManage();
       renderDocs();
       renderComposerOptions();
+      renderOutreach();
     }
 
     // ---- Tabs ----
@@ -1381,10 +1552,22 @@
           priorityChip(p, p + " · " + companies.filter((c) => c.priority === p).length))),
       ]);
 
+      // Follow-ups due plus drafts waiting to be sent; opens the outreach tab.
+      const outreachTile = el("button", {
+        class: "panel company-card p-4 text-left col-span-2 lg:col-span-1",
+        attrs: { type: "button", title: "Open outreach" },
+      }, [
+        el("div", { class: "label", text: "Outreach due" }),
+        el("div", { class: "text-[1.5rem] md:text-[1.75rem] mt-1 whitespace-nowrap",
+          text: String(outreach.filter((p) => followUpDue(p) || p.status === "Drafted").length) }),
+      ]);
+      outreachTile.addEventListener("click", () => goToTab("outreach"));
+
       $("summary").replaceChildren(
         priorityTile,
         statTile("Applied", applied),
         statTile("Has other openings", openings),
+        outreachTile,
         statTile("Latest run", latest && latest.date ? latest.date : "—", "col-span-2 lg:col-span-1"),
       );
     }
@@ -1395,7 +1578,7 @@
 
     function isContract(e) {
       const type = e.type.toLowerCase();
-      return CONTRACT_TYPES.includes(type) || (type === "job" && CONTRACT_WORDS.test(e.title + " " + e.note));
+      return CONTRACT_TYPES.includes(type);
     }
 
     function feedItem(e) {
@@ -1407,9 +1590,12 @@
           el("span", { class: "faint whitespace-nowrap", text: e.date }),
         ]),
         el("div", { class: "mt-1 text-sm wrap" }, [title]),
-        e.note || e.fit ? el("div", { class: "mt-1 flex items-start justify-between gap-2" }, [
+        e.note || e.fit || e.status ? el("div", { class: "mt-1 flex items-start justify-between gap-2" }, [
           el("p", { class: "muted text-xs wrap", text: e.note }),
-          e.fit ? el("span", { class: "chip", text: "Fit " + e.fit + "/10" }) : null,
+          e.fit || e.status ? el("span", { class: "flex flex-wrap justify-end gap-1.5" }, [
+            e.fit ? el("span", { class: "chip", text: "Fit " + e.fit + "/10" }) : null,
+            e.status ? statusChip(e.status, LOG_STATUS_DOT) : null,
+          ]) : null,
         ]) : null,
       ]);
     }
@@ -1426,10 +1612,183 @@
       const contracts = log.filter(isContract);
       renderFeed($("findings"), log.slice(0, FINDINGS_LIMIT), "No run log entries yet.");
       renderFeed($("newsList"), news, "No news in the run log yet.");
-      renderFeed($("contractList"), contracts,
-        "No contract or freelance roles yet. Log them in the Run log with Type \"Contract\" or \"Freelance\".");
       $("count-news").textContent = news.length;
-      $("count-contracts").textContent = contracts.length;
+      renderContracts();
+    }
+
+    // ---- Contract & freelance tab ----
+
+    function parseContractNote(note) {
+      const fields = { rate: "", duration: "", start: "", where: "", via: "" };
+      const parts = (note || "").split(" · ");
+      let i = 0;
+      for (; i < parts.length; i++) {
+        const m = parts[i].trim().match(CONTRACT_FIELD);
+        if (!m) break;
+        const value = m[2].trim();
+        fields[m[1].toLowerCase()] = /^not stated$/i.test(value) ? "" : value;
+      }
+      return { ...fields, rest: parts.slice(i).join(" · ").trim() };
+    }
+
+    function fitValue(e) {
+      const n = parseFloat(e.fit);
+      return Number.isNaN(n) ? -1 : n;
+    }
+
+    function logKey(e) {
+      return e.link ? normLink(e.link) : e.company + "\u0000" + e.title;
+    }
+
+    // Same link for matching: trimmed, lower-case scheme and host, no trailing slash.
+    function normLink(value) {
+      let url = (value || "").trim();
+      const m = url.match(/^(https?:\/\/)([^/?#]*)(.*)$/i);
+      if (m) url = m[1].toLowerCase() + m[2].toLowerCase() + m[3];
+      return url.replace(/\/+$/, "");
+    }
+
+    // Long values are cut short on the chip; the full text stays in the tooltip.
+    function shortChip(text, extraClass) {
+      const long = text.length > CHIP_MAX;
+      return el("span", {
+        // Wraps on narrow phones rather than running past the card edge.
+        class: "chip max-w-full whitespace-normal wrap" + (extraClass ? " " + extraClass : ""),
+        text: long ? text.slice(0, CHIP_MAX - 1).trimEnd() + "…" : text,
+        attrs: long ? { title: text } : null,
+      });
+    }
+
+    function renderContractFilters(contracts) {
+      $("contractFilters").replaceChildren(...CONTRACT_FILTERS.map((f) => {
+        const active = contractFilter === f.key;
+        const btn = el("button", {
+          class: "btn btn-sm" + (active ? " btn-active" : ""),
+          attrs: { type: "button", "aria-pressed": String(active) },
+        }, [el("span", { text: f.label }), el("span", { class: "count", text: String(contracts.filter(f.test).length) })]);
+        btn.addEventListener("click", () => {
+          contractFilter = f.key;
+          renderContracts();
+        });
+        return btn;
+      }));
+    }
+
+    function renderContracts() {
+      const contracts = runLog.filter(isContract);
+      const filter = CONTRACT_FILTERS.find((f) => f.key === contractFilter) || CONTRACT_FILTERS[0];
+      const list = contracts.filter(filter.test)
+        .sort((a, b) => dateValue(b.date) - dateValue(a.date) || fitValue(b) - fitValue(a) || b.index - a.index);
+      $("count-contracts").textContent = contracts.filter(CONTRACT_FILTERS[0].test).length;
+      renderContractFilters(contracts);
+      const empty = filter.key === "open"
+        ? "No open contract or freelance leads. New ones appear here after the next job-search run."
+        : "Nothing here.";
+      $("contractList").replaceChildren(...(list.length
+        ? list.map(contractItem)
+        : [el("li", { class: "p-4 muted text-sm", text: empty })]));
+    }
+
+    function contractItem(e) {
+      const key = logKey(e);
+      const state = contractState.get(key) || {};
+      const f = parseContractNote(e.note);
+      const title = link(e.link, e.title || e.link) || el("span", { text: e.title });
+      const meta = [e.type, e.company].filter(Boolean).join(" · ");
+
+      const via = f.via.toLowerCase();
+      const chips = [
+        e.fit ? el("span", { class: "chip", text: "Fit " + e.fit + "/10" }) : null,
+        f.rate ? shortChip("Rate " + f.rate) : null,
+        f.duration ? shortChip("Duration " + f.duration) : null,
+        f.start ? shortChip("Start " + f.start) : null,
+        f.where ? shortChip("Where " + f.where) : null,
+        via === "middleman" ? shortChip("Via middleman", "chip-medium")
+          : via === "agency" ? shortChip("Via agency", "chip-low")
+            : via === "direct" ? shortChip("Direct")
+              : f.via ? shortChip("Via " + f.via) : null,
+        e.status ? statusChip(e.status, LOG_STATUS_DOT) : null,
+      ].filter(Boolean);
+
+      const buttons = [];
+      if (!e.status) {
+        for (const [status, label, iconName] of [["Applied", "Mark applied", "task_alt"], ["Contacted", "Mark contacted", "forum"]]) {
+          const btn = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon(iconName), el("span", { text: label })]);
+          btn.disabled = !!state.saving;
+          btn.addEventListener("click", () => setLogStatus(key, status));
+          buttons.push(btn);
+        }
+      }
+
+      const statusSelect = el("select", { class: "field status-menu", attrs: { "aria-label": "Change status for " + (e.title || e.company) } });
+      statusSelect.appendChild(el("option", { text: "Change status…", attrs: { value: "" } }));
+      for (const s of LOG_STATUSES.filter((x) => x !== e.status)) {
+        statusSelect.appendChild(el("option", { text: s, attrs: { value: s } }));
+      }
+      if (e.status) statusSelect.appendChild(el("option", { text: "Clear status", attrs: { value: "clear" } }));
+      statusSelect.disabled = !!state.saving;
+      statusSelect.addEventListener("change", () => {
+        const value = statusSelect.value;
+        if (value) setLogStatus(key, value === "clear" ? "" : value);
+      });
+
+      const feedback = state.saving
+        ? el("span", { class: "faint text-xs", text: "Saving…", attrs: { role: "status" } })
+        : state.error
+          ? el("span", { class: "text-xs error-text wrap", text: state.error, attrs: { role: "alert" } })
+          : null;
+
+      return el("li", { class: "px-4 py-3" }, [
+        el("div", { class: "flex items-baseline justify-between gap-2 text-xs" }, [
+          el("span", { class: "faint wrap", text: meta }),
+          el("span", { class: "faint whitespace-nowrap", text: e.date }),
+        ]),
+        el("div", { class: "mt-1 text-sm wrap" }, [title]),
+        chips.length ? el("div", { class: "mt-2 flex flex-wrap gap-1.5" }, chips) : null,
+        f.rest ? el("p", { class: "mt-2 muted text-xs wrap", text: f.rest }) : null,
+        el("div", { class: "mt-2 flex flex-col items-end gap-1.5" }, [
+          el("div", { class: "flex flex-wrap items-center justify-end gap-1.5" }, buttons.concat([statusSelect])),
+          feedback,
+        ]),
+      ]);
+    }
+
+    // Finds the Run log row on a fresh read: by link, or by company + title when there's no link.
+    async function findLogRow(e) {
+      const rows = await getRange(quoted(RUN_LOG) + "!A:I");
+      const want = normLink(e.link);
+      const matches = [];
+      rows.forEach((row, i) => {
+        if (i === 0) return;
+        const hit = want
+          ? normLink(String(row[4] ?? "")) === want
+          : String(row[1] ?? "").trim() === e.company && String(row[3] ?? "").trim() === e.title;
+        if (hit) matches.push(i + 1);
+      });
+      if (matches.length !== 1) throw new Error("This row moved or appears more than once; refresh and try again.");
+      return matches[0];
+    }
+
+    // Writes Run log H (status) and I (date); an empty status clears both.
+    async function setLogStatus(key, status) {
+      const e = runLog.find((x) => isContract(x) && logKey(x) === key);
+      if (!e) return;
+      contractState.set(key, { saving: true });
+      renderContracts();
+      try {
+        const rowNumber = await findLogRow(e);
+        const date = status ? todayIso() : "";
+        await writeCells([
+          [quoted(RUN_LOG) + "!H" + rowNumber, status],
+          [quoted(RUN_LOG) + "!I" + rowNumber, date],
+        ]);
+        Object.assign(e, { status, actionedOn: date });
+        contractState.delete(key);
+      } catch (err) {
+        if (!accessToken) return; // signed out on 401
+        contractState.set(key, { error: err.message });
+      }
+      renderFeeds();
     }
 
     function fillSelect(select, allLabel, values) {
@@ -1722,6 +2081,388 @@
       }
     });
 
+    // ---- Outreach tab: prospects found by the outreach skill ----
+    // The dashboard never sends anything: it copies text and opens Gmail, LinkedIn
+    // or a contact form in a new tab, then records what you did.
+
+    async function loadOutreach() {
+      try {
+        const rows = await getRange(quoted(OUTREACH) + "!A2:N");
+        outreach = rows.map(toProspect).filter((p) => p.company.trim());
+        outreachError = "";
+      } catch (err) {
+        if (!accessToken) throw err;
+        outreach = [];
+        // 400 means there's no Outreach tab yet: show the empty state, not an error.
+        outreachError = err.status === 400 ? "" : "Couldn't read the Outreach tab: " + err.message;
+      }
+    }
+
+    async function refreshOutreach() {
+      await loadOutreach();
+      renderOutreach();
+      renderSummary();
+    }
+
+    function toProspect(row) {
+      const p = {};
+      for (const [key, i] of Object.entries(OUT)) p[key] = cell(row, i);
+      // Keep company and contact exactly as stored so writes can match them.
+      p.company = row[OUT.company] == null ? "" : String(row[OUT.company]);
+      p.contact = row[OUT.contact] == null ? "" : String(row[OUT.contact]);
+      p.due = isoOrText(p.due);
+      return p;
+    }
+
+    // Dates the skill typed into the sheet may come back formatted; compare them as YYYY-MM-DD.
+    function isoOrText(text) {
+      if (!text || /^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+      const t = Date.parse(text);
+      return Number.isNaN(t) ? text : isoDate(new Date(t));
+    }
+
+    function outreachKey(p) {
+      return p.company + "\u0000" + p.contact;
+    }
+
+    function isClosed(p) {
+      return OUTREACH_CLOSED.includes(p.status);
+    }
+
+    function followUpSent(notes) {
+      return /follow-up sent/i.test(notes);
+    }
+
+    function followUpDue(p) {
+      return !isClosed(p) && /^\d{4}-\d{2}-\d{2}$/.test(p.due) && p.due <= todayIso();
+    }
+
+    function needsAction(p) {
+      return !isClosed(p) && (p.status === "New" || p.status === "Drafted" || followUpDue(p));
+    }
+
+    function outreachRank(p) {
+      if (followUpDue(p)) return 0;
+      const i = OUTREACH_ORDER.indexOf(p.status);
+      return i === -1 ? OUTREACH_ORDER.length + 1 : i + 1;
+    }
+
+    // Email drafts start with "Subject: …" and a blank line; the rest is the body.
+    function splitDraft(draft) {
+      const text = draft.replace(/\r\n/g, "\n");
+      const m = text.match(/^\s*Subject:[ \t]*(.*)(\n|$)/i);
+      if (!m) return { subject: "", body: text.trim() };
+      return { subject: m[1].trim(), body: text.slice(m[0].length).trim() };
+    }
+
+    const OUTREACH_FILTERS = [
+      { key: "due", label: "Follow-ups due", test: followUpDue },
+      { key: "New", label: "New", test: (p) => p.status === "New" },
+      { key: "Drafted", label: "Drafted", test: (p) => p.status === "Drafted" },
+      { key: "Contacted", label: "Contacted", test: (p) => p.status === "Contacted" },
+      { key: "Replied", label: "Replied", test: (p) => p.status === "Replied" },
+      { key: "closed", label: "Closed", test: isClosed },
+    ];
+
+    function visibleOutreach() {
+      const q = $("outreachSearch").value.trim().toLowerCase();
+      const filter = OUTREACH_FILTERS.find((f) => f.key === outreachFilter);
+      return outreach
+        .filter(filter ? filter.test : (p) => !isClosed(p))
+        .filter((p) => !q || [p.company, p.contact, p.why, p.notes].some((v) => v.toLowerCase().includes(q)))
+        .sort((a, b) => outreachRank(a) - outreachRank(b) || dateValue(b.date) - dateValue(a.date));
+    }
+
+    function renderOutreachChips() {
+      $("outreachChips").replaceChildren(...OUTREACH_FILTERS.map((f) => {
+        const count = outreach.filter(f.test).length;
+        const active = outreachFilter === f.key;
+        const btn = el("button", {
+          class: "btn btn-sm" + (active ? " btn-active" : "") + (f.key === "due" && count ? " chip-high" : ""),
+          attrs: { type: "button", "aria-pressed": String(active) },
+        }, [el("span", { text: f.label }), el("span", { class: "count", text: String(count) })]);
+        btn.addEventListener("click", () => {
+          outreachFilter = active ? "" : f.key;
+          renderOutreach();
+        });
+        return btn;
+      }));
+    }
+
+    function renderOutreach() {
+      const due = outreach.filter(needsAction).length;
+      $("count-outreach").textContent = due ? String(due) : "";
+      if (outreachError) {
+        const retry = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [icon("refresh"), el("span", { text: "Try again" })]);
+        retry.addEventListener("click", refreshOutreach);
+        $("outreachChips").replaceChildren();
+        $("outreachCount").textContent = "";
+        $("outreachList").replaceChildren(el("li", { class: "panel p-4 flex flex-wrap items-center justify-between gap-3" }, [
+          el("span", { class: "text-sm error-text wrap", text: outreachError }), retry,
+        ]));
+        return;
+      }
+      if (!outreach.length) {
+        $("outreachChips").replaceChildren();
+        $("outreachCount").textContent = "";
+        $("outreachList").replaceChildren(el("li", {
+          class: "panel p-4 muted text-sm wrap",
+          text: "No outreach prospects yet. Ask Claude to 'find me 10 outreach prospects' and they'll appear here.",
+        }));
+        return;
+      }
+      renderOutreachChips();
+      const list = visibleOutreach();
+      $("outreachCount").textContent = list.length + " of " + outreach.length + " prospects";
+      $("outreachList").replaceChildren(...(list.length
+        ? list.map(prospectRow)
+        : [el("li", { class: "panel p-4 muted text-sm", text: "No prospects match." })]));
+    }
+
+    $("outreachSearch").addEventListener("input", renderOutreach);
+
+    // A button that copies text and says "Copied" for a moment.
+    function copyButton(label, text, title) {
+      const caption = el("span", { text: label });
+      const btn = el("button", { class: "btn btn-sm", attrs: { type: "button", title } }, [icon("content_copy"), caption]);
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          caption.textContent = "Copied";
+        } catch (err) {
+          caption.textContent = "Couldn't copy";
+        }
+        setTimeout(() => { caption.textContent = label; }, 2000);
+      });
+      return btn;
+    }
+
+    function draftView(p) {
+      if (!p.draft.trim()) return el("p", { class: "mt-2 text-sm faint", text: "No draft yet. Ask Claude to draft one." });
+      const flat = p.draft.replace(/\s+/g, " ").trim();
+      const preview = flat.length > 140 ? flat.slice(0, 140).trimEnd() + "…" : flat;
+      const summaryText = el("span", { class: "wrap", text: preview });
+      const text = el("textarea", {
+        class: "field w-full mt-2 text-sm",
+        attrs: { readonly: "", rows: "4", "aria-label": "Draft message to " + (p.contact || p.company) },
+      });
+      text.value = p.draft;
+      const details = el("details", { class: "draft mt-2" }, [
+        el("summary", { class: "flex items-start gap-1 text-sm" }, [icon("chevron_right"), summaryText]),
+        text,
+      ]);
+      details.addEventListener("toggle", () => {
+        summaryText.textContent = details.open ? "Draft" : preview;
+        if (!details.open) return;
+        text.style.height = "auto";
+        text.style.height = text.scrollHeight + 2 + "px";
+      });
+      return details;
+    }
+
+    function prospectRow(p) {
+      const key = outreachKey(p);
+      const state = outreachState.get(key) || {};
+      const closed = isClosed(p);
+      const route = p.route.trim();
+      const routeUrl = safeUrl(route);
+      const email = EMAIL_RE.test(route) ? route : "";
+      const { subject, body } = splitDraft(p.draft);
+      const today = todayIso();
+
+      // Contact line: who, where the name came from, and how to reach them.
+      const who = [p.contact, p.role].filter((v) => v.trim()).join(", ");
+      const contactBits = [
+        who ? el("span", { class: "wrap" }, [el("span", { class: "faint", text: "Contact: " }), el("span", { text: who })]) : null,
+        link(p.source, "Source"),
+        routeUrl ? link(routeUrl, "Contact") : null,
+        email ? el("span", { class: "inline-flex flex-wrap items-center gap-2" }, [
+          el("span", { class: "wrap", text: email }),
+          closed ? null : copyButton("Copy", email, "Copy email address"),
+        ]) : null,
+        !routeUrl && !email && route ? el("span", { class: "faint wrap", text: route }) : null,
+      ].filter(Boolean);
+
+      const actionButtons = [];
+      if (!closed) {
+        if (p.draft.trim()) actionButtons.push(copyButton("Copy message", body, "Copy the message" + (subject ? " (without the subject)" : "")));
+        if (p.channel === "Email" && p.draft.trim() && email) {
+          actionButtons.push(extLink(gmailUrl(email, subject, body), "Open in Gmail", "send"));
+        }
+        if (routeUrl && p.channel === "LinkedIn DM") actionButtons.push(extLink(routeUrl, "Open profile", "open_in_new"));
+        if (routeUrl && p.channel === "Contact form") actionButtons.push(extLink(routeUrl, "Open form", "open_in_new"));
+        if (p.status === "New" || p.status === "Drafted") {
+          const sent = el("button", { class: "btn btn-sm btn-primary", attrs: { type: "button", title: "Record that you sent it" } },
+            [icon("task_alt"), el("span", { text: "Mark sent" })]);
+          sent.disabled = !!state.saving;
+          sent.addEventListener("click", () => markSent(key));
+          actionButtons.push(sent);
+        }
+        if (p.status === "Contacted" && p.due && !followUpSent(p.notes)) {
+          const follow = el("button", { class: "btn btn-sm" + (followUpDue(p) ? " btn-primary" : ""), attrs: { type: "button" } },
+            [icon("reply"), el("span", { text: "Follow-up sent" })]);
+          follow.disabled = !!state.saving;
+          follow.addEventListener("click", () => markFollowUpSent(key));
+          actionButtons.push(follow);
+        }
+      }
+
+      const statusSelect = el("select", { class: "field status-menu", attrs: { "aria-label": "Change status for " + p.company } });
+      statusSelect.appendChild(el("option", { text: "Change status…", attrs: { value: "" } }));
+      for (const s of OUTREACH_STATUS_MENU.filter((x) => x !== p.status)) {
+        statusSelect.appendChild(el("option", { text: s, attrs: { value: s } }));
+      }
+      statusSelect.disabled = !!state.saving || !!state.confirm;
+      statusSelect.addEventListener("change", () => {
+        const status = statusSelect.value;
+        if (!status) return;
+        if (status === "Do not contact") {
+          outreachState.set(key, { confirm: true });
+          renderOutreach();
+        } else {
+          setOutreachStatus(key, status);
+        }
+      });
+
+      let feedback = null;
+      if (state.confirm) {
+        const confirm = el("button", { class: "btn btn-sm btn-primary", attrs: { type: "button" } }, [el("span", { text: "Confirm" })]);
+        confirm.addEventListener("click", () => setOutreachStatus(key, "Do not contact"));
+        const cancel = el("button", { class: "btn btn-sm", attrs: { type: "button" } }, [el("span", { text: "Cancel" })]);
+        cancel.addEventListener("click", () => {
+          outreachState.delete(key);
+          renderOutreach();
+        });
+        feedback = el("div", { class: "flex flex-wrap items-center justify-end gap-2", attrs: { role: "alert" } }, [
+          el("span", { class: "text-xs", text: "They won't be contacted again. Confirm?" }), confirm, cancel,
+        ]);
+      } else if (state.saving) {
+        feedback = el("span", { class: "faint text-xs", text: "Saving…", attrs: { role: "status" } });
+      } else if (state.error) {
+        feedback = el("span", { class: "text-xs error-text wrap", text: state.error, attrs: { role: "alert" } });
+      }
+
+      const details = el("div", { class: "min-w-0 flex-1" }, [
+        el("div", { class: "flex flex-wrap items-center gap-2" }, [
+          el("span", { class: "text-[1.1rem] font-normal wrap mr-1", text: p.company }),
+          p.status ? statusChip(p.status, OUTREACH_DOT) : null,
+          p.channel ? el("span", { class: "chip", text: p.channel }) : null,
+          p.due && !closed ? el("span", {
+            class: "chip" + (followUpDue(p) ? " chip-high" : ""),
+            text: "Follow-up due " + p.due,
+          }) : null,
+        ]),
+        p.what ? el("p", { class: "mt-1.5 text-sm muted wrap", text: p.what }) : null,
+        p.why ? el("p", { class: "mt-2 text-sm wrap" }, [
+          el("span", { class: "faint", text: "Why they'd buy: " }), el("span", { text: p.why }),
+        ]) : null,
+        contactBits.length ? el("div", { class: "mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" }, contactBits) : null,
+        draftView(p),
+        p.notes ? el("p", { class: "mt-2 text-xs faint wrap", attrs: { style: "white-space: pre-line" }, text: p.notes }) : null,
+        p.last || p.date ? el("p", {
+          class: "mt-1 text-xs faint",
+          text: [p.date && "Found " + p.date, p.last && "Last action " + p.last].filter(Boolean).join(" · "),
+        }) : null,
+      ]);
+
+      const actions = el("div", { class: "flex flex-col items-end gap-1.5 pt-3 border-t", attrs: { style: "border-color: var(--divider)" } }, [
+        el("div", { class: "flex flex-wrap items-center justify-end gap-1.5" }, actionButtons.concat([statusSelect])),
+        feedback ? el("div", { class: "text-right" }, [feedback]) : null,
+      ]);
+
+      return el("li", { class: "panel company-card p-4 flex flex-col gap-3" }, [details, actions]);
+    }
+
+    // ---- Outreach writes ----
+    // Rows are found by Company (B) plus Contact name (E) on a fresh read, since
+    // one company can have two contacts and the sheet gets re-sorted.
+
+    class MatchError extends Error { }
+
+    async function findOutreachRow(company, contact) {
+      const rows = await getRange(quoted(OUTREACH) + "!A:N");
+      const matches = [];
+      rows.forEach((row, i) => {
+        if (i > 0 && String(row[OUT.company] ?? "") === company && String(row[OUT.contact] ?? "") === contact) {
+          matches.push({ rowNumber: i + 1, row });
+        }
+      });
+      const who = company + (contact ? " (" + contact + ")" : "");
+      if (matches.length === 0) throw new MatchError("\"" + who + "\" is no longer in the Outreach tab. The list was refreshed.");
+      if (matches.length > 1) throw new MatchError("\"" + who + "\" appears more than once in the Outreach tab; edit it there.");
+      return matches[0];
+    }
+
+    function outreachRef(column, rowNumber) {
+      return quoted(OUTREACH) + "!" + column + rowNumber;
+    }
+
+    function appendNote(existing, line) {
+      const text = (existing || "").trimEnd();
+      return text ? text + "\n" + line : line;
+    }
+
+    // Re-reads the row, lets `change` pick the new J-N values from it, then writes them.
+    async function updateProspect(key, change) {
+      const p = outreach.find((x) => outreachKey(x) === key);
+      if (!p) return;
+      outreachState.set(key, { saving: true });
+      $("outreachMsg").hidden = true;
+      renderOutreach();
+      try {
+        const { rowNumber, row } = await findOutreachRow(p.company, p.contact);
+        const today = todayIso();
+        const next = change({ notes: String(row[OUT.notes] ?? ""), status: String(row[OUT.status] ?? "").trim(), today });
+        await writeCells([
+          [outreachRef("J", rowNumber), next.status],
+          [outreachRef("K", rowNumber), today],
+          [outreachRef("L", rowNumber), next.notes],
+          [outreachRef("N", rowNumber), next.due],
+        ]);
+        Object.assign(p, { status: next.status, last: today, notes: next.notes, due: next.due });
+        outreachState.delete(key);
+      } catch (err) {
+        if (!accessToken) return; // signed out on 401
+        outreachState.set(key, { error: err.message });
+        if (err instanceof MatchError) {
+          await loadOutreach();
+          if (!outreach.some((x) => outreachKey(x) === key)) {
+            $("outreachMsg").textContent = err.message;
+            $("outreachMsg").hidden = false;
+          }
+        }
+      }
+      renderOutreach();
+      renderSummary();
+    }
+
+    function markSent(key) {
+      const p = outreach.find((x) => outreachKey(x) === key);
+      const channel = p && p.channel ? p.channel : "message";
+      return updateProspect(key, ({ notes, today }) => ({
+        status: "Contacted",
+        notes: appendNote(notes, today + ": sent via " + channel),
+        // Only one follow-up ever: once one was sent, no new due date.
+        due: followUpSent(notes) ? "" : daysFromToday(FOLLOW_UP_DAYS),
+      }));
+    }
+
+    function markFollowUpSent(key) {
+      return updateProspect(key, ({ notes, status, today }) => ({
+        status,
+        notes: appendNote(notes, today + ": follow-up sent"),
+        due: "",
+      }));
+    }
+
+    function setOutreachStatus(key, status) {
+      return updateProspect(key, ({ notes, today }) => ({
+        status,
+        notes: appendNote(notes, today + ": " + status.toLowerCase()),
+        due: "",
+      }));
+    }
+
     // ---- Documents tab: CV / cover letters in Drive, email templates in the sheet ----
 
     async function loadDocs() {
@@ -1772,6 +2513,12 @@
         class: "btn btn-sm" + (extraClass ? " " + extraClass : ""),
         attrs: { href: url, target: "_blank", rel: "noopener noreferrer" },
       }, [icon(iconName), el("span", { text: label })]);
+    }
+
+    // Gmail compose in a new tab; nothing is sent until you press Send there.
+    function gmailUrl(to, subject, body) {
+      return "https://mail.google.com/mail/?view=cm&fs=1" + (to ? "&to=" + encodeURIComponent(to) : "") +
+        "&su=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     }
 
     function goToTab(name) {
@@ -2273,8 +3020,7 @@
       const letter = isLetter(currentTemplate());
       const subject = letter ? "" : $("emailSubject").value;
       const body = $("emailBody").value;
-      $("emailGmail").href = "https://mail.google.com/mail/?view=cm&fs=1&su=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(body);
+      $("emailGmail").href = gmailUrl("", subject, body);
       const left = placeholders(subject + "\n" + body).map((k) => k === INDUSTRY_SLOT ? "industry" : "[" + k + "]");
       const parts = left.length ? ["Still to fill: " + left.join(", ")] : [];
       if (letter && body.trim()) parts.push(body.trim().split(/\s+/).length + " words");
