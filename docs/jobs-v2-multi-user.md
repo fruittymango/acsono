@@ -9,6 +9,8 @@ Plan for turning `/jobs` from a single-person tool (wired to one Google Sheet) i
 - Existing v1 users (the original sheet) keep working after a one-time connect step.
 - No Google "unverified app" warning and no test-user list to maintain.
 
+New users can set up their sheet, skills and scheduled searches with the [setup prompt](jobs-v2-setup-prompt.md).
+
 ## Non-goals
 
 - Sharing one watchlist between several people (each user has their own sheet).
